@@ -1,6 +1,7 @@
 package com.example.palguide.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -18,18 +19,18 @@ public class Address {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 255)
-    @NotNull
+    @Size(max = 255, message = AddressMessage.STATE)
+    @NotBlank(message = AddressMessage.NOTBLANK)
     @Column(name = "state", nullable = false)
     private String state;
 
     @Size(max = 255)
-    @NotNull
+    @NotBlank(message = AddressMessage.CITY)
     @Column(name = "city", nullable = false)
     private String city;
 
     @Size(max = 255)
-    @NotNull
+    @NotBlank(message = AddressMessage.STREET)
     @Column(name = "street", nullable = false)
     private String street;
 

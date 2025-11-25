@@ -1,6 +1,7 @@
 package com.example.palguide.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -21,20 +22,20 @@ public class Transaction {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 155)
-    @NotNull
+    @Size(max = 155, message = TransactionMessage.TITLE)
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "title", nullable = false, length = 155)
     private String title;
 
-    @NotNull
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotNull
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "type", nullable = false)
     private String type;
 
-    @NotNull
+    @NotBlank(message = UserMessage.NOTBLANK)
     @ColumnDefault("'PENDING'")
     @Column(name = "status", nullable = false)
     private String status;
@@ -45,12 +46,12 @@ public class Transaction {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @NotNull
+    @NotNull(message = UserMessage.NOTNULL)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "transaction")
-    private Set<Servicesstep> servicessteps = new LinkedHashSet<>();
+    private Set<ServiceStep> servicessteps = new LinkedHashSet<>();
 
 }
