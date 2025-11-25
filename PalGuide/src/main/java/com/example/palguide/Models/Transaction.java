@@ -19,7 +19,6 @@ import java.util.Set;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Size(max = 155, message = TransactionMessage.TITLE)
@@ -46,12 +45,11 @@ public class Transaction {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @NotNull(message = UserMessage.NOTNULL)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "transaction")
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ServiceStep> servicessteps = new LinkedHashSet<>();
 
 }
