@@ -20,7 +20,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Size(max = 155, message = TransactionMessage.TITLE)
     @NotBlank(message = UserMessage.NOTBLANK)
