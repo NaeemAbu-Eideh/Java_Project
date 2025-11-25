@@ -16,7 +16,6 @@ import java.time.Instant;
 public class ServiceDoc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotBlank(message = ServiceDocMessage.NOTBLANK)
@@ -38,7 +37,6 @@ public class ServiceDoc {
     @Column(name = "`updated_at(6)`", length = 45)
     private String updatedAt6;
 
-    @NotNull(message = ServiceDocMessage.NOTNULL)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "servicessteps_id", nullable = false)
     private ServiceStep servicessteps;

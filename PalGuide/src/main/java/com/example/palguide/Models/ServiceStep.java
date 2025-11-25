@@ -18,7 +18,6 @@ import java.util.Set;
 public class ServiceStep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotBlank(message = UserMessage.NOTBLANK)
@@ -40,12 +39,11 @@ public class ServiceStep {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @NotNull(message = UserMessage.NOTNULL)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
-    @OneToMany(mappedBy = "servicessteps")
+    @OneToMany(mappedBy = "servicessteps", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ServiceDoc> servicedocs = new LinkedHashSet<>();
 
 }
