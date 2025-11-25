@@ -1,6 +1,7 @@
 package com.example.palguide.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -12,21 +13,21 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "servicedoc")
-public class Servicedoc {
+public class ServiceDoc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @NotNull
+    @NotBlank(message = ServiceDocMessage.NOTBLANK)
     @Column(name = "text", nullable = false)
     private String text;
 
-    @Size(max = 255)
+
+    @Size(max = 255, message = ServiceDocMessage.FILE)
     @Column(name = "file")
     private String file;
 
-    @Size(max = 255)
     @Column(name = "image")
     private String image;
 
@@ -37,9 +38,9 @@ public class Servicedoc {
     @Column(name = "`updated_at(6)`", length = 45)
     private String updatedAt6;
 
-    @NotNull
+    @NotNull(message = ServiceDocMessage.NOTNULL)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "servicessteps_id", nullable = false)
-    private Servicesstep servicessteps;
+    private ServiceStep servicessteps;
 
 }

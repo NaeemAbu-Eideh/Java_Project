@@ -1,6 +1,7 @@
 package com.example.palguide.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,23 +15,21 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "servicessteps")
-public class Servicesstep {
+public class ServiceStep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @NotNull
-    @Lob
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "text", nullable = false)
     private String text;
 
-    @NotNull
-    @Lob
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "steps", nullable = false)
     private String steps;
 
-    @NotNull
+    @NotNull(message = UserMessage.NOTNULL)
     @ColumnDefault("0")
     @Column(name = "completed", nullable = false)
     private Byte completed;
@@ -41,12 +40,12 @@ public class Servicesstep {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @NotNull
+    @NotNull(message = UserMessage.NOTNULL)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
     @OneToMany(mappedBy = "servicessteps")
-    private Set<Servicedoc> servicedocs = new LinkedHashSet<>();
+    private Set<ServiceDoc> servicedocs = new LinkedHashSet<>();
 
 }

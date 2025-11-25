@@ -2,6 +2,7 @@ package com.example.palguide.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -24,27 +25,36 @@ public class User {
     private Integer id;
 
     @Size(max = 255)
-    @NotNull
-    @Email
+    @NotBlank(message = UserMessage.NOTBLANK)
+    @Email(message = UserMessage.EMAIL)
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Size(max = 50)
-    @NotNull
+    @Size(max = 50, message = UserMessage.FNAME)
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "firstname", nullable = false, length = 50)
     private String firstname;
 
-    @Size(max = 50)
-    @NotNull
+    @Size(max = 50, message = UserMessage.LNAME)
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "lastname", nullable = false, length = 50)
     private String lastname;
 
-    @NotNull
+    @NotBlank(message = UserMessage.NOTBLANK)
+    @Size(min = 8, message = UserMessage.PASSWORD)
+    private String password;
+
+    @Transient
+    @NotBlank(message = UserMessage.NOTBLANK)
+    @Size(min = 8, message = UserMessage.CONFIRMPASSWORD)
+    private String confirmPassword;
+
+    @NotNull(message = UserMessage.NOTNULL)
     @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
     @Size(max = 45)
-    @NotNull
+    @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "national_id", nullable = false, length = 45)
     private String nationalId;
 
@@ -52,7 +62,7 @@ public class User {
     @Column(name = "profile_image", length = 45)
     private String profileImage;
 
-    @NotNull
+    @NotBlank(message = UserMessage.NOTBLANK)
     @ColumnDefault("'USER'")
     @Column(name = "role", nullable = false)
     private String role;
