@@ -19,7 +19,7 @@ public class ServiceStep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "text", nullable = false)

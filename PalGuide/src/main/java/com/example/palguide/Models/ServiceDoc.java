@@ -17,7 +17,7 @@ public class ServiceDoc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = ServiceDocMessage.NOTBLANK)
     @Column(name = "text", nullable = false)
