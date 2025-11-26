@@ -24,7 +24,7 @@ public class User {
     @Size(max = 255)
     @NotBlank(message = UserMessage.NOTBLANK)
     @Email(message = UserMessage.EMAIL)
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Setter
@@ -75,7 +75,7 @@ public class User {
     @ColumnDefault("'USER'")
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
     @Column(name = "created_at")
     private Instant createdAt;

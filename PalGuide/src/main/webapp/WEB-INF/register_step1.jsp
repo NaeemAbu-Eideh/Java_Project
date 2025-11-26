@@ -46,46 +46,46 @@
         <form:form cssClass="pb-6 w-150 mx-auto bg-white shadow-md pt-8 rounded-2xl" action="/sign-up/step1/next" method="post" modelAttribute="register">
             <p class="ml-8 mb-6 text-[1.2em]">Personal Information:</p>
             <div class="ml-12 mb-6">
-                <p><form:errors path="firstname"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="firstname"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="firstname"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">person</span> First Name *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="firstname"/>
             </div>
             <div class="ml-12 mb-6">
-                <p><form:errors path="lastname"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="lastname"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="lastname"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">person</span>Last Name *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="lastname"/>
             </div>
             <div class="ml-12 mb-6">
-                <p><form:errors path="email"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="email"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="email"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">mail</span> Email Address *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="email"/>
             </div>
             <div class="ml-12 mb-6">
-                <p><form:errors path="phone"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="phone"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="phone"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">call</span> Phone Number *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="phone"/>
             </div>
             <div class="ml-12 mb-6">
-                <p><form:errors path="nationalId"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="nationalId"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="nationalId"><span class="material-symbols-outlined text-[#DCA53F] mr-2">id_card</span> National ID Number  *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="nationalId"/>
             </div>
 
             <div class="ml-12 mb-6">
-                <p><form:errors path="dob"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="dob"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="dob"><span class="material-symbols-outlined text-[#DCA53F] mr-2">date_range</span> Date of berth  *</form:label>
                 <form:input type="date" cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="dob"/>
             </div>
 
             <div class="ml-12 mb-6">
-                <p><form:errors path="password"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="password"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="password"><span class="material-symbols-outlined text-[#DCA53F] mr-2">Password</span> Password  *</form:label>
-                <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="password"/>
+                <form:input type="password" cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="password"/>
             </div>
             <div class="ml-12 mb-6">
-                <p><form:errors path="confirmPassword"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="confirmPassword"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="confirmPassword"><span class="material-symbols-outlined text-[#DCA53F] mr-2">Password</span> Confirm Password  *</form:label>
-                <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="confirmPassword"/>
+                <form:input type="password" cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="confirmPassword"/>
             </div>
             <button type="submit"
                     class=" w-140 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">

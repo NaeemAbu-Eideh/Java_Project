@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -45,5 +46,25 @@ public class UserService {
             session.setAttribute("user_id", user2.getId());
         }
         return "redirect:/dashboard";
+    }
+
+    public User createUser(User user, BindingResult result) {
+        Optional<User> check = userRepository.findByEmail(user.getEmail());
+        if (check.isPresent()) {
+            result.rejectValue("email", "error", "The email is already found, chose one");
+            return null;
+        }
+        if(!user.getPassword().equals(user.getConfirmPassword())) {
+            result.rejectValue("confirmPassword", "Matches", "The password and confirm password does not match");
+            return null;
+        }
+        String password =  BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword(password);
+        return userRepository.save(user);
+    }
+
+    public  User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 }
