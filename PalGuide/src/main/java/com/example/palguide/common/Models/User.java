@@ -2,10 +2,7 @@ package com.example.palguide.common.Models;
 
 import com.example.palguide.common.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -41,6 +38,12 @@ public class User {
     @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "lastname", nullable = false, length = 50)
     private String lastname;
+
+    @Setter
+    @Pattern(regexp = "^.{10}$|^.{14}$", message = UserMessage.PHONE)
+    @NotBlank(message = UserMessage.NOTBLANK)
+    @Column(name = "phone", nullable = false)
+    private String phone;
 
     @Setter
     @NotBlank(message = UserMessage.NOTBLANK)

@@ -7,16 +7,16 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
 public class UserLogin {
-
+    @Setter
     @Size(max = 255)
     @NotBlank(message = UserMessage.NOTBLANK)
     @Email(message = UserMessage.EMAIL)
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Setter
     @NotBlank(message = UserMessage.NOTBLANK)
     @Size(min = 8, message = UserMessage.PASSWORD)
     private String password;
