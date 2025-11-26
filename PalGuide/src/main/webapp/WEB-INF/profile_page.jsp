@@ -61,7 +61,7 @@
                     <p class="ml-1 text-[1.1em] text-[#DCA53F]">Profile</p>
                 </a>
                 <c:if test="${user_id != null}">
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href= <c:out value="/dashboard/logout"/>>
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href= <c:out value="/${user.firstname}/profile/logout"/>>
                         <span class="material-symbols-outlined text-white">logout</span>
                         <p class="ml-1 text-[1.1em] text-white">Logout</p>
                     </a>

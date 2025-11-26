@@ -114,4 +114,12 @@ public class UserController {
         return "profile_page.jsp";
     }
 
+    @GetMapping("/{name}/profile/logout")
+    public String logoutPage(
+            @PathVariable("name") String name,
+            HttpSession session
+    ){
+        return userService.flush(session);
+    }
+
 }
