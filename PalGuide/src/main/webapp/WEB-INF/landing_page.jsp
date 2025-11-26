@@ -29,37 +29,48 @@
                 </div>
                 <p class="ml-4 text-[1.2em]">PalGuide</p>
             </div>
-            <div class="mr-30 flex items-center">
+            <div class="mr-30 flex items-center ">
                 <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4" href="">
                     <span class="material-symbols-outlined text-[#DCA53F]">home</span>
                     <p class="ml-1 text-[1.1em] text-[#DCA53F]">Home</p>
                 </a>
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
-                    <span class="material-symbols-outlined text-white">home</span>
+                    <span class="material-symbols-outlined text-white">docs</span>
                     <p class="ml-1 text-[1.1em] text-white">Request Service</p>
                 </a>
 
+                <c:if test="${ user_id != null}">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
+                        <span class="material-symbols-outlined text-white">docs</span>
+                        <p class="ml-1 text-[1.1em] text-white">My Requests</p>
+                    </a>
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
+                        <span class="material-symbols-outlined text-white">upload</span>
+                        <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
+                    </a>
+                </c:if>
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
-                    <span class="material-symbols-outlined text-white">home</span>
-                    <p class="ml-1 text-[1.1em] text-white">My Requests</p>
-                </a>
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
-                    <span class="material-symbols-outlined text-white">home</span>
-                    <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
-                </a>
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
-                    <span class="material-symbols-outlined text-white">home</span>
+                    <span class="material-symbols-outlined text-white">info</span>
                     <p class="ml-1 text-[1.1em] text-white">About Us</p>
                 </a>
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
-                    <span class="material-symbols-outlined text-white">home</span>
+                    <span class="material-symbols-outlined text-white">person</span>
                     <p class="ml-1 text-[1.1em] text-white">Profile</p>
                 </a>
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
-                    <span class="material-symbols-outlined text-white">home</span>
-                    <p class="ml-1 text-[1.1em] text-white">Logout</p>
-                </a>
+                <c:if test="${user_id != null}">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href= <c:out value="/dashboard/logout"/>>
+                        <span class="material-symbols-outlined text-white">logout</span>
+                        <p class="ml-1 text-[1.1em] text-white">Logout</p>
+                    </a>
+                </c:if>
+                <c:if test="${user_id == null}">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href=<c:out value="/login"/>>
+                        <span class="material-symbols-outlined text-white">login</span>
+                        <p class="ml-1 text-[1.1em] text-white">Login | Register</p>
+                    </a>
+                </c:if>
             </div>
         </div>
 
