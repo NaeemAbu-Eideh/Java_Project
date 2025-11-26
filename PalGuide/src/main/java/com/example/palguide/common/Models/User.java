@@ -68,12 +68,10 @@ public class User {
     private String nationalId;
 
     @Setter
-    @Size(max = 45)
     @Column(name = "profile_image", length = 45)
     private String profileImage;
 
     @Setter
-    @NotBlank(message = UserMessage.NOTBLANK)
     @ColumnDefault("'USER'")
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)

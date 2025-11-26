@@ -31,16 +31,16 @@ public class UserService {
         User user2 = findByEmail(userLogin.getEmail());
 
         if (bindingResult.hasErrors()) {
-            return "index.html";
+            return "login.html";
         }
 
         if (user2 == null) {
             bindingResult.rejectValue("email", "error", "The email or password is incorrect");
-            return "index.html";
+            return "login.html";
         } else {
             if (!BCrypt.checkpw(userLogin.getPassword(), user2.getPassword())) {
                 bindingResult.rejectValue("password", "Matches", "The email or password is incorrect");
-                return "index.html";
+                return "login.html";
             }
             session.setAttribute("user_id", user2.getId());
         }
