@@ -117,7 +117,7 @@
             </div>
         </div>
 
-        <div class="pt-20 h-100 border">
+        <div class="pt-20 h-100">
             <p class="text-[1.2em] text-center my-10">Why Choose us</p>
             <div class="flex items-center w-360 mx-auto">
                 <div class="w-90 mr-7">
@@ -149,6 +149,12 @@
                     <p class="text-[1.2em] text-center mb-5">Monitor your requests in real-time</p>
                 </div>
             </div>
+        </div>
+
+        <div class="h-100 bg-[#D28900] to-[#EFAF00] py-20">
+            <p class="text-white text-center mt-10 my-7 text-[1.3em]">Ready to Get Started?</p>
+            <p class="text-white text-center mb-7 text-[1.3em]">Join thousands of citizens using our platform for their government service needs</p>
+            <a class="block w-70 h-15 mx-auto border px-3 text-center flex items-center justify-center text-[1.4em] text-[#D28900] bg-[#FEFDED] border-2 border-[#FEFDED] rounded-xl" href=""><span>Start Your Request</span></a>
         </div>
 
     </body>
