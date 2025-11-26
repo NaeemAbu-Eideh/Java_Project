@@ -8,4 +8,5 @@ public interface UserMessage {
     public static final String LNAME = "the last name must be less than 50 characters";
     public static final String PASSWORD = "the password must be at least 8";
     public static final String CONFIRMPASSWORD = "the confirm password must be at least 8";
+    public static final String PHONE = "the phone number must be 10 or 14 digits";
 }
