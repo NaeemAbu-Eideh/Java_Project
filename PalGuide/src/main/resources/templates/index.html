@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </head>
+
+    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white flex flex-col items-center justify-center py-12 px-4">
+
+        <div class="flex justify-center mb-4">
+            <div class="bg-yellow-500 text-white p-4 rounded-full">
+                <img class="w-14 block mx-auto" alt="logo" src="/img/government.png" />
+            </div>
+        </div>
+        <h2 class="text-center text-2xl font-semibold">Welcome Back</h2>
+        <p class="text-center text-gray-500 mb-8">Sign in to access government services</p>
+
+
+        <div class="w-full max-w-md mx-auto bg-white shadow-lg rounded-xl p-10">
+
+
+            <form action="/login" method="post" class="space-y-6" th:object="${login}">
+
+                <div>
+                    <label for="email" class="flex items-center gap-2 text-gray-700 font-medium mb-1">
+                        <span class="material-symbols-outlined text-yellow-600 text-xl">
+                         mail
+                        </span>
+                        Email Address
+                    </label>
+                    <input type="email"
+                           name="email"
+                           id="email"
+                           placeholder="you@example.com"
+                           th:field="*{email}"
+                           class="w-full border-2 rounded-lg px-4 py-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <span th:errors="*{email}" class="mt-2 text-sm text-red-600"></span>
+
+                </div>
+
+                <div>
+                    <label for="password" class="flex items-center gap-2 text-gray-700 font-medium mb-1">
+                        <ion-icon name="lock-closed-outline" class="text-yellow-600 text-xl"></ion-icon>
+                        Password
+                    </label>
+                    <input type="password"
+                           name="password"
+                           id="password"
+                           th:field="*{password}"
+                           placeholder="Enter your password"
+                           class="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <span th:errors="*{password}" class="mt-2 text-sm text-red-600"></span>
+
+                </div>
+
+
+                <div class="flex justify-between items-center text-sm">
+                    <div class="flex items-center space-x-2">
+                        <label class="flex items-center gap-2 text-gray-600 cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 text-yellow-600 border-gray-300 rounded"/>
+                            Remember me
+                        </label>
+                    </div>
+
+                    <a href="/forgot" class="text-yellow-600 hover:underline">Forgot password?</a>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
+                    Sign In
+                </button>
+
+
+                <div class="flex items-center my-4">
+                    <span class="flex-1 border"></span>
+                    <span class="px-4 text-gray-500">Or</span>
+                    <span class="flex-1 border"></span>
+                </div>
+
+                <p class="text-center text-gray-700">
+                    Don't have an account?
+                    <a href="/sign-up" class="text-yellow-600 font-semibold hover:underline">Create one now</a>
+                </p>
+            </form>
+
+        </div>
+
+        <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <p class="text-yellow-900 text-sm text-center">
+                🔒 Your information is secure and encrypted
+            </p>
+        </div>
+
+    </body>
+</html>

@@ -1,4 +1,4 @@
-package com.example.palguide.Models;
+package com.example.palguide.common.Models;
 
 public interface UserMessage {
     public static final String NOTBLANK = "this field does not be blank";

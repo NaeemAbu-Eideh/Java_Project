@@ -1,4 +1,4 @@
-package com.example.palguide.Models;
+package com.example.palguide.common.Models;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
