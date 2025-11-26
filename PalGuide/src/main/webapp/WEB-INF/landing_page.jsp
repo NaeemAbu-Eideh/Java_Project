@@ -29,7 +29,7 @@
                 </div>
                 <p class="ml-4 text-[1.2em]">PalGuide</p>
             </div>
-            <div class="mr-30 flex items-center ">
+            <div class="mr-30 flex items-center">
                 <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4" href="">
                     <span class="material-symbols-outlined text-[#DCA53F]">home</span>
                     <p class="ml-1 text-[1.1em] text-[#DCA53F]">Home</p>
@@ -55,11 +55,12 @@
                     <span class="material-symbols-outlined text-white">info</span>
                     <p class="ml-1 text-[1.1em] text-white">About Us</p>
                 </a>
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
-                    <span class="material-symbols-outlined text-white">person</span>
-                    <p class="ml-1 text-[1.1em] text-white">Profile</p>
-                </a>
+
                 <c:if test="${user_id != null}">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href= <c:out value="/${user.firstname}/profile"/> >
+                        <span class="material-symbols-outlined text-white">person</span>
+                        <p class="ml-1 text-[1.1em] text-white">Profile</p>
+                    </a>
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href= <c:out value="/dashboard/logout"/>>
                         <span class="material-symbols-outlined text-white">logout</span>
                         <p class="ml-1 text-[1.1em] text-white">Logout</p>
@@ -165,7 +166,7 @@
         <div class="h-100 bg-[#D28900] to-[#EFAF00] py-20">
             <p class="text-white text-center mt-10 my-7 text-[1.3em]">Ready to Get Started?</p>
             <p class="text-white text-center mb-7 text-[1.3em]">Join thousands of citizens using our platform for their government service needs</p>
-            <a class="block w-70 h-15 mx-auto border px-3 text-center flex items-center justify-center text-[1.4em] text-[#D28900] bg-[#FEFDED] border-2 border-[#FEFDED] rounded-xl" href=""><span>Start Your Request</span></a>
+            <a class="block w-70 h-15 mx-auto border px-3 text-center flex items-center justify-center text-[1.4em] text-[#D28900] bg-[#FEFDED] border-2 border-[#FEFDED] rounded-xl" href= <c:out value="/start-request"/> ><span>Start Your Request</span></a>
         </div>
 
     </body>
