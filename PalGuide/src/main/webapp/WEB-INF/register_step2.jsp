@@ -46,17 +46,17 @@
         <form:form cssClass="pb-6 w-150 mx-auto bg-white shadow-md pt-8 rounded-2xl" action="/sign-up/step2/register" method="post" modelAttribute="address">
             <p class="ml-8 mb-6 text-[1.2em]">Personal Information:</p>
             <div class="ml-12 mb-6">
-                <p><form:errors path="state"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="state"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="state"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">flag</span> State *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="state"/>
             </div>
             <div class="ml-12 mb-6">
-                <p><form:errors path="city"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="city"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="city"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">location_city</span>City *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="city"/>
             </div>
             <div class="ml-12 mb-6">
-                <p><form:errors path="street"/></p>
+                <p class="mt-2 text-sm text-red-600"><form:errors path="street"/></p>
                 <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="street"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">add_road</span> Street *</form:label>
                 <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="street"/>
             </div>

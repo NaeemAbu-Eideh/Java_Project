@@ -3,6 +3,8 @@ package com.example.palguide.controllers;
 import com.example.palguide.common.Models.Address;
 import com.example.palguide.common.Models.User;
 import com.example.palguide.common.Models.UserLogin;
+import com.example.palguide.common.enums.Role;
+import com.example.palguide.services.AddressService;
 import com.example.palguide.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private AddressService addressService;
 
     @GetMapping("/login")
     public String index(@ModelAttribute("login") UserLogin userLogin, HttpSession session) {
@@ -52,6 +56,11 @@ public class UserController {
         if(result.hasErrors()){
             return "register_step1.jsp";
         }
+        User target = userService.createUser(user, result);
+        if(target == null){
+            return "register_step1.jsp";
+        }
+        session.setAttribute("user_id", target.getId());
         return "redirect:/sign-up/step2";
     }
 
@@ -64,6 +73,11 @@ public class UserController {
     }
 
     @GetMapping("/sign-up/step2/register")
+    public String returnToPageStep2Next(){
+        return "redirect:/sign-up/step2";
+    }
+
+    @PostMapping("/sign-up/step2/register")
     public String returnPageStep1Next(
             @Valid @ModelAttribute("address") Address address,
             BindingResult result,
@@ -72,7 +86,9 @@ public class UserController {
         if(result.hasErrors()){
             return "register_step2.jsp";
         }
-
-        return "redirect:/sign-up/step2";
+        User user = userService.getUserById((Long)session.getAttribute("user_id"));
+        address.setUser(user);
+        addressService.saveAddress(address);
+        return "redirect:/sign-up/step1";
     }
 }
