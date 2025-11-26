@@ -26,14 +26,29 @@ public class UserController {
 
 
     @GetMapping("/")
-    public String dashboard() {
+    public String dashboardAtFirst(HttpSession httpSession) {
+        if(httpSession.getAttribute("user_id") != null) {
+            return "redirect:/dashboard";
+        }
         return  "landing_page.jsp";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(
+            Model model,
+            HttpSession session
+    ) {
+        if(session.getAttribute("user_id") == null) {
+            return "redirect:/";
+        }
+        User user = userService.getUserById((Long) session.getAttribute("user_id"));
+        return "landing_page.jsp";
     }
 
     @GetMapping("/login")
     public String index(@ModelAttribute("login") UserLogin userLogin, HttpSession session) {
         if(session.getAttribute("user_id") != null) {
-            return "redirect:/home";
+            return "redirect:/dashboard";
         }
         return "login.html";
     }
@@ -45,8 +60,12 @@ public class UserController {
 
     @GetMapping("/sign-up/step1")
     public String signUpPageStep1(
-            @ModelAttribute("register") User user
+            @ModelAttribute("register") User user,
+            HttpSession session
     ) {
+        if(session.getAttribute("user_id") != null) {
+            return "redirect:/dashboard";
+        }
         return "register_step1.jsp";
     }
 
@@ -77,6 +96,9 @@ public class UserController {
             @ModelAttribute("address") Address address,
             HttpSession session
             ) {
+        if(session.getAttribute("user_id") != null) {
+            return "redirect:/dashboard";
+        }
         return "register_step2.jsp";
     }
 
@@ -97,8 +119,15 @@ public class UserController {
         User user = userService.getUserById((Long)session.getAttribute("user_id"));
         address.setUser(user);
         addressService.saveAddress(address);
-        return "redirect:/sign-up/step1";
+        return "redirect:/dashboard";
     }
+
+    @GetMapping("/dashboard/logout")
+    public String logout(HttpSession session){
+        return userService.flush(session);
+    }
+
+
 
 //    @GetMapping("/**")
 //    public String   error() {

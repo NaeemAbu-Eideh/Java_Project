@@ -45,6 +45,7 @@ public class UserService {
             }
             session.setAttribute("user_id", user2.getId());
         }
+        session.setAttribute("user_id", user2.getId());
         return "redirect:/dashboard";
     }
 
@@ -66,5 +67,10 @@ public class UserService {
     public  User getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElse(null);
+    }
+
+    public String flush(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }
