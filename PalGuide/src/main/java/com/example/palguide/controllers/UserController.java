@@ -103,6 +103,7 @@ public class UserController {
     @GetMapping("/{name}/profile")
     public String profilePageStep1(
             @ModelAttribute("register")  User user,
+            @ModelAttribute("address")  Address address,
             @PathVariable("name") String name,
             HttpSession session,
             Model model

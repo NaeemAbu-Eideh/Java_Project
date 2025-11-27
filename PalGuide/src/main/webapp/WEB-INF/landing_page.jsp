@@ -82,7 +82,7 @@
             <a class="w-50 bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all flex items-center">
                 <span class="ml-10">Request a Service</span>
             </a>
-            <a class="w-50 bg-gradient-to-r from-gray-300 to-gray-500 text-white py-3 rounded-lg hover:from-gray-500 hover:to-gray-500 transition-all flex items-center">
+            <a class="border-2 border-yellow-600 w-50 text-yellow-600 py-3 rounded-lg hover:from-gray-500 flex items-center hover:to-gray-500 transition-all hover:bg-yellow-200">
                 <span class="ml-10">Analyze Document</span>
             </a>
         </div>
