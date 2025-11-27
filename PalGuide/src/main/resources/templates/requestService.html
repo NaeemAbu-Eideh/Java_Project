@@ -17,7 +17,7 @@
         <div x-data="{ selectedService: null, serviceDetails: { name: '', formHtml: '' } }" class="mt-5 w-50/100">
 
             <div x-show="!selectedService" class="grid grid-cols-3 gap-4">
-                <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer"
+                <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer bg-white"
                      @click="selectedService = 'passport'; serviceDetails.name = 'Passport Renewal';">
                     <button class="rounded-xl bg-gradient-to-r from-yellow-600 to-yellow-500 p-5">
                         <ion-icon name="document-text-outline" class="text-white text-4xl"></ion-icon>
@@ -25,7 +25,7 @@
                     <p class="text-xl mt-4">Passport Renewal</p>
                 </div>
 
-                <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer"
+                <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer bg-white"
                      @click="selectedService = 'id'; serviceDetails.name = 'National ID Renewal';">
                     <button class="rounded-xl bg-gradient-to-r from-yellow-600 to-yellow-500 p-5">
                         <ion-icon name="people-outline" class="text-white text-4xl"></ion-icon>
@@ -33,7 +33,7 @@
                     <p class="text-xl mt-4">National ID Renewal</p>
                 </div>
 
-                <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer"
+                <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer bg-white"
                      @click="selectedService = 'birthCert'; serviceDetails.name = 'Birth Certificate Request';">
                     <button class="rounded-xl bg-gradient-to-r from-yellow-600 to-yellow-500 p-5">
                         <ion-icon name="newspaper-outline" class="text-white text-4xl"></ion-icon>

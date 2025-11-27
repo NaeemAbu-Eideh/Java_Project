@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Employee Dashboard</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+    </head>
+
+    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white">
+        <button id="mobileMenuBtn"
+                class="lg:hidden fixed top-4 left-4 bg-yellow-600 text-white px-3 py-2 rounded-lg shadow z-50">
+            ☰
+        </button>
+
+        <div class="flex flex-wrap justify-between items-center px-4 sm:px-8 py-3 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600">
+
+            <div class="flex items-center ml-30 py-3">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
+                    <img class="w-7 block mx-auto" alt="logo" th:src="@{/img/government.png}"/>
+                </div>
+                <p class="ml-4 text-[1.2em]">PalGuide</p>
+            </div>
+
+            <div class="mr-30 flex items-center">
+
+                <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4"
+                   th:href="@{/}">
+                    <span class="material-symbols-outlined text-[#DCA53F]">home</span>
+                    <p class="ml-1 text-[1.1em] text-[#DCA53F]">Home</p>
+                </a>
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/request}"
+                   th:unless="${session.user_id == null}">
+                    <span class="material-symbols-outlined text-white">docs</span>
+                    <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                </a>
+
+                <div th:if="${session.user_id != null}" class="flex items-center">
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/my-requests}">
+                        <span class="material-symbols-outlined text-white">docs</span>
+                        <p class="ml-1 text-[1.1em] text-white">My Requests</p>
+                    </a>
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/analysis}">
+                        <span class="material-symbols-outlined text-white">upload</span>
+                        <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
+                    </a>
+                </div>
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/about}">
+                    <span class="material-symbols-outlined text-white">info</span>
+                    <p class="ml-1 text-[1.1em] text-white">About Us</p>
+                </a>
+
+                <div th:if="${session.user_id != null}" class="flex items-center">
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/{name}/profile(name=${session.user_id})}">
+                        <span class="material-symbols-outlined text-white">person</span>
+                        <p class="ml-1 text-[1.1em] text-white">Profile</p>
+                    </a>
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/dashboard/logout}">
+                        <span class="material-symbols-outlined text-white">logout</span>
+                        <p class="ml-1 text-[1.1em] text-white">Logout</p>
+                    </a>
+
+                </div>
+
+                <div th:if="${session.user_id == null}">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/login}">
+                        <span class="material-symbols-outlined text-white">login</span>
+                        <p class="ml-1 text-[1.1em] text-white">Login | Register</p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="flex">
+
+            <aside id="sidebar"
+                   class="w-64 bg-gradient-to-b from-yellow-600 to-yellow-700 min-h-screen p-6
+              fixed lg:static top-0 left-[-300px] lg:left-0 transition-all duration-300 z-40">
+
+                <div class="text-white mb-8">
+                    <h2 class="mb-2 font-semibold">Employee Portal</h2>
+                    <p class="text-yellow-200 text-sm">Manage Service Requests</p>
+                </div>
+
+                <div class="space-y-2 mb-8">
+
+                    <button
+                            onclick="loadRequests('ALL')"
+                            class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
+                       bg-white text-yellow-600 font-medium">
+                        All Requests (<span id="countAll" th:text="${counts?.all ?: 0}">0</span>)
+                    </button>
+
+                    <button onclick="loadRequests('PENDING')"
+                            class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
+                       text-white hover:bg-yellow-800">
+                        Pending (<span id="countPending" th:text="${counts?.pending ?: 0}">0</span>)
+                    </button>
+
+                    <button onclick="loadRequests('IN_PROGRESS')"
+                            class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
+                       text-white hover:bg-yellow-800">
+                        In Progress (<span id="countProgress" th:text="${counts?.inProgress ?: 0}">0</span>)
+                    </button>
+
+                    <button onclick="loadRequests('COMPLETED')"
+                            class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
+                       text-white hover:bg-yellow-800">
+                        Completed (<span id="countCompleted" th:text="${counts?.completed ?: 0}">0</span>)
+                    </button>
+
+                    <button onclick="loadRequests('REJECTED')"
+                            class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
+                       text-white hover:bg-yellow-800">
+                        Rejected (<span id="countRejected" th:text="${counts?.rejected ?: 0}">0</span>)
+                    </button>
+
+                </div>
+
+            </aside>
+
+
+
+            <div class="flex-1 p-4 sm:p-6 lg:p-12 ml-0 transition-all">
+
+                <div class="max-w-6xl mx-auto">
+
+                    <h1 class="text-black text-2xl font-semibold mb-1">Employee Dashboard</h1>
+                    <p class="text-gray-600 mb-8">Review and update service request statuses</p>
+
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-gray-400 h-30 flex flex-col justify-center text-base">
+                            <p class="text-gray-600 mb-1">Total Requests</p>
+                            <p class="text-black" id="statAll" th:text="${counts?.all ?: 0}">0</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-500 h-30 flex flex-col justify-center text-base">
+                            <p class="text-gray-600 mb-1">Pending</p>
+                            <p class="text-black" id="statPending" th:text="${counts?.pending ?: 0}">0</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-400 h-30 flex flex-col justify-center text-base">
+                            <p class="text-gray-600 mb-1">In Progress</p>
+                            <p class="text-black" id="statProgress" th:text="${counts?.inProgress ?: 0}">0</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 h-30 flex flex-col justify-center text-base">
+                            <p class="text-gray-600 mb-1">Completed</p>
+                            <p class="text-black" id="statCompleted" th:text="${counts?.completed ?: 0}">0</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500 h-30 flex flex-col justify-center text-base col-span-1 sm:col-span-2 lg:col-span-1">
+                            <p class="text-gray-600 mb-1">Rejected</p>
+                            <p class="text-black" id="statRejected" th:text="${counts?.rejected ?: 0}">0</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="bg-white rounded-lg shadow-md p-12 text-center">
+                        <span class="material-symbols-outlined text-gray-300 text-7xl block mb-4">schedule</span>
+                        <h3 class="text-black mb-2">No Requests Found</h3>
+                        <p class="text-gray-600">No service requests have been submitted yet.</p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <script th:src="@{/js/dashboard.js}"></script>
+
+    </body>
+</html>
