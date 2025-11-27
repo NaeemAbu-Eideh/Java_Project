@@ -59,7 +59,7 @@ public class PagesController {
         if (session.getAttribute("user_id") == null) {
             return "redirect:/login";
         }
-        return "redirect:/dashboard";
+        return "redirect:/request";
     }
 
 
