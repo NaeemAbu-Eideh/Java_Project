@@ -10,7 +10,7 @@ import java.time.Instant;
 
 @Getter
 @Entity
-@Table(name = "servicedoc")
+@Table(name = "service_doc")
 public class ServiceDoc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class ServiceDoc {
     @Setter
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "servicessteps_id", nullable = false)
-    private ServiceStep servicessteps;
+    private ServiceStep serviceStep;
 
     @PrePersist
     protected void onCreate() {

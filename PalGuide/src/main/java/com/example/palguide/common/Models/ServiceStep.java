@@ -1,39 +1,54 @@
 package com.example.palguide.common.Models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Entity
-@Table(name = "servicessteps")
+@Table(name = "service_steps")
 public class ServiceStep {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "text", nullable = false)
-    private String text;
 
     @Setter
-    @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "steps", nullable = false)
-    private String steps;
+    @Column(name = "document_type", nullable = false)
+    private String documentType;
+
 
     @Setter
-    @NotNull(message = UserMessage.NOTNULL)
-    @ColumnDefault("0")
+    @ElementCollection
+    @CollectionTable(name = "service_requirements", joinColumns = @JoinColumn(name = "service_step_id"))
+    @Column(name = "requirement")
+    private List<String> requirements;
+
+
+    @Setter
+    @ElementCollection
+    @CollectionTable(name = "service_process_steps", joinColumns = @JoinColumn(name = "service_step_id"))
+    @Column(name = "step")
+    private List<String> steps;
+
+
+    @Setter
+    @Column(name = "estimated_time")
+    private String estimatedTime;
+
+
+    @Setter
+    @NotNull
     @Column(name = "completed", nullable = false)
-    private Byte completed;
+    private Byte completed = 0;
 
     @Column(name = "created_at")
     private Instant createdAt;
@@ -41,14 +56,15 @@ public class ServiceStep {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
     @Setter
-    @OneToMany(mappedBy = "servicessteps", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ServiceDoc> servicedocs = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "serviceStep", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ServiceDoc> serviceDocs = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -59,5 +75,4 @@ public class ServiceStep {
     protected void onUpdate() {
         updatedAt = Instant.now();
     }
-
 }
