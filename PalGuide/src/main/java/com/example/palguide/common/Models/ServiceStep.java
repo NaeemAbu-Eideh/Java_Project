@@ -56,15 +56,10 @@ public class ServiceStep {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transaction_id", nullable = false)
-    private Transaction transaction;
-
-    @Setter
-    @OneToMany(mappedBy = "serviceStep", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ServiceDoc> serviceDocs = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "service_doc_id", nullable = false, unique = true)
+    private ServiceDoc serviceDoc;
 
     @PrePersist
     protected void onCreate() {

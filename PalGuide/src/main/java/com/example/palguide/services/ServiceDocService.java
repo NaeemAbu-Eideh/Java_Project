@@ -15,4 +15,8 @@ public class ServiceDocService {
     public List<ServiceDoc> getAllServiceDocs() {
         return serviceDocRepository.findAll();
     }
+
+    public ServiceDoc saveDoc(ServiceDoc serviceDoc) {
+        return serviceDocRepository.save(serviceDoc);
+    }
 }

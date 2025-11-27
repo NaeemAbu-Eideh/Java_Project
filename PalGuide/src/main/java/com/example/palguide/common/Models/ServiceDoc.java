@@ -17,18 +17,9 @@ public class ServiceDoc {
     private Long id;
 
     @Setter
-    @NotBlank(message = ServiceDocMessage.NOTBLANK)
-    @Column(name = "text", nullable = false)
-    private String text;
-
-    @Setter
     @Size(max = 255, message = ServiceDocMessage.FILE)
     @Column(name = "file")
     private String file;
-
-    @Setter
-    @Column(name = "image")
-    private String image;
 
     @Column(name = "created_at")
     private Instant createdAt;
@@ -38,9 +29,9 @@ public class ServiceDoc {
     private String updatedAt;
 
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "servicessteps_id", nullable = false)
+    @OneToOne(mappedBy = "serviceDoc", cascade = CascadeType.ALL)
     private ServiceStep serviceStep;
+
 
     @PrePersist
     protected void onCreate() {
