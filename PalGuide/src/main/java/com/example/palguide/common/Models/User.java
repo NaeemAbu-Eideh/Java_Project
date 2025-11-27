@@ -69,8 +69,9 @@ public class User {
     private String nationalId;
 
     @Setter
-    @Column(name = "profile_image", length = 45)
-    private String profileImage;
+    @Lob
+    @Column(name = "profile_image", columnDefinition = "LONGBLOB")
+    private byte[] profileImage;
 
     @Setter
     @ColumnDefault("'USER'")

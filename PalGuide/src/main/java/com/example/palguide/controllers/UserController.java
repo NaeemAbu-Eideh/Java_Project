@@ -6,6 +6,7 @@ import com.example.palguide.common.Models.UserLogin;
 import com.example.palguide.common.enums.Role;
 import com.example.palguide.services.AddressService;
 import com.example.palguide.services.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Date;
 
 
@@ -223,5 +227,50 @@ public class UserController {
         target.setPhone(user.getPhone());
         userService.saveUser(target);
         return "redirect:/" + name + "/profile";
+    }
+
+    @GetMapping("/{name}/profile/upload-image")
+    public String returnToProfilePage(
+            @PathVariable("name") String name
+    ){
+        return "redirect:/" + name + "/profile";
+    }
+
+    @PostMapping("/{name}/profile/upload-image")
+    public String uploadImage(
+            @RequestParam("profileImage") MultipartFile profileImage,
+            @PathVariable("name") String name,
+            HttpSession session
+    ){
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        User target = userService.getUserById(userId);
+        target.setConfirmPassword(target.getPassword());
+
+        try {
+            if (profileImage != null && !profileImage.isEmpty()) {
+                target.setProfileImage(profileImage.getBytes());
+            }
+            userService.saveUser(target);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/" + name + "/profile";
+    }
+
+    @GetMapping("/user/{id}/image")
+    public void getUserImage(HttpSession session,@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+        User user = userService.getUserById(id);
+
+        if ( session.getAttribute("user_id") == null || session.getAttribute("user_id") == "-1" || user == null || user.getProfileImage() == null) {
+            return;
+        }
+        response.setContentType("image/jpeg"); // or png depending on what you upload
+        response.getOutputStream().write(user.getProfileImage());
+        response.getOutputStream().close();
     }
 }
