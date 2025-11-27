@@ -23,17 +23,17 @@
 
             <div class="mr-30 flex items-center">
 
-                <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4"
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                    th:href="@{/}">
-                    <span class="material-symbols-outlined text-[#DCA53F]">home</span>
-                    <p class="ml-1 text-[1.1em] text-[#DCA53F]">Home</p>
+                    <span class="material-symbols-outlined text-white">home</span>
+                    <p class="ml-1 text-[1.1em] text-white">Home</p>
                 </a>
 
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
-                   th:href="@{/request}"
+                <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4"
+                   th:href="@{/analysis}"
                    th:unless="${session.user_id == null}">
-                    <span class="material-symbols-outlined text-white">docs</span>
-                    <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                    <span class="material-symbols-outlined text-[#DCA53F]">docs</span>
+                    <p class="ml-1 text-[1.1em] text-[#DCA53F]">Request Service</p>
                 </a>
 
                 <div th:if="${session.user_id != null}" class="flex items-center">

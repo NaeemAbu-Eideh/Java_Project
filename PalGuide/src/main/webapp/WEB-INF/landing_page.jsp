@@ -35,18 +35,18 @@
                     <p class="ml-1 text-[1.1em] text-[#DCA53F]">Home</p>
                 </a>
 
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="request">
-                    <span class="material-symbols-outlined text-white">docs</span>
-                    <p class="ml-1 text-[1.1em] text-white">Request Service</p>
-                </a>
-
                 <c:if test="${ user_id != null}">
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="my-request">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/request">
+                        <span class="material-symbols-outlined text-white">docs</span>
+                        <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                    </a>
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/my-requests">
                         <span class="material-symbols-outlined text-white">docs</span>
                         <p class="ml-1 text-[1.1em] text-white">My Requests</p>
                     </a>
 
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="analysis">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/analysis">
                         <span class="material-symbols-outlined text-white">upload</span>
                         <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
                     </a>
@@ -79,10 +79,10 @@
         <p class="w-185 text-center mx-auto text-[1.4em] mt-10">Access essential government services online. Fast, secure, and convenient. Submit requests, track status, and get assistance all in one place.</p>
 
         <div class="flex items-center mt-10 justify-between w-120 mx-auto mb-15">
-            <a class="w-50 bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all flex items-center">
+            <a class="w-50 bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all flex items-center" href= <c:out value="/request"/> >
                 <span class="ml-10">Request a Service</span>
             </a>
-            <a class="border-2 border-yellow-600 w-50 text-yellow-600 py-3 rounded-lg hover:from-gray-500 flex items-center hover:to-gray-500 transition-all hover:bg-yellow-200">
+            <a class="border-2 border-yellow-600 w-50 text-yellow-600 py-3 rounded-lg hover:from-gray-500 flex items-center hover:to-gray-500 transition-all hover:bg-yellow-200" href= <c:out value="/analysis"/>>
                 <span class="ml-10">Analyze Document</span>
             </a>
         </div>

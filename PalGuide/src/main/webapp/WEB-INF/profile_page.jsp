@@ -36,7 +36,7 @@
                     <p class="ml-1 text-[1.1em] text-white">Home</p>
                 </a>
 
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="request">
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/request">
                     <span class="material-symbols-outlined text-white">docs</span>
                     <p class="ml-1 text-[1.1em] text-white">Request Service</p>
                 </a>
@@ -47,7 +47,7 @@
                         <p class="ml-1 text-[1.1em] text-white">My Requests</p>
                     </a>
 
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="analysis">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/analysis">
                         <span class="material-symbols-outlined text-white">upload</span>
                         <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
                     </a>
