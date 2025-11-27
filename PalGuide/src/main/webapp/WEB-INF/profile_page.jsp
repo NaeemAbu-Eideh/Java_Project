@@ -82,13 +82,37 @@
 
         <div class="flex w-360 mx-auto">
             <div class="mr-30">
-                <div class="w-80 h-73 rounded-2xl shadow-md bg-white pt-10 mb-5">
+                <div class="w-80  rounded-2xl shadow-md bg-white pt-10 mb-5">
                     <div class="h-20 w-20 flex items-center justify-center rounded-[50%] bg-gradient-to-r from-yellow-600 to-yellow-500 mx-auto mb-10">
-                        <span class="material-symbols-outlined profile-image text-white">person</span>
+                        <c:if test="${user.profileImage == null}">
+                            <span class="material-symbols-outlined profile-image text-white">person</span>
+                        </c:if>
+                        <c:if test="${user.profileImage != null}">
+                            <img class="w-20 h-20 rounded-[50%]" src= <c:out value="/user/${user.id}/image"/>>
+                        </c:if>
                     </div>
+                    <form action="/${user.firstname}/profile/upload-image"
+                          method="post"
+                          enctype="multipart/form-data"
+                          class="mb-5 flex flex-col items-center mt-2">
 
+                        <input id="profileImage"
+                               type="file"
+                               name="profileImage"
+                               accept="image/*"
+                               class="hidden"
+                               onchange="this.form.submit()" />
+
+                        <label for="profileImage"
+                               class="cursor-pointer px-5 py-2 rounded-lg bg-gradient-to-r from-yellow-600 to-yellow-500
+                  text-white text-sm font-medium hover:from-yellow-700 hover:to-yellow-600
+                  transition-all flex items-center">
+                            <span class="material-symbols-outlined mr-2 text-white">upload</span>
+                            <span>Upload new photo</span>
+                        </label>
+                    </form>
                     <p class="text-center mb-5"><c:out value="${user.firstname} ${user.lastname}"/></p>
-                    <p class="text-center mb-5"><c:out value="${user.email}"/></p>
+                    <p class="text-center pb-8"><c:out value="${user.email}"/></p>
                 </div>
                 <div class="w-80 rounded-2xl shadow-md bg-white pt-10 mb-5 pb-5">
                     <p class=" ml-5 text-[1.2em] mb-6">Account Type</p>
