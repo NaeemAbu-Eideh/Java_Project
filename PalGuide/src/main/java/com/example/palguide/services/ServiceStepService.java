@@ -17,6 +17,10 @@ public class ServiceStepService {
         return serviceStepRepository.findAll();
     }
 
+    public ServiceStep saveAnalysis(ServiceStep serviceStep){
+        return serviceStepRepository.save(serviceStep);
+    }
+
     public ServiceStep saveAnalysis(String documentType, List<String> requirements, List<String> processSteps, String estimatedTime, Transaction transaction) {
         ServiceStep step = new ServiceStep();
         step.setDocumentType(documentType);
@@ -24,7 +28,6 @@ public class ServiceStepService {
         step.setSteps(processSteps);
         step.setEstimatedTime(estimatedTime);
         step.setCompleted((byte) 1);
-        step.setTransaction(transaction);
 
         return serviceStepRepository.save(step);
     }

@@ -56,10 +56,6 @@ public class Transaction {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Setter
-    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ServiceStep> serviceSteps = new LinkedHashSet<>();
-
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();

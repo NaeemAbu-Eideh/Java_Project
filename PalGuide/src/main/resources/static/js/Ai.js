@@ -26,7 +26,7 @@ pdfFullCanvas.getContext("2d").clearRect(0, 0, pdfFullCanvas.width, pdfFullCanva
 
 
 previewIcon.addEventListener("click", async () => {
-    if (!window.currentPdfFile) return; // only open if PDF
+    if (!window.currentPdfFile) return;
 
     pdfModal.classList.remove("hidden");
 
@@ -100,7 +100,6 @@ async function handleFile(file) {
     }
 
 
-    // PDF
     if (type.includes("pdf")) {
         window.currentPdfFile = URL.createObjectURL(file);
 
