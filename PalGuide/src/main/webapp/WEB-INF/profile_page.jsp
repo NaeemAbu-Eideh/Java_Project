@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
         <link rel="stylesheet" href="/css/css.css">
     </head>
-    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white items-center justify-center">
+    <body class=" bg-gradient-to-br from-yellow-50 to-white items-center justify-center">
         <div class="flex justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600">
             <div class="flex items-center ml-30 py-3">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
@@ -135,13 +135,13 @@
                         </select>
                     </div>
                 </div>
-                <form:form id="form" cssClass="hidden pb-6 w-150 mx-auto bg-white shadow-md pt-8 rounded-2xl" action="/${user.firstname}/profile/edit" method="post" modelAttribute="register">
+                <form:form id="form" cssClass="mb-6 bg-white hidden pb-6 w-150 mx-auto bg -white shadow-md pt-8 rounded-2xl" action="/${user.firstname}/profile/edit" method="post" modelAttribute="register">
                     <div class="flex items-center justify-between mx-auto w-130">
                         <p class="mb-6 text-[1.2em]">Personal Information:</p>
                         <div class="flex justify-between items-center">
-                            <button onclick="showForm(this)" type="button" class="pr-3 flex items-center mr-6 block  bg-gradient-to-r from-gray-400 to-gray-300 text-white py-3 rounded-lg hover:from-gray-600 hover:to-gray-500 transition-all">
-                                <span class="material-symbols-outlined text-white">arrow_back</span>
-                                <span class="ml-3 text-white">Back</span>
+                            <button onclick="showDetails(this)" type="button" class="border-2 border-yellow-600 pr-3 flex items-center mr-6 block py-3 rounded-lg hover:bg-yellow-200 transition-all">
+                                <span class="material-symbols-outlined text-yellow-600">arrow_back</span>
+                                <span class="ml-3 text-yellow-600">Back</span>
                             </button>
                             <button class=" pr-3 flex items-center block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
                                 <span class="material-symbols-outlined text-white">save</span>
@@ -169,10 +169,31 @@
                         <p class="border border-gray-300 w-130 h-10 px-3 rounded-xl flex items-center"> <c:out value="${user.nationalId}"/> </p>
                         <p class="mt-2 "> National ID Number Cannot Change </p>
                     </div>
-                    <button onclick="" type="button" class="w-50 ml-12 block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
+                    <button onclick="showAddress(this)" type="button" class="w-50 ml-12 block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
                         Add new Address
                     </button>
                 </form:form>
+
+                <form:form id="address" cssClass="hidden bg-white pb-6 w-150 mx-auto bg -white shadow-md pt-8 rounded-2xl" action="/${user.firstname}/profile/add-address" method="post" modelAttribute="address">
+                    <p class="ml-8 mb-6 text-[1.2em]">Add address:</p>
+                    <div class="ml-12 mb-6">
+                        <p class="mt-2 text-sm text-red-600"><form:errors path="state"/></p>
+                        <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="state"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">flag</span> State</form:label>
+                        <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="state"/>
+                    </div>
+                    <div class="ml-12 mb-6">
+                        <p class="mt-2 text-sm text-red-600"><form:errors path="city"/></p>
+                        <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="city"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">location_city</span>City</form:label>
+                        <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="city"/>
+                    </div>
+                    <div class="ml-12 mb-6">
+                        <p class="mt-2 text-sm text-red-600"><form:errors path="street"/></p>
+                        <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="street"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">add_road</span> Street</form:label>
+                        <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="street"/>
+                    </div>
+                    <button class="w-50 ml-12 block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">Add Address</button>
+                </form:form>
+
             </div>
         </div>
         <script src="/js/edit_profile.js"></script>
