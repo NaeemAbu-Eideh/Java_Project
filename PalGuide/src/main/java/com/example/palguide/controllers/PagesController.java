@@ -64,7 +64,10 @@ public class PagesController {
 
 
     @GetMapping("/request")
-    public String request() {
+    public String request(HttpSession session) {
+        if(session.getAttribute("user_id") == null) {
+            return "redirect:/login";
+        }
         return "requestService.html";
     }
 
