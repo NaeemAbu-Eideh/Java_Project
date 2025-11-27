@@ -10,10 +10,10 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 public class UserController {
@@ -22,10 +22,11 @@ public class UserController {
     @Autowired
     private AddressService addressService;
 
+
     @GetMapping("/login")
     public String index(@ModelAttribute("login") UserLogin userLogin, HttpSession session) {
         if(session.getAttribute("user_id") != null) {
-            return "redirect:/home";
+            return "redirect:/dashboard";
         }
         return "login.html";
     }
@@ -37,8 +38,12 @@ public class UserController {
 
     @GetMapping("/sign-up/step1")
     public String signUpPageStep1(
-            @ModelAttribute("register") User user
+            @ModelAttribute("register") User user,
+            HttpSession session
     ) {
+        if(session.getAttribute("user_id") != null) {
+            return "redirect:/dashboard";
+        }
         return "register_step1.jsp";
     }
 
@@ -69,6 +74,9 @@ public class UserController {
             @ModelAttribute("address") Address address,
             HttpSession session
             ) {
+        if(session.getAttribute("user_id") != null) {
+            return "redirect:/dashboard";
+        }
         return "register_step2.jsp";
     }
 
@@ -89,6 +97,29 @@ public class UserController {
         User user = userService.getUserById((Long)session.getAttribute("user_id"));
         address.setUser(user);
         addressService.saveAddress(address);
-        return "redirect:/sign-up/step1";
+        return "redirect:/dashboard";
     }
+
+    @GetMapping("/{name}/profile")
+    public String profilePageStep1(
+            @PathVariable("name") String name,
+            HttpSession session,
+            Model model
+    ){
+        if(session.getAttribute("user_id") == null) {
+            return "redirect:/";
+        }
+        User user = userService.getUserById((Long)session.getAttribute("user_id"));
+        model.addAttribute("user", user);
+        return "profile_page.jsp";
+    }
+
+    @GetMapping("/{name}/profile/logout")
+    public String logoutPage(
+            @PathVariable("name") String name,
+            HttpSession session
+    ){
+        return userService.flush(session);
+    }
+
 }
