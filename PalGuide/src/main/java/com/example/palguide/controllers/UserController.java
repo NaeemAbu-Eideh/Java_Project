@@ -14,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 
 @Controller
 public class UserController {
@@ -43,7 +46,9 @@ public class UserController {
     ) {
 
         if(session.getAttribute("user_id") != null) {
-            return "redirect:/dashboard";
+            if(session.getAttribute("step2") == null){
+                return "redirect:/dashboard";
+            }
         }
         return "register_step1.jsp";
     }
@@ -62,15 +67,17 @@ public class UserController {
         if(result.hasErrors()){
             return "register_step1.jsp";
         }
-        if(session.getAttribute("user_id") != null) {
-            return "redirect:/dashboard";
-        }
-        User target = userService.createUser(user, result);
-        if(target == null){
-            return "register_step1.jsp";
-        }
-        session.setAttribute("step2", "yes");
-        session.setAttribute("user_id", target.getId());
+
+        session.setAttribute("user_id", "1");
+        session.setAttribute("fname", user.getFirstname());
+        session.setAttribute("lname", user.getLastname());
+        session.setAttribute("email", user.getEmail());
+        session.setAttribute("dob", user.getDob());
+        session.setAttribute("password", user.getPassword());
+        session.setAttribute("nid", user.getNationalId());
+        session.setAttribute("conpass", user.getConfirmPassword());
+        session.setAttribute("phone", user.getPhone());
+        session.removeAttribute("step2");
         return "redirect:/sign-up/step2";
     }
 
@@ -83,6 +90,15 @@ public class UserController {
                 return "redirect:/dashboard";
         }
         return "register_step2.jsp";
+    }
+
+    @GetMapping("/sign-up/step2/back")
+    public String returnPageStep2back(
+            HttpSession session
+    ){
+        session.setAttribute("step2", "step2");
+        session.removeAttribute("user_id");
+        return "redirect:/sign-up/step1";
     }
 
     @GetMapping("/sign-up/step2/register")
@@ -99,9 +115,19 @@ public class UserController {
         if(result.hasErrors()){
             return "register_step2.jsp";
         }
-        User user = userService.getUserById((Long)session.getAttribute("user_id"));
-        address.setUser(user);
+        User user = new User();
+        user.setFirstname(session.getAttribute("fname").toString());
+        user.setLastname(session.getAttribute("lname").toString());
+        user.setEmail(session.getAttribute("email").toString());
+        user.setPassword(session.getAttribute("password").toString());
+        user.setDob((LocalDate) session.getAttribute("dob"));
+        user.setPassword(session.getAttribute("phone").toString());
+        user.setNationalId(session.getAttribute("nid").toString());
+        user.setConfirmPassword(session.getAttribute("conpass").toString());
+        User target = userService.createUser(user, result);
+        address.setUser(target);
         addressService.saveAddress(address);
+        session.setAttribute("user_id", target.getId());
         return "redirect:/dashboard";
     }
 

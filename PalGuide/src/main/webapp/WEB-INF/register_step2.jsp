@@ -63,12 +63,12 @@
             </div>
             <div class="flex items-center justify-around">
                 <a  class="text-center w-40 block mx-auto bg-gradient-to-r from-gray-600 to-gray-500 text-white py-3 rounded-lg hover:from-gray-300 hover:to-gray-600 transition-all"
-                    href=<c:out value="/sign-up/step1"/>>
+                    href=<c:out value="/sign-up/step2/back"/>>
                     Back
                 </a>
                 <button type="submit"
                         class=" w-40 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
-                    Next
+                    Create
                 </button>
             </div>
             <div class="flex items-center my-4">
