@@ -55,10 +55,13 @@ public class UserService {
             result.rejectValue("email", "error", "The email is already found, chose one");
             return null;
         }
+        System.out.println("password " + user.getConfirmPassword());
         if(!user.getPassword().equals(user.getConfirmPassword())) {
             result.rejectValue("confirmPassword", "Matches", "The password and confirm password does not match");
             return null;
         }
+        System.out.println("naeem");
+        System.out.println("password " + user.getConfirmPassword());
         String password =  BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(password);
         return saveUser(user);

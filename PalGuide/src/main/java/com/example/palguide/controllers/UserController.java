@@ -28,6 +28,9 @@ public class UserController {
 
     @GetMapping("/login")
     public String index(@ModelAttribute("login") UserLogin userLogin, HttpSession session) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         if(session.getAttribute("user_id") != null) {
             return "redirect:/dashboard";
         }
@@ -44,6 +47,9 @@ public class UserController {
             @ModelAttribute("register") User user,
             HttpSession session
     ) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
 
         if(session.getAttribute("user_id") != null) {
             if(session.getAttribute("step2") == null){
@@ -68,7 +74,7 @@ public class UserController {
             return "register_step1.jsp";
         }
 
-        session.setAttribute("user_id", "1");
+        session.setAttribute("user_id", -1);
         session.setAttribute("fname", user.getFirstname());
         session.setAttribute("lname", user.getLastname());
         session.setAttribute("email", user.getEmail());
@@ -97,7 +103,6 @@ public class UserController {
             HttpSession session
     ){
         session.setAttribute("step2", "step2");
-        session.removeAttribute("user_id");
         return "redirect:/sign-up/step1";
     }
 
@@ -121,7 +126,7 @@ public class UserController {
         user.setEmail(session.getAttribute("email").toString());
         user.setPassword(session.getAttribute("password").toString());
         user.setDob((LocalDate) session.getAttribute("dob"));
-        user.setPassword(session.getAttribute("phone").toString());
+        user.setPhone(session.getAttribute("phone").toString());
         user.setNationalId(session.getAttribute("nid").toString());
         user.setConfirmPassword(session.getAttribute("conpass").toString());
         User target = userService.createUser(user, result);
@@ -139,6 +144,12 @@ public class UserController {
             HttpSession session,
             Model model
     ){
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
+        if(session.getAttribute("user_id") == null) {
+            return "redirect:/";
+        }
         User target = userService.getUserById((Long)session.getAttribute("user_id"));
         model.addAttribute("user", target);
         return "profile_page.jsp";

@@ -28,6 +28,11 @@ public class PagesController {
 
     @GetMapping("/")
     public String dashboardAtFirst(HttpSession httpSession) {
+
+
+        if(httpSession.getAttribute("user_id") == "-1") {
+            httpSession.removeAttribute("user_id");
+        }
         if (httpSession.getAttribute("user_id") != null) {
             return "redirect:/dashboard";
         }
@@ -39,6 +44,11 @@ public class PagesController {
             Model model,
             HttpSession session
     ) {
+
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
+        System.out.println(session.getAttribute("user_id"));
         if (session.getAttribute("user_id") == null) {
             return "redirect:/";
         }
@@ -56,6 +66,9 @@ public class PagesController {
 
     @GetMapping("/start-request")
     public String startRequest(HttpSession session) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         if (session.getAttribute("user_id") == null) {
             return "redirect:/login";
         }
@@ -65,6 +78,9 @@ public class PagesController {
 
     @GetMapping("/request")
     public String request(HttpSession session) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         if(session.getAttribute("user_id") == null) {
             return "redirect:/login";
         }
@@ -77,6 +93,11 @@ public class PagesController {
             @RequestParam(value = "status", required = false) String status,
             HttpSession session
     ) {
+        if(session.getAttribute("user_id") != null && (int)session.getAttribute("user_id") == -1) {
+            session.removeAttribute("user_id");
+        }
+
+
         Long id = (Long) session.getAttribute("user_id");
 
         System.out.println(status);
@@ -94,6 +115,9 @@ public class PagesController {
 
     @GetMapping("/dash")
     public String dash(HttpSession session, RedirectAttributes redirectAttributes, Model model, @RequestParam(value = "status", required = false) String status) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         if (session.getAttribute("user_id") == null) {
             redirectAttributes.addFlashAttribute("message", "You are not logged in!");
             return "redirect:/login";
