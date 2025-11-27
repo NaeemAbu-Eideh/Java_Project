@@ -93,6 +93,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Transaction> transactions = new LinkedHashSet<>();
 
+
+
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();
