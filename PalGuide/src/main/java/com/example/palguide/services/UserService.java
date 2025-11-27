@@ -61,7 +61,7 @@ public class UserService {
         }
         String password =  BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(password);
-        return userRepository.save(user);
+        return saveUser(user);
     }
 
     public  User getUserById(Long id) {
@@ -72,5 +72,9 @@ public class UserService {
     public String flush(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    public User saveUser(User user){
+        return userRepository.save(user);
     }
 }

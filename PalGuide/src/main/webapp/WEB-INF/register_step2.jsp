@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: Naeem Abu-Eideh
@@ -62,25 +63,24 @@
             </div>
             <div class="flex items-center justify-around">
                 <a  class="text-center w-40 block mx-auto bg-gradient-to-r from-gray-600 to-gray-500 text-white py-3 rounded-lg hover:from-gray-300 hover:to-gray-600 transition-all"
-                        href=<c:out value="/sign-up/step1"/>>
+                    href=<c:out value="/sign-up/step1"/>>
                     Back
                 </a>
                 <button type="submit"
                         class=" w-40 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
                     Next
                 </button>
-
-                <div class="flex items-center my-4">
-                    <span class="flex-1 border"></span>
-                    <span class="px-4 text-gray-500">Or</span>
-                    <span class="flex-1 border"></span>
-                </div>
-
-                <p class="text-center text-gray-700 mt-3">
-                    Already hava an account?
-                    <a class="text-yellow-600 font-semibold hover:underline" href= <c:out value="/login"/> >Go to Login</a>
-                </p>
             </div>
+            <div class="flex items-center my-4">
+                <span class="flex-1 border"></span>
+                <span class="px-4 text-gray-500">Or</span>
+                <span class="flex-1 border"></span>
+            </div>
+
+            <p class="text-center text-gray-700 mt-3">
+                Already hava an account?
+                <a class="text-yellow-600 font-semibold hover:underline" href= <c:out value="/login"/> >Go to Login</a>
+            </p>
         </form:form>
     </body>
 </html>
