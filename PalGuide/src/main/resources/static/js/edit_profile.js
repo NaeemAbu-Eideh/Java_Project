@@ -31,3 +31,11 @@ function showAddress(self){
         self.innerText = "Add new Address";
     }
 }
+
+function hideAddress(){
+    newAddress = document.querySelector("#newAddress");
+    addressForm = document.querySelector("#address");
+    address.classList.add("hidden");
+    address.classList.remove("block");
+    newAddress.innerText = "Add new Address";
+}

@@ -135,7 +135,7 @@
                         </select>
                     </div>
                 </div>
-                <form:form id="form" cssClass="mb-6 bg-white hidden pb-6 w-150 mx-auto bg -white shadow-md pt-8 rounded-2xl" action="/${user.firstname}/profile/edit" method="post" modelAttribute="register">
+                <form:form id="form" cssClass="mb-6 bg-white hidden pb-6 w-150 mx-auto bg -white shadow-md pt-8 rounded-2xl" action="/${user.firstname}/profile/edit" method="post" modelAttribute="user">
                     <div class="flex items-center justify-between mx-auto w-130">
                         <p class="mb-6 text-[1.2em]">Personal Information:</p>
                         <div class="flex justify-between items-center">
@@ -152,24 +152,24 @@
                     <div class="ml-12 mb-6">
                         <p class="mt-2 text-sm text-red-600"><form:errors path="firstname"/></p>
                         <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="firstname"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">person</span> First Name *</form:label>
-                        <form:input value= "${user.firstname}" cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="firstname"/>
+                        <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="firstname"/>
                     </div>
                     <div class="ml-12 mb-6">
                         <p class="mt-2 text-sm text-red-600"><form:errors path="lastname"/></p>
                         <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="lastname"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">person</span>Last Name *</form:label>
-                        <form:input value= "${user.lastname}" cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="lastname"/>
+                        <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="lastname"/>
                     </div>
                     <div class="ml-12 mb-6">
                         <p class="mt-2 text-sm text-red-600"><form:errors path="phone"/></p>
                         <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="phone"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">call</span> Phone Number *</form:label>
-                        <form:input value= "${user.phone}" cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="phone"/>
+                        <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="phone"/>
                     </div>
                     <div class="ml-12 mb-6">
                         <p class="text-[1.1em] block mb-2 flex items-center"><span class="material-symbols-outlined text-[#DCA53F] mr-2">id_card</span> National ID Number</p>
                         <p class="border border-gray-300 w-130 h-10 px-3 rounded-xl flex items-center"> <c:out value="${user.nationalId}"/> </p>
                         <p class="mt-2 "> National ID Number Cannot Change </p>
                     </div>
-                    <button onclick="showAddress(this)" type="button" class="w-50 ml-12 block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
+                    <button id="newAddress" onclick="showAddress(this)" type="button" class="w-50 ml-12 block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">
                         Add new Address
                     </button>
                 </form:form>
@@ -191,7 +191,7 @@
                         <form:label cssClass="text-[1.1em] block mb-2 flex items-center" path="street"> <span class="material-symbols-outlined text-[#DCA53F] mr-2">add_road</span> Street</form:label>
                         <form:input cssClass="border border-gray-300 w-130 h-10 px-3 rounded-xl" path="street"/>
                     </div>
-                    <button class="w-50 ml-12 block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">Add Address</button>
+                    <button onclick="hideAddress()" class="w-50 ml-12 block  bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">Add Address</button>
                 </form:form>
 
             </div>

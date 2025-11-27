@@ -41,6 +41,7 @@ public class UserController {
             @ModelAttribute("register") User user,
             HttpSession session
     ) {
+
         if(session.getAttribute("user_id") != null) {
             return "redirect:/dashboard";
         }
@@ -61,10 +62,14 @@ public class UserController {
         if(result.hasErrors()){
             return "register_step1.jsp";
         }
+        if(session.getAttribute("user_id") != null) {
+            return "redirect:/dashboard";
+        }
         User target = userService.createUser(user, result);
         if(target == null){
             return "register_step1.jsp";
         }
+        session.setAttribute("step2", "yes");
         session.setAttribute("user_id", target.getId());
         return "redirect:/sign-up/step2";
     }
@@ -74,8 +79,8 @@ public class UserController {
             @ModelAttribute("address") Address address,
             HttpSession session
             ) {
-        if(session.getAttribute("user_id") != null) {
-            return "redirect:/dashboard";
+        if(session.getAttribute("user_id") == null) {
+                return "redirect:/dashboard";
         }
         return "register_step2.jsp";
     }
@@ -102,15 +107,12 @@ public class UserController {
 
     @GetMapping("/{name}/profile")
     public String profilePageStep1(
-            @ModelAttribute("register")  User user,
+            @ModelAttribute("user")  User user,
             @ModelAttribute("address")  Address address,
             @PathVariable("name") String name,
             HttpSession session,
             Model model
     ){
-        if(session.getAttribute("user_id") == null) {
-            return "redirect:/";
-        }
         User target = userService.getUserById((Long)session.getAttribute("user_id"));
         model.addAttribute("user", target);
         return "profile_page.jsp";
@@ -125,4 +127,64 @@ public class UserController {
         return userService.flush(session);
     }
 
+    @GetMapping("/flush")
+    public String flush(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @GetMapping("/{name}/profile/add-address")
+    public String addAddressPageStep(
+            @PathVariable("name") String name,
+            @ModelAttribute("address") Address address,
+            @ModelAttribute("user") User user
+    ){
+        return "redirect:/" + name + "/profile";
+    }
+
+    @PostMapping("/{name}/profile/add-address")
+    public String addAddressPageStep1(
+            @PathVariable("name") String name,
+            @Valid @ModelAttribute("address") Address address,
+            BindingResult result,
+            @ModelAttribute("user") User user,
+            HttpSession session
+    ){
+        if(result.hasErrors()){
+            return "profile_page.jsp";
+        }
+        User target = userService.getUserById((Long) session.getAttribute("user_id"));
+        address.setUser(target);
+        addressService.saveAddress(address);
+        return "redirect:/" + name + "/profile";
+    }
+
+    @GetMapping("/{name}/profile/edit")
+    public String editPageStep1(
+            @PathVariable("name") String name,
+            @Valid @ModelAttribute("address") Address address,
+            @ModelAttribute("user") User user,
+            HttpSession session
+    ){
+        return "redirect:/" + name + "/profile";
+    }
+
+    @PostMapping("/{name}/profile/edit")
+    public String editPageStep2(
+            @PathVariable("name") String name,
+            @ModelAttribute("address") Address address,
+            @Valid @ModelAttribute("user") User user,
+            BindingResult result,
+            HttpSession session
+    ){
+        if(result.hasErrors()){
+            return "profile_page.jsp";
+        }
+        User target = userService.getUserById((Long) session.getAttribute("user_id"));
+        target.setFirstname(user.getFirstname());
+        target.setLastname(user.getLastname());
+        target.setPhone(user.getPhone());
+        userService.saveUser(target);
+        return "redirect:/" + name + "/profile";
+    }
 }
