@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-function loadRequests(status) {
+function loadRequests(status, event) {
 
     document.querySelectorAll(".side-btn").forEach(btn => {
         btn.classList.remove("bg-white", "text-yellow-600");
@@ -26,11 +26,12 @@ function loadRequests(status) {
     document.querySelectorAll(".side-btn").forEach(btn => btn.classList.remove("active", "bg-white", "text-yellow-900"));
     event.target.classList.add("active", "bg-white", "text-yellow-900");
 
-    axios.get(`/requests?status=${status}`)
+    axios.get(`/dash/api?status=${status}`)
         .then(res => {
             const data = res.data;
-
             const container = document.getElementById("requestContainer");
+
+            console.log("DATA:", data);
 
             if (data.length === 0) {
                 container.innerHTML = `
@@ -44,29 +45,47 @@ function loadRequests(status) {
             }
 
             let html = `
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b">
-                                <th class="p-2">ID</th>
-                                <th class="p-2">Service</th>
-                                <th class="p-2">User</th>
-                                <th class="p-2">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+`;
 
             data.forEach(r => {
                 html += `
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="p-2">${r.id}</td>
-                            <td class="p-2">${r.serviceName}</td>
-                            <td class="p-2">${r.status}</td>
-                        </tr>
-                    `;
+        <div class="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition">
+
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                ${r.user.firstname} ${r.user.lastname}
+            </h2>
+
+            <div class="space-y-2 text-gray-600">
+
+                <p>
+                    <span class="font-semibold text-gray-700">Type:</span>
+                    ${r.type}
+                </p>
+
+                <p>
+                    <span class="font-semibold text-gray-700">Title:</span>
+                    ${r.title}
+                </p>
+
+                <p>
+                    <span class="font-semibold text-gray-700">Description:</span>
+                    ${r.description}
+                </p>
+
+                <p>
+                    <span class="font-semibold text-gray-700">Status:</span>
+                    ${r.status}
+                </p>
+
+            </div>
+
+        </div>
+    `;
             });
 
-            html += `</tbody></table>`;
+            html += `</div>`;
+
 
             container.innerHTML = html;
 

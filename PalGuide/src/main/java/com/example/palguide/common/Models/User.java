@@ -1,6 +1,7 @@
 package com.example.palguide.common.Models;
 
 import com.example.palguide.common.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -88,6 +89,7 @@ public class User {
     private Set<Address> addresses = new LinkedHashSet<>();
 
     @Setter
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Transaction> transactions = new LinkedHashSet<>();
 
