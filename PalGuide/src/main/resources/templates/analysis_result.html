@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document Analysis Result</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    </head>
+
+    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white">
+
+        <div class="flex flex-wrap justify-between items-center px-4 sm:px-8 py-3 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 sticky top-0 mb-10">
+
+            <div class="flex items-center ml-30 py-3">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
+                    <img class="w-7 block mx-auto" alt="logo" th:src="@{/img/government.png}"/>
+                </div>
+                <p class="ml-4 text-[1.2em]">PalGuide</p>
+            </div>
+
+            <div class="mr-30 flex items-center">
+
+                <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4"
+                   th:href="@{/}">
+                    <span class="material-symbols-outlined text-[#DCA53F]">home</span>
+                    <p class="ml-1 text-[1.1em] text-[#DCA53F]">Home</p>
+                </a>
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/request}"
+                   th:unless="${session.user_id == null}">
+                    <span class="material-symbols-outlined text-white">docs</span>
+                    <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                </a>
+
+                <div th:if="${session.user_id != null}" class="flex items-center">
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/my-requests}">
+                        <span class="material-symbols-outlined text-white">docs</span>
+                        <p class="ml-1 text-[1.1em] text-white">My Requests</p>
+                    </a>
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/analysis}">
+                        <span class="material-symbols-outlined text-white">upload</span>
+                        <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
+                    </a>
+                </div>
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/about}">
+                    <span class="material-symbols-outlined text-white">info</span>
+                    <p class="ml-1 text-[1.1em] text-white">About Us</p>
+                </a>
+
+                <div th:if="${session.user_id != null}" class="flex items-center">
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/{name}/profile(name=${session.user_id})}">
+                        <span class="material-symbols-outlined text-white">person</span>
+                        <p class="ml-1 text-[1.1em] text-white">Profile</p>
+                    </a>
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/dashboard/logout}">
+                        <span class="material-symbols-outlined text-white">logout</span>
+                        <p class="ml-1 text-[1.1em] text-white">Logout</p>
+                    </a>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+
+            <div class="text-center mb-12">
+                <h1 class="text-3xl font-semibold text-black mb-2">Document Analysis</h1>
+                <p class="text-gray-600">
+                    AI-powered step-by-step instructions based on your document
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-10">
+
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600
+                        flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white text-3xl">check_circle</span>
+                    </div>
+
+                    <div>
+                        <h2 class="text-xl font-semibold text-black">Analysis Complete</h2>
+                        <p class="text-gray-600">
+                            Document Type: <span th:text="${analysis.documentType}">Teaching Certificate</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded mb-8">
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-yellow-600 text-xl">warning</span>
+                        <div>
+                            <p class="text-yellow-900 font-medium mb-1">
+                                Estimated Processing Time:
+                                <span th:text="${analysis.estimatedTime}">3–5 business days</span>
+                            </p>
+                            <p class="text-yellow-800 text-sm">
+                                Please ensure all requirements are prepared before proceeding.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-black mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-yellow-600">description</span>
+                        Required Documents & Qualifications
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div th:each="req : ${analysis.requirements}"
+                             class="flex items-start gap-2 bg-gray-50 p-3 rounded-lg">
+                            <span class="material-symbols-outlined text-green-500">check_circle</span>
+                            <span class="text-gray-700" th:text="${req}">
+                    </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-black mb-4">Step-by-Step Process</h3>
+
+                    <div class="space-y-4">
+                        <div th:each="step,iter : ${analysis.steps}" class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600
+                                flex items-center justify-center text-white font-semibold">
+                                <span th:text="${iter.index + 1}">1</span>
+                            </div>
+
+                            <p class="text-gray-700 pt-1" th:text="${step}">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex flex-wrap gap-4 mb-10">
+                <a href="/analysis"
+                   class="flex-1 text-center bg-white border-2 border-yellow-600
+                  text-yellow-600 py-3 rounded-lg hover:bg-yellow-50 transition print:hidden">
+                    Analyze Another Document
+                </a>
+
+                <button onclick="window.print()"
+                        class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3
+                       rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition print:hidden">
+                    Print Instructions
+                </button>
+            </div>
+
+        </div>
+
+    </body>
+</html>

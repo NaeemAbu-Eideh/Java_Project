@@ -31,28 +31,28 @@
                 <p class="ml-4 text-[1.2em]">PalGuide</p>
             </div>
             <div class="mr-30 flex items-center">
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href= <c:out value="/dashboard"/>>
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href= <c:out value=""/>>
                     <span class="material-symbols-outlined text-white">home</span>
                     <p class="ml-1 text-[1.1em] text-white">Home</p>
                 </a>
 
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="request">
                     <span class="material-symbols-outlined text-white">docs</span>
                     <p class="ml-1 text-[1.1em] text-white">Request Service</p>
                 </a>
 
                 <c:if test="${ user_id != null}">
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="my-request">
                         <span class="material-symbols-outlined text-white">docs</span>
                         <p class="ml-1 text-[1.1em] text-white">My Requests</p>
                     </a>
 
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="analysis">
                         <span class="material-symbols-outlined text-white">upload</span>
                         <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
                     </a>
                 </c:if>
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="">
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="about">
                     <span class="material-symbols-outlined text-white">info</span>
                     <p class="ml-1 text-[1.1em] text-white">About Us</p>
                 </a>

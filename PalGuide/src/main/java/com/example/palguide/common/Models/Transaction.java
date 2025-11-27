@@ -43,7 +43,7 @@ public class Transaction {
     @ColumnDefault("'PENDING'")
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.PENDING;
 
     @Column(name = "created_at")
     private Instant createdAt;
