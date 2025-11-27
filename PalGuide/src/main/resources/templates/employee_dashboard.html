@@ -92,31 +92,31 @@
                 <div class="space-y-2 mb-8">
 
                     <button
-                            onclick="loadRequests('ALL')"
+                            onclick="loadRequests('ALL',event)"
                             class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
                        bg-white text-yellow-600 font-medium">
                         All Requests (<span id="countAll" th:text="${counts?.all ?: 0}">0</span>)
                     </button>
 
-                    <button onclick="loadRequests('PENDING')"
+                    <button onclick="loadRequests('PENDING',event)"
                             class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
                        text-white hover:bg-yellow-800">
                         Pending (<span id="countPending" th:text="${counts?.pending ?: 0}">0</span>)
                     </button>
 
-                    <button onclick="loadRequests('IN_PROGRESS')"
+                    <button onclick="loadRequests('IN_PROGRESS',event)"
                             class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
                        text-white hover:bg-yellow-800">
                         In Progress (<span id="countProgress" th:text="${counts?.inProgress ?: 0}">0</span>)
                     </button>
 
-                    <button onclick="loadRequests('COMPLETED')"
+                    <button onclick="loadRequests('COMPLETED',event)"
                             class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
                        text-white hover:bg-yellow-800">
                         Completed (<span id="countCompleted" th:text="${counts?.completed ?: 0}">0</span>)
                     </button>
 
-                    <button onclick="loadRequests('REJECTED')"
+                    <button onclick="loadRequests('REJECTED',event)"
                             class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
                        text-white hover:bg-yellow-800">
                         Rejected (<span id="countRejected" th:text="${counts?.rejected ?: 0}">0</span>)
@@ -125,7 +125,6 @@
                 </div>
 
             </aside>
-
 
 
             <div class="flex-1 p-4 sm:p-6 lg:p-12 ml-0 transition-all">
@@ -166,13 +165,48 @@
                     </div>
 
 
-                    <div class="bg-white rounded-lg shadow-md p-12 text-center">
-                        <span class="material-symbols-outlined text-gray-300 text-7xl block mb-4">schedule</span>
-                        <h3 class="text-black mb-2">No Requests Found</h3>
-                        <p class="text-gray-600">No service requests have been submitted yet.</p>
+                    <!--                    <div th:unless="${!transaction.isEmpty()}" class="bg-white rounded-lg shadow-md p-12 text-center">-->
+                    <!--                        <span class="material-symbols-outlined text-gray-300 text-7xl block mb-4">schedule</span>-->
+                    <!--                        <h3 class="text-black mb-2">No Requests Found</h3>-->
+                    <!--                        <p class="text-gray-600">No service requests have been submitted yet.</p>-->
+                    <!--                    </div>-->
+
+                    <div id="requestContainer" class="mt-6">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+                            <div th:each="trans : ${transaction}"
+                                 class="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition">
+
+                                <h2 class="text-xl font-semibold text-gray-800 mb-2"
+                                    th:text="${trans.user.firstname} + ' ' + ${trans.user.lastname}"></h2>
+
+                                <div class="space-y-2 text-gray-600">
+
+                                    <p>
+                                        <span class="font-semibold text-gray-700">Type:</span>
+                                        <span th:text="${trans.type}"></span>
+                                    </p>
+
+                                    <p>
+                                        <span class="font-semibold text-gray-700">Title:</span>
+                                        <span th:text="${trans.title}"></span>
+                                    </p>
+
+                                    <p>
+                                        <span class="font-semibold text-gray-700">Description:</span>
+                                        <span th:text="${trans.description}"></span>
+                                    </p>
+
+                                    <p>
+                                        <span class="font-semibold text-gray-700">Status:</span>
+                                        <span th:text="${trans.status}"></span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
