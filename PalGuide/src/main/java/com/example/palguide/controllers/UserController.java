@@ -102,6 +102,7 @@ public class UserController {
 
     @GetMapping("/{name}/profile")
     public String profilePageStep1(
+            @ModelAttribute("register")  User user,
             @PathVariable("name") String name,
             HttpSession session,
             Model model
@@ -109,10 +110,11 @@ public class UserController {
         if(session.getAttribute("user_id") == null) {
             return "redirect:/";
         }
-        User user = userService.getUserById((Long)session.getAttribute("user_id"));
-        model.addAttribute("user", user);
+        User target = userService.getUserById((Long)session.getAttribute("user_id"));
+        model.addAttribute("user", target);
         return "profile_page.jsp";
     }
+
 
     @GetMapping("/{name}/profile/logout")
     public String logoutPage(
