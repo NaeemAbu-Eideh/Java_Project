@@ -51,7 +51,7 @@
                         <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
                     </a>
                 </c:if>
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="about">
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/about-us">
                     <span class="material-symbols-outlined text-white">info</span>
                     <p class="ml-1 text-[1.1em] text-white">About Us</p>
                 </a>

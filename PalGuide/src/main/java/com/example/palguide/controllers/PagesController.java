@@ -132,4 +132,15 @@ public class PagesController {
         return "employee_dashboard.html";
     }
 
+    @GetMapping("/about-us")
+    public String aboutUs(HttpSession session) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
+        if (session.getAttribute("user_id") == null) {
+            return "redirect:/login";
+        }
+        return "about_us.jsp";
+    }
+
 }
