@@ -87,11 +87,8 @@
             </div>
             <p class="text-center mb-3">No Requests Yet</p>
             <p class="text-center text-gray-700 mb-5">You haven't submitted any service requests yet.</p>
-
-            <button class="w-50 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all">Make Request</button>
+            <a class="text-center w-50 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all" href="">Make Request</a>
 
         </div>
-
-
     </body>
 </html>
