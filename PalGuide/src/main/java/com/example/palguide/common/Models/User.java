@@ -53,8 +53,6 @@ public class User {
 
     @Setter
     @Transient
-    @NotBlank(message = UserMessage.NOTBLANK)
-    @Size(min = 8, message = UserMessage.CONFIRMPASSWORD)
     private String confirmPassword;
 
     @Setter
@@ -94,6 +92,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Transaction> transactions = new LinkedHashSet<>();
 
+    @Setter
+    private String resetToken;
 
 
     @PrePersist
