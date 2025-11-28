@@ -36,10 +36,19 @@
                     <p class="ml-1 text-[1.1em] text-white">Home</p>
                 </a>
 
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/request">
-                    <span class="material-symbols-outlined text-white">docs</span>
-                    <p class="ml-1 text-[1.1em] text-white">Request Service</p>
-                </a>
+                <c:if test="${user.role == 'USER'}">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/request">
+                        <span class="material-symbols-outlined text-white">docs</span>
+                        <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                    </a>
+                </c:if>
+
+                <c:if test="${user.role != 'USER'}">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/dash">
+                        <span class="material-symbols-outlined text-white">docs</span>
+                        <p class="ml-1 text-[1.1em] text-white">Request Dashboard</p>
+                    </a>
+                </c:if>
 
                 <c:if test="${ user_id != null}">
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="my-request">
@@ -52,7 +61,7 @@
                         <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
                     </a>
                 </c:if>
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="about">
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/about-us">
                     <span class="material-symbols-outlined text-white">info</span>
                     <p class="ml-1 text-[1.1em] text-white">About Us</p>
                 </a>

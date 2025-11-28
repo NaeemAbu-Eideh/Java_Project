@@ -147,7 +147,7 @@ function loadRequests(status, event) {
                 </div>
             </dl>
 
-            <div class="mt-5 flex items-center justify-between border-t pt-3">
+            <div class="mt-5 flex items-center justify-between border-t border-gray-300 pt-3">
                 <p class="text-xs text-gray-400">ID #${r.id}</p>
 
                 <a href="/requests/${r.id}"
