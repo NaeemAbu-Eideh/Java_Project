@@ -9,6 +9,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +23,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JavaMailSender mailSender;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -96,4 +101,43 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
+    public boolean generateResetToken(String email) {
+        User user = findByEmail(email);
+        if (user == null) return false;
+
+        String token = java.util.UUID.randomUUID().toString();
+        user.setResetToken(token);
+        userRepository.save(user);
+
+        String resetUrl = "http://localhost:8081/reset?token=" + token;
+
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(email);
+            message.setSubject("Password Reset Request");
+            message.setText("Hello,\n\nClick the link below to reset your password:\n"
+                    + resetUrl + "\n\nIf you did not request this, ignore this email.");
+
+            mailSender.send(message);
+        } catch (Exception e) {
+            System.out.println("Email failed: " + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public User findByResetToken(String token) {
+        return userRepository.findByResetToken(token).orElse(null);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        user.setPassword(hashed);
+        user.setResetToken(null);
+        userRepository.save(user);
+    }
+
 }
