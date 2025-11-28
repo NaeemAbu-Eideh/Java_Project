@@ -64,7 +64,7 @@
                 <div class="flex justify-between items-center text-sm">
                     <div class="flex items-center space-x-2">
                         <label class="flex items-center gap-2 text-gray-600 cursor-pointer">
-                            <input type="checkbox" class="w-4 h-4 text-yellow-600 border-gray-300 rounded"/>
+                            <input type="checkbox" name="remember" class="w-4 h-4 text-yellow-600 border-gray-300 rounded" th:checked="${login.email != null && login.email != ''}"/>
                             Remember me
                         </label>
                     </div>

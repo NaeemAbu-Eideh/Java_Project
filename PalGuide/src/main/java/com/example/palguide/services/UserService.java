@@ -3,12 +3,13 @@ package com.example.palguide.services;
 import com.example.palguide.common.Models.User;
 import com.example.palguide.common.Models.UserLogin;
 import com.example.palguide.repositories.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -28,7 +29,8 @@ public class UserService {
         return userRepository.findByEmail(email).orElse(null);
     }
 
-    public String login(@Valid @ModelAttribute("login") UserLogin userLogin, BindingResult bindingResult, HttpSession session) {
+    public String login(@Valid @ModelAttribute("login") UserLogin userLogin, BindingResult bindingResult, HttpSession session, String remember,
+                        HttpServletResponse response) {
         User user2 = findByEmail(userLogin.getEmail());
 
         if (bindingResult.hasErrors()) {
@@ -46,6 +48,20 @@ public class UserService {
             session.setAttribute("user_id", user2.getId());
         }
         session.setAttribute("user_id", user2.getId());
+
+        if (remember != null) {
+            Cookie cookie = new Cookie("rememberEmail", user2.getEmail());
+            cookie.setMaxAge(60 * 60 * 24 * 30);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        } else {
+            Cookie cookie = new Cookie("rememberEmail", "");
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
+
         return "redirect:/dashboard";
     }
 
@@ -56,18 +72,18 @@ public class UserService {
             return null;
         }
         System.out.println("password " + user.getConfirmPassword());
-        if(!user.getPassword().equals(user.getConfirmPassword())) {
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
             result.rejectValue("confirmPassword", "Matches", "The password and confirm password does not match");
             return null;
         }
         System.out.println("naeem");
         System.out.println("password " + user.getConfirmPassword());
-        String password =  BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        String password = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(password);
         return saveUser(user);
     }
 
-    public  User getUserById(Long id) {
+    public User getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElse(null);
     }
@@ -77,7 +93,7 @@ public class UserService {
         return "redirect:/";
     }
 
-    public User saveUser(User user){
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 }
