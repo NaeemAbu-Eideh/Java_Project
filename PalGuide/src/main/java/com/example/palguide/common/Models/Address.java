@@ -1,5 +1,6 @@
 package com.example.palguide.common.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -42,6 +43,7 @@ public class Address {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
