@@ -100,12 +100,85 @@
             </div>
         </div>
 
-        <div class="pt-15 h-90 bg-white">
+        <div class="pt-15 h-110 bg-white">
             <p class="mb-10 text-center text-[1.4em]">Our Core Principles</p>
-            
+            <div class="">
+                <div class="flex w-350 mx-auto justify-between">
+                    <div class="flex">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-[#EAA900] to-[#D68E00] mb-7 mt-3">
+                            <span class="material-symbols-outlined text-white">circle_circle</span>
+                        </div>
+                        <div class="ml-3 w-150 mt-2">
+                            <p class="text-[1.4em] font-bold">Our Mission</p>
+                            <p class="text-[1.2em]">To provide accessible, efficient, and transparent government services to all citizens through innovative digital solutions.</p>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-[#EAA900] to-[#D68E00] mb-7 mt-3">
+                            <span class="material-symbols-outlined text-white">group</span>
+                        </div>
+                        <div class="ml-3 w-150 mt-2">
+                            <p class="text-[1.4em] font-bold">Our Vision</p>
+                            <p class="text-[1.2em]">A future where every citizen can access government services seamlessly, anytime and anywhere, with full transparency and accountability.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex w-350 mt-7 mx-auto justify-between">
+                    <div class="flex">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-[#EAA900] to-[#D68E00] mb-7 mt-3">
+                            <span class="material-symbols-outlined text-white">license</span>
+                        </div>
+                        <div class="ml-3 w-150 mt-2">
+                            <p class="text-[1.4em] font-bold">Our Values</p>
+                            <p class="text-[1.2em]">Integrity, transparency, innovation, and citizen-first approach guide everything we do in serving our community.</p>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-[#EAA900] to-[#D68E00] mb-7 mt-3">
+                            <span class="material-symbols-outlined text-white">language</span>
+                        </div>
+                        <div class="ml-3 w-150 mt-2">
+                            <p class="text-[1.4em] font-bold">Our Reach</p>
+                            <p class="text-[1.2em]">Serving millions of citizens nationwide with a commitment to continuous improvement and technological advancement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-
+        <div class="pt-15 h-100">
+            <p class="mt-10 text-center">Our Story</p>
+            <p class="mt-10 w-300 text-[1.1em] mx-auto"><span>Founded in 2020, the Government Services Portal was established to modernize and streamline how citizens interact with government services. What started as a simple online form system has evolved into a comprehensive digital platform serving millions of citizens.</span><br><br><span>Our journey began with a simple question: "How can we make government services more accessible and efficient for everyone?" This question led to the development of our integrated platform that brings together passport services, national ID processing, document verification, and much more.</span><br><br><span>Today, we continue to innovate with cutting-edge technology including AI-powered document analysis, real-time request tracking, and enhanced security measures to protect citizen data. Our commitment remains unchanged: to serve our citizens with excellence and integrity.</span></p>
+        </div>
+        <div class="pt-15 mt-10 h-90 bg-gradient-to-r bg-gradient-to-r from-yellow-600 to-yellow-500">
+            <p class="text-center text-white mb-10">Contact Us</p>
+            <div class="flex justify-around w-300 mx-auto">
+                <div class="w-70">
+                    <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-[50%] bg-white border-2 border-yellow-300 mb-3 mt-3">
+                        <span class="material-symbols-outlined text-yellow-600">phone</span>
+                    </div>
+                    <p class="mt-3 text-center text-white">Phone</p>
+                    <p class="mt-1 text-center text-white">1-800-GOV-SERV</p>
+                    <p class="mt-1 text-center text-white">Sun-Thr, 8AM-2PM</p>
+                </div>
+                <div class="w-70">
+                    <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-[50%] bg-white border-2 border-yellow-300 mb-3 mt-3">
+                        <span class="material-symbols-outlined text-yellow-600">email</span>
+                    </div>
+                    <p class="mt-3 text-center text-white">Email</p>
+                    <p class="mt-1 text-center text-white">support@govservices.gov</p>
+                    <p class="mt-1 text-center text-white">24/7 Response</p>
+                </div>
+                <div class="w-70">
+                    <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-[50%] bg-white border-2 border-yellow-300 mb-3 mt-3">
+                        <span class="material-symbols-outlined text-yellow-600">location_on</span>
+                    </div>
+                    <p class="mt-3 text-center text-white">Address</p>
+                    <p class="mt-1 text-center text-white">123 Government Plaza</p>
+                    <p class="mt-1 text-center text-white">Capital City, 12345</p>
+                </div>
+            </div>
+        </div>
 
     </body>
 </html>
