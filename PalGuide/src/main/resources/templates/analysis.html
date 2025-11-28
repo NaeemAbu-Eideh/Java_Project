@@ -29,17 +29,18 @@
                 </a>
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
-                   th:href="@{/request}"
-                   th:unless="${session.user_id == null} or ${user.role != 'USER'}"> <span
-                        class="material-symbols-outlined text-white">docs</span>
+                   th:href="@{/request}" th:if="${session.user_id != null and #strings.toString(user.role) == 'USER'}">
+                    <span class="material-symbols-outlined text-white">docs</span>
                     <p class="ml-1 text-[1.1em] text-white">Request Service</p>
                 </a>
 
+
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
-                   th:href="@{/dash}" th:unless="${session.user_id == null} or ${user.role == 'USER'}"> <span
-                        class="material-symbols-outlined text-white">docs</span>
-                    <p class="ml-1 text-[1.1em] text-white">Requests Dashboard</p>
+                   th:href="@{/dash}" th:if="${session.user_id != null and #strings.toString(user.role) != 'USER'}">
+                    <span class="material-symbols-outlined text-white">docs</span>
+                    <p class="ml-1 text-[1.1em] text-white">Request Dashboard</p>
                 </a>
+
 
                 <div th:if="${session.user_id != null}" class="flex items-center">
 
