@@ -90,14 +90,59 @@
             <p class="mt-4">Track the status of all your service requests</p>
         </div>
 
-        <div class="pt-10 mt-10 w-400 h-80 mx-auto bg-white shadow-md">
+        <div class="pt-10 mb-5 mt-10 w-400 h-80 mx-auto bg-white shadow-md">
             <div class="mt-5 mb-4 h-15 w-15 bg-gray-300 rounded-[50%] mx-auto flex items-center justify-center">
                 <span class="clock-icon material-symbols-outlined text-white">pace</span>
             </div>
-            <p class="text-center mb-3">No Requests Yet</p>
-            <p class="text-center text-gray-700 mb-5">You haven't submitted any service requests yet.</p>
+            <c:if test="${user.transactions == null}">
+                <p class="text-center mb-3">No Requests Yet</p>
+                <p class="text-center text-gray-700 mb-5">You haven't submitted any service requests yet.</p>
+            </c:if>
+            <c:if test="${user.transactions != null}">
+                <p class="text-center mb-5">Add new Request</p>
+            </c:if>
             <a class="text-center w-50 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all" href="/request">Make Request</a>
-
         </div>
+
+        <c:if test="${user.transactions != null}">
+            <div class="w-400 mx-auto mt-10">
+                <p class="text-2xl mb-5 font-bold">Request List:</p>
+                <div>
+                    <c:forEach items="${user.transactions}" var="request">
+                        <div class="shadow-md bg-gray-100 w-100 pt-2 rounded-2xl mb-5 mr-5">
+                            <div class="flex justify-between w-90 mx-auto">
+                                <p class="text-gray-700 text-[0.8em]"><c:out value="${request.createdAt}"/></p>
+                                <div class="flex rounded-2xl bg-blue-200 items-center">
+                                    <div class="bg-blue-700 w-2 h-2 rounded-[50%] ml-2"></div>
+                                    <p class="text-blue-700 text-[0.8em] mr-2 ml-2"><c:out value="${request.status}"/></p>
+                                </div>
+                            </div>
+                            <p class="font-bold text-[1.3em] w-90 mx-auto"><c:out value="${request.user.firstname}"/> <c:out value="${request.user.firstname}"/></p>
+                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.title}"/></p>
+                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-3">Title</p>
+                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.title}"/></p>
+                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-3">Description</p>
+                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.description}"/></p>
+                            <div class="flex justify-between w-90 mx-auto mt-3">
+                                <div>
+                                    <p class="text-gray-700 text-[0.8em]mt-3">Amount</p>
+                                    <p class="text-green-500 text-[0.8em]mt-2"><c:out value="${request.amount} USD"/></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-700 text-[0.8em]mt-3">Payment</p>
+                                    <p class="text-gray-700 text-[0.8em]mt-2"><c:out value="${request.paymentStatus}"/></p>
+                                </div>
+                            </div>
+                            <hr class="mt-3">
+                            <div class="flex justify-between w-90 mx-auto">
+                                <p class="text-gray-700 text-[0.8em] mt-2">ID #<c:out value="${request.id}"/></p>
+                                <a class="text-blue-600 text-[0.8em] mt-2 flex items-center">View details <span class="material-symbols-outlined text-blue-600">arrow_forward</span></a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </c:if>
+
     </body>
 </html>
