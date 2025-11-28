@@ -51,7 +51,7 @@
                 </c:if>
 
                 <c:if test="${ user_id != null}">
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="my-request">
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/my-requests">
                         <span class="material-symbols-outlined text-white">docs</span>
                         <p class="ml-1 text-[1.1em] text-white">My Requests</p>
                     </a>
@@ -128,6 +128,12 @@
                     <p class="mx-auto flex items-center justify-center border bg-gray-200 rounded-2xl h-14 w-30 text-[1.3em]">
                         <c:if test="${user.role == 'USER'}">
                             <c:out value="Citizen"/>
+                        </c:if>
+                        <c:if test="${user.role == 'Gov'}">
+                            <c:out value="Government"/>
+                        </c:if>
+                        <c:if test="${user.role == 'Admin'}">
+                            <c:out value="Admin"/>
                         </c:if>
                     </p>
                 </div>
