@@ -2,8 +2,10 @@ package com.example.palguide.controllers;
 
 import com.example.palguide.common.Models.ServiceDoc;
 import com.example.palguide.common.Models.ServiceStep;
+import com.example.palguide.common.Models.User;
 import com.example.palguide.services.ServiceDocService;
 import com.example.palguide.services.ServiceStepService;
+import com.example.palguide.services.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -30,6 +32,8 @@ public class AiController {
     ServiceStepService serviceStepService;
     @Autowired
     ServiceDocService serviceDocService;
+    @Autowired
+    UserService userService;
 
     @Value("${gemini.api.key}")
     private String apiKey;
@@ -40,11 +44,12 @@ public class AiController {
             attributes.addFlashAttribute("message", "You are not logged in");
             return "redirect:/login";
         }
+        model.addAttribute(userService.getUserById((Long) session.getAttribute("user_id")));
         return "analysis.html";
     }
 
     @PostMapping("/analysis")
-    public String analyze(@RequestParam("file") MultipartFile file, Model model) {
+    public String analyze(@RequestParam("file") MultipartFile file, Model model,HttpSession session) {
 
         try {
             OkHttpClient client = new OkHttpClient();
@@ -152,6 +157,7 @@ public class AiController {
 
 
             model.addAttribute("analysis", step);
+            model.addAttribute(userService.getUserById((Long) session.getAttribute("user_id")));
 
             return "analysis_result.html";
 

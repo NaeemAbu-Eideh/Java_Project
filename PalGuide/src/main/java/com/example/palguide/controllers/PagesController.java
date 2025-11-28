@@ -77,13 +77,19 @@ public class PagesController {
 
 
     @GetMapping("/request")
-    public String request(HttpSession session) {
+    public String request(HttpSession session,Model model) {
         if(session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
         if(session.getAttribute("user_id") == null) {
             return "redirect:/login";
         }
+
+        User user =(userService.getUserById((Long) session.getAttribute("user_id")));
+        if (user.getRole() != Role.USER) {
+            return "redirect:/dashboard";
+        }
+
         return "requestService.html";
     }
 
@@ -119,7 +125,7 @@ public class PagesController {
             return "redirect:/login";
         }
         User user = userService.getUserById((Long) session.getAttribute("user_id"));
-        if (user.getRole() != Role.Admin) {
+        if (user.getRole() != Role.Admin && user.getRole() != Role.Gov) {
             redirectAttributes.addFlashAttribute("message", "You are not allowed to access this page!");
             return "redirect:/home";
         }

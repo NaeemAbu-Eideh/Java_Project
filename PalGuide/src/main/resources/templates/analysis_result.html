@@ -3,14 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>Document Analysis Result</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     </head>
 
     <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white">
 
-        <div class="flex flex-wrap justify-between items-center px-4 sm:px-8 py-3 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 sticky top-0 mb-10">
+        <div class="flex flex-wrap justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 sticky top-0 mb-10">
 
             <div class="flex items-center ml-30 py-3">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
@@ -29,9 +29,15 @@
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                    th:href="@{/request}"
-                   th:unless="${session.user_id == null}">
-                    <span class="material-symbols-outlined text-white">docs</span>
+                   th:unless="${session.user_id == null} or ${user.role != 'USER'}"> <span
+                        class="material-symbols-outlined text-white">docs</span>
                     <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                </a>
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/dash}" th:unless="${session.user_id == null} or ${user.role == 'USER'}"> <span
+                        class="material-symbols-outlined text-white">docs</span>
+                    <p class="ml-1 text-[1.1em] text-white">Requests Dashboard</p>
                 </a>
 
                 <div th:if="${session.user_id != null}" class="flex items-center">
@@ -50,7 +56,7 @@
                 </div>
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
-                   th:href="@{/about}">
+                   th:href="@{/about-us}">
                     <span class="material-symbols-outlined text-white">info</span>
                     <p class="ml-1 text-[1.1em] text-white">About Us</p>
                 </a>

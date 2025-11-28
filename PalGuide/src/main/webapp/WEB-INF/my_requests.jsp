@@ -37,10 +37,19 @@
                 </a>
 
                 <c:if test="${ user_id != null}">
+                    <c:if test="${user.role == 'USER'}">
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/request">
                         <span class="material-symbols-outlined text-white">docs</span>
                         <p class="ml-1 text-[1.1em] text-white">Request Service</p>
                     </a>
+                    </c:if>
+
+                    <c:if test="${user.role != 'USER'}">
+                        <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/dash">
+                            <span class="material-symbols-outlined text-white">docs</span>
+                            <p class="ml-1 text-[1.1em] text-white">Request Dashboard</p>
+                        </a>
+                    </c:if>
 
                     <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4" href="">
                         <span class="material-symbols-outlined text-[#DCA53F]">docs</span>
@@ -87,7 +96,7 @@
             </div>
             <p class="text-center mb-3">No Requests Yet</p>
             <p class="text-center text-gray-700 mb-5">You haven't submitted any service requests yet.</p>
-            <a class="text-center w-50 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all" href="">Make Request</a>
+            <a class="text-center w-50 block mx-auto bg-gradient-to-r from-yellow-600 to-yellow-500 text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600 transition-all" href="/request">Make Request</a>
 
         </div>
     </body>

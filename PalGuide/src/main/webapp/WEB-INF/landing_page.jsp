@@ -22,13 +22,15 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
     </head>
     <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white items-center justify-center">
-        <div class="flex justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600">
+        <div class="flex justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 sticky top-0 mb-10">
+
             <div class="flex items-center ml-30 py-3">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
                     <img class="w-7  block mx-auto" alt="logo" src="/img/government.png"/>
                 </div>
                 <p class="ml-4 text-[1.2em]">PalGuide</p>
             </div>
+
             <div class="mr-30 flex items-center">
                 <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4" href="">
                     <span class="material-symbols-outlined text-[#DCA53F]">home</span>
@@ -36,10 +38,19 @@
                 </a>
 
                 <c:if test="${ user_id != null}">
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/request">
-                        <span class="material-symbols-outlined text-white">docs</span>
-                        <p class="ml-1 text-[1.1em] text-white">Request Service</p>
-                    </a>
+                    <c:if test="${user.role == 'USER'}">
+                        <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/request">
+                            <span class="material-symbols-outlined text-white">docs</span>
+                            <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                        </a>
+                    </c:if>
+
+                    <c:if test="${user.role != 'USER'}">
+                        <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/dash">
+                            <span class="material-symbols-outlined text-white">docs</span>
+                            <p class="ml-1 text-[1.1em] text-white">Request Dashboard</p>
+                        </a>
+                    </c:if>
 
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" href="/my-requests">
                         <span class="material-symbols-outlined text-white">docs</span>
