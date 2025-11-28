@@ -45,8 +45,9 @@ function loadRequests(status, event) {
             }
 
             let html = `
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 opacity-0 transition-opacity duration-500" id="gridWrapper">
 `;
+
 
             data.forEach(r => {
 
@@ -166,5 +167,8 @@ function loadRequests(status, event) {
 
             container.innerHTML = html;
 
+            setTimeout(() => {
+                document.getElementById("gridWrapper").classList.remove("opacity-0");
+            }, 10);
         });
 }
