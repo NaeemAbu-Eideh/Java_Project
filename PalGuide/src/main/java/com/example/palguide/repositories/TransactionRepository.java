@@ -11,7 +11,9 @@ import java.util.List;
 public interface TransactionRepository  extends CrudRepository<Transaction, Long> {
     List<Transaction> findAll();
 
-    List<Transaction> findByStatusAndUser_Id(Status status, Long id);
+    List<Transaction> findByStatus(Status status);
+
+    long countByStatus(Status status);
 
 
 }

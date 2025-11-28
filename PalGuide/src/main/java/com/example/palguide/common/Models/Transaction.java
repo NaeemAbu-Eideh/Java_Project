@@ -1,9 +1,11 @@
 package com.example.palguide.common.Models;
 
+import com.example.palguide.common.enums.Payment;
 import com.example.palguide.common.enums.Status;
 import com.example.palguide.common.enums.Type;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,13 +19,13 @@ import java.util.Set;
 @Entity
 @Table(name = "transaction")
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Setter
-    @Size(max = 155, message = TransactionMessage.TITLE)
-    @NotBlank(message = UserMessage.NOTBLANK)
+    @NotBlank(message = TransactionMessage.TITLE)
     @Column(name = "title", nullable = false, length = 155)
     private String title;
 
@@ -33,17 +35,25 @@ public class Transaction {
     private String description;
 
     @Setter
-    @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "type", nullable = false)
+    @NotNull(message = "Type cannot be null")
     @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     private Type type;
 
     @Setter
-    @NotBlank(message = UserMessage.NOTBLANK)
-    @ColumnDefault("'PENDING'")
-    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private Status status = Status.PENDING;
+
+    @Setter
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_status", nullable = false)
+    private Payment paymentStatus = Payment.NOT_PAID;
+
+    @Setter
+    @NotNull(message = "Amount is required")
+    @Column(name = "amount", nullable = false)
+    private Long amount;
 
     @Column(name = "created_at")
     private Instant createdAt;
@@ -65,5 +75,4 @@ public class Transaction {
     protected void onUpdate() {
         updatedAt = Instant.now();
     }
-
 }

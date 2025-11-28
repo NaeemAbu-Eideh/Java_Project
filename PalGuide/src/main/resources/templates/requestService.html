@@ -81,85 +81,94 @@
             <h1 class="text-bold text-3xl mt-10">Request a Service</h1>
             <p class="text-gray-500 mt-5 text-center text-xl">Select a service and fill out the required information</p>
 
-            <div x-data="{ selectedService: null, serviceDetails: { name: '', formHtml: '' } }" class="mt-5 w-50/100">
+            <div x-data="serviceRequest()" class="mt-5 w-50/100">
 
-                <div x-show="!selectedService" class="grid grid-cols-3 gap-4">
-                    <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer bg-white"
-                         @click="selectedService = 'passport'; serviceDetails.name = 'Passport Renewal';">
+                <!-- Service choices -->
+                <div x-show="!selected" class="grid grid-cols-3 gap-4">
+
+                    <!-- Passport -->
+                    <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 bg-white cursor-pointer"
+                         @click="choose('PASSPORT_RENEWAL', 'Passport Renewal', 50)">
                         <button class="rounded-xl bg-gradient-to-r from-yellow-600 to-yellow-500 p-5">
                             <ion-icon name="document-text-outline" class="text-white text-4xl"></ion-icon>
                         </button>
                         <p class="text-xl mt-4">Passport Renewal</p>
                     </div>
 
-                    <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer bg-white"
-                         @click="selectedService = 'id'; serviceDetails.name = 'National ID Renewal';">
+                    <!-- National ID -->
+                    <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 bg-white cursor-pointer"
+                         @click="choose('ID_RENEWAL', 'National ID Renewal', 30)">
                         <button class="rounded-xl bg-gradient-to-r from-yellow-600 to-yellow-500 p-5">
                             <ion-icon name="people-outline" class="text-white text-4xl"></ion-icon>
                         </button>
                         <p class="text-xl mt-4">National ID Renewal</p>
                     </div>
 
-                    <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 transition cursor-pointer bg-white"
-                         @click="selectedService = 'birthCert'; serviceDetails.name = 'Birth Certificate Request';">
+                    <!-- Birth Certificate -->
+                    <div class="border-2 p-10 border-gray-300 rounded-xl flex flex-col items-center hover:ring-2 hover:ring-yellow-500 bg-white cursor-pointer"
+                         @click="choose('BIRTH_CERTIFICATE', 'Birth Certificate Request', 20)">
                         <button class="rounded-xl bg-gradient-to-r from-yellow-600 to-yellow-500 p-5">
                             <ion-icon name="newspaper-outline" class="text-white text-4xl"></ion-icon>
                         </button>
                         <p class="text-xl mt-4">Birth Certificate</p>
                     </div>
+
                 </div>
 
-                <div x-show="selectedService" class="mt-8 p-6 bg-white shadow-lg rounded-xl w-full max-w-lg mx-auto">
+                <div x-show="selected" class="mt-8 p-6 bg-white shadow-lg rounded-xl w-full max-w-lg mx-auto">
+
                     <div class="flex justify-between">
-                        <h2 class="text-2xl font-semibold mb-4" x-text="serviceDetails.name"></h2>
-                        <button @click="selectedService = null"
-                                class="text-gray-500 hover:text-gray-700 mb-4 flex items-center">
-                            <span class="ml-1 text-yellow-600 hover:text-yellow-800 cursor-pointer">Go Back</span>
+                        <h2 class="text-2xl font-semibold mb-4" x-text="name"></h2>
+                        <button @click="reset()"
+                                class="text-gray-500 hover:text-gray-700 mb-4">
+                            <span class="text-yellow-600 hover:text-yellow-800">Go Back</span>
                         </button>
                     </div>
 
-                    <form method="post" class="space-y-4">
-                        <input type="hidden" name="serviceName" :value="selectedService"/>
+                    <form method="post" action="/request-service" class="space-y-4">
 
-                        <template x-if="selectedService === 'passport'">
-                            <div>
-                                <label for="passportNumber" class="block text-gray-700 mb-1">Current Passport
-                                    Number</label>
-                                <input id="passportNumber" type="text" name="passportNumber"
-                                       class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                                       placeholder="">
+                        <input type="hidden" name="title" :value="name">
+                        <input type="hidden" name="type" :value="type">
+                        <input type="hidden" name="amount" :value="amount">
+                        <input type="hidden" name="description" :value="'Request for ' + name">
 
-                                <label class="block text-gray-700 mb-1 mt-2">Expiry Date</label>
-                                <input type="date" name="expiryDate"
-                                       class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                                       placeholder="mm/dd/yyyy">
-
-                                <label class="block text-gray-700 mb-1 mt-2">Reason for Renewal</label>
-                                <input type="text" name="reason"
-                                       class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                            </div>
-                        </template>
-
-                        <template x-if="selectedService === 'id'">
-                            <div>
-                                <label for="idNumber" class="block text-gray-700 mb-1">Current ID Number</label>
-                                <input id="idNumber" type="text" name="idNumber"
-                                       class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                            </div>
-                        </template>
-
-                        <label class="block text-gray-700 mb-1 mt-2">Additional Notes (Optional)</label>
+                        <label class="block text-gray-700 mb-1">Additional Notes (Optional)</label>
                         <textarea name="notes"
-                                  class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                                  rows="4" placeholder="Any additional information..."></textarea>
+                                  class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-yellow-500"
+                                  rows="4"></textarea>
 
                         <button type="submit"
                                 class="w-full bg-yellow-600 text-white font-medium py-2 rounded-lg hover:bg-yellow-700 transition">
-                            Submit Request
+                            Submit & Proceed to Payment
                         </button>
+
                     </form>
                 </div>
             </div>
+
+        </div>
+        <script>
+            function serviceRequest() {
+                return {
+                    selected: false,
+                    name: '',
+                    type: '',
+                    amount: 0,
+
+                    choose(type, name, amount) {
+                        this.selected = true;
+                        this.type = type;
+                        this.name = name;
+                        this.amount = amount;
+                    },
+
+                    reset() {
+                        this.selected = false;
+                    }
+                }
+            }
+        </script>
+
         </div>
     </body>
 </html>
