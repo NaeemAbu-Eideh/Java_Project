@@ -3,7 +3,6 @@ package com.example.palguide.controllers;
 import com.example.palguide.common.Models.Address;
 import com.example.palguide.common.Models.User;
 import com.example.palguide.common.Models.UserLogin;
-import com.example.palguide.common.enums.Role;
 import com.example.palguide.services.AddressService;
 import com.example.palguide.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Base64;
-import java.util.Date;
 
 
 @Controller
@@ -31,19 +28,23 @@ public class UserController {
 
 
     @GetMapping("/login")
-    public String index(@ModelAttribute("login") UserLogin userLogin, HttpSession session) {
-        if(session.getAttribute("user_id") == "-1") {
+    public String index(@CookieValue(value = "rememberEmail", required = false) String rememberedEmail, @ModelAttribute("login") UserLogin userLogin, HttpSession session, Model model) {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
-        if(session.getAttribute("user_id") != null) {
+        if (session.getAttribute("user_id") != null) {
             return "redirect:/dashboard";
         }
+        UserLogin login = new UserLogin();
+        login.setEmail(rememberedEmail); // autofill if exists
+        model.addAttribute("login", login);
         return "login.html";
     }
 
     @PostMapping("/login/signin")
-    public String login(@Valid @ModelAttribute("login") UserLogin userLogin, BindingResult result, HttpSession session) {
-        return userService.login(userLogin,result,session);
+    public String login(@Valid @ModelAttribute("login") UserLogin userLogin, BindingResult result, HttpSession session, @RequestParam(required = false) String remember,
+                        HttpServletResponse response) {
+        return userService.login(userLogin, result, session, remember, response);
     }
 
     @GetMapping("/sign-up/step1")
@@ -51,12 +52,12 @@ public class UserController {
             @ModelAttribute("register") User user,
             HttpSession session
     ) {
-        if(session.getAttribute("user_id") == "-1") {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
 
-        if(session.getAttribute("user_id") != null) {
-            if(session.getAttribute("step2") == null){
+        if (session.getAttribute("user_id") != null) {
+            if (session.getAttribute("step2") == null) {
                 return "redirect:/dashboard";
             }
         }
@@ -64,7 +65,7 @@ public class UserController {
     }
 
     @GetMapping("/sign-up/step1/next")
-    public String returnPageStep1Next(){
+    public String returnPageStep1Next() {
         return "redirect:/sign-up/step1";
     }
 
@@ -73,8 +74,8 @@ public class UserController {
             @Valid @ModelAttribute("register") User user,
             BindingResult result,
             HttpSession session
-    ){
-        if(result.hasErrors()){
+    ) {
+        if (result.hasErrors()) {
             return "register_step1.jsp";
         }
 
@@ -95,9 +96,9 @@ public class UserController {
     public String signUpPageStep2(
             @ModelAttribute("address") Address address,
             HttpSession session
-            ) {
-        if(session.getAttribute("user_id") == null) {
-                return "redirect:/dashboard";
+    ) {
+        if (session.getAttribute("user_id") == null) {
+            return "redirect:/dashboard";
         }
         return "register_step2.jsp";
     }
@@ -105,13 +106,13 @@ public class UserController {
     @GetMapping("/sign-up/step2/back")
     public String returnPageStep2back(
             HttpSession session
-    ){
+    ) {
         session.setAttribute("step2", "step2");
         return "redirect:/sign-up/step1";
     }
 
     @GetMapping("/sign-up/step2/register")
-    public String returnToPageStep2Next(){
+    public String returnToPageStep2Next() {
         return "redirect:/sign-up/step2";
     }
 
@@ -120,8 +121,8 @@ public class UserController {
             @Valid @ModelAttribute("address") Address address,
             BindingResult result,
             HttpSession session
-    ){
-        if(result.hasErrors()){
+    ) {
+        if (result.hasErrors()) {
             return "register_step2.jsp";
         }
         User user = new User();
@@ -142,19 +143,19 @@ public class UserController {
 
     @GetMapping("/{name}/profile")
     public String profilePageStep1(
-            @ModelAttribute("user")  User user,
-            @ModelAttribute("address")  Address address,
+            @ModelAttribute("user") User user,
+            @ModelAttribute("address") Address address,
             @PathVariable("name") String name,
             HttpSession session,
             Model model
-    ){
-        if(session.getAttribute("user_id") == "-1") {
+    ) {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
-        if(session.getAttribute("user_id") == null) {
+        if (session.getAttribute("user_id") == null) {
             return "redirect:/";
         }
-        User target = userService.getUserById((Long)session.getAttribute("user_id"));
+        User target = userService.getUserById((Long) session.getAttribute("user_id"));
         model.addAttribute("user", target);
         return "profile_page.jsp";
     }
@@ -164,12 +165,12 @@ public class UserController {
     public String logoutPage(
             @PathVariable("name") String name,
             HttpSession session
-    ){
+    ) {
         return userService.flush(session);
     }
 
     @GetMapping("/flush")
-    public String flush(HttpSession session){
+    public String flush(HttpSession session) {
         session.invalidate();
         return "redirect:/";
     }
@@ -179,7 +180,7 @@ public class UserController {
             @PathVariable("name") String name,
             @ModelAttribute("address") Address address,
             @ModelAttribute("user") User user
-    ){
+    ) {
         return "redirect:/" + name + "/profile";
     }
 
@@ -190,8 +191,8 @@ public class UserController {
             BindingResult result,
             @ModelAttribute("user") User user,
             HttpSession session
-    ){
-        if(result.hasErrors()){
+    ) {
+        if (result.hasErrors()) {
             return "profile_page.jsp";
         }
         User target = userService.getUserById((Long) session.getAttribute("user_id"));
@@ -206,7 +207,7 @@ public class UserController {
             @Valid @ModelAttribute("address") Address address,
             @ModelAttribute("user") User user,
             HttpSession session
-    ){
+    ) {
         return "redirect:/" + name + "/profile";
     }
 
@@ -217,8 +218,8 @@ public class UserController {
             @Valid @ModelAttribute("user") User user,
             BindingResult result,
             HttpSession session
-    ){
-        if(result.hasErrors()){
+    ) {
+        if (result.hasErrors()) {
             return "profile_page.jsp";
         }
         User target = userService.getUserById((Long) session.getAttribute("user_id"));
@@ -232,7 +233,7 @@ public class UserController {
     @GetMapping("/{name}/profile/upload-image")
     public String returnToProfilePage(
             @PathVariable("name") String name
-    ){
+    ) {
         return "redirect:/" + name + "/profile";
     }
 
@@ -241,7 +242,7 @@ public class UserController {
             @RequestParam("profileImage") MultipartFile profileImage,
             @PathVariable("name") String name,
             HttpSession session
-    ){
+    ) {
         Long userId = (Long) session.getAttribute("user_id");
         if (userId == null) {
             return "redirect:/login";
@@ -263,10 +264,10 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}/image")
-    public void getUserImage(HttpSession session,@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+    public void getUserImage(HttpSession session, @PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         User user = userService.getUserById(id);
 
-        if ( session.getAttribute("user_id") == null || session.getAttribute("user_id") == "-1" || user == null || user.getProfileImage() == null) {
+        if (session.getAttribute("user_id") == null || session.getAttribute("user_id") == "-1" || user == null || user.getProfileImage() == null) {
             return;
         }
         response.setContentType("image/jpeg"); // or png depending on what you upload
