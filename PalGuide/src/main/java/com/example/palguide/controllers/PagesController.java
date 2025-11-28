@@ -1,5 +1,6 @@
 package com.example.palguide.controllers;
 
+import com.example.palguide.common.DTO.TransactionStatusCountsDTO;
 import com.example.palguide.common.Models.Transaction;
 import com.example.palguide.common.Models.User;
 import com.example.palguide.common.enums.Role;
@@ -92,18 +93,17 @@ public class PagesController {
             @RequestParam(value = "status", required = false) String status,
             HttpSession session
     ) {
-        if(session.getAttribute("user_id") != null && (int)session.getAttribute("user_id") == -1) {
-            session.removeAttribute("user_id");
+        if (session.getAttribute("user_id") == null) {
+            return null;
         }
-
-
         Long id = (Long) session.getAttribute("user_id");
+
         return switch (status) {
             case "ALL" -> transactionService.getAllTransactions();
-            case "PENDING" -> transactionService.getTransactionsByStatus(Status.PENDING, id);
-            case "IN_PROGRESS" -> transactionService.getTransactionsByStatus(Status.UNDER_REVIEW, id);
-            case "COMPLETED" -> transactionService.getTransactionsByStatus(Status.COMPLETED, id);
-            case "REJECTED" -> transactionService.getTransactionsByStatus(Status.REJECTED, id);
+            case "PENDING" -> transactionService.getTransactionsByStatus(Status.PENDING);
+            case "IN_PROGRESS" -> transactionService.getTransactionsByStatus(Status.UNDER_REVIEW);
+            case "COMPLETED" -> transactionService.getTransactionsByStatus(Status.COMPLETED);
+            case "REJECTED" -> transactionService.getTransactionsByStatus(Status.REJECTED);
             default -> List.of();
         };
     }
@@ -123,6 +123,9 @@ public class PagesController {
             redirectAttributes.addFlashAttribute("message", "You are not allowed to access this page!");
             return "redirect:/home";
         }
+        TransactionStatusCountsDTO counts = transactionService.getStatusCounts();
+
+        model.addAttribute("counts", counts);
         model.addAttribute("transaction", transactionService.getAllTransactions());
 
         return "employee_dashboard.html";
