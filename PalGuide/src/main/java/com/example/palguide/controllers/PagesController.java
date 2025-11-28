@@ -48,7 +48,6 @@ public class PagesController {
         if(session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
-        System.out.println(session.getAttribute("user_id"));
         if (session.getAttribute("user_id") == null) {
             return "redirect:/";
         }
@@ -99,9 +98,6 @@ public class PagesController {
 
 
         Long id = (Long) session.getAttribute("user_id");
-
-        System.out.println(status);
-        System.out.println(transactionService.getTransactionsByStatus(Status.PENDING, id));
         return switch (status) {
             case "ALL" -> transactionService.getAllTransactions();
             case "PENDING" -> transactionService.getTransactionsByStatus(Status.PENDING, id);
@@ -133,14 +129,28 @@ public class PagesController {
     }
 
     @GetMapping("/about-us")
-    public String aboutUs(HttpSession session) {
+    public String aboutUs(HttpSession session, Model model) {
         if(session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
         if (session.getAttribute("user_id") == null) {
             return "redirect:/login";
         }
+        User user = userService.getUserById((Long) session.getAttribute("user_id"));
+        model.addAttribute("user", user);
         return "about_us.jsp";
     }
 
+    @GetMapping("/my-requests")
+    public String myRequests(HttpSession session, Model model) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
+        if (session.getAttribute("user_id") == null) {
+            return "redirect:/login";
+        }
+        User user = userService.getUserById((Long) session.getAttribute("user_id"));
+        model.addAttribute("user", user);
+        return "my_requests.jsp";
+    }
 }
