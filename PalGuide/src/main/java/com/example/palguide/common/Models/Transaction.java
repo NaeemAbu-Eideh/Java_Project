@@ -6,14 +6,9 @@ import com.example.palguide.common.enums.Type;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Entity
@@ -33,6 +28,7 @@ public class Transaction {
     @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "description", nullable = false)
     private String description;
+
 
     @Setter
     @NotNull(message = "Type cannot be null")
@@ -54,6 +50,7 @@ public class Transaction {
     @NotNull(message = "Amount is required")
     @Column(name = "amount", nullable = false)
     private Long amount;
+
 
     @Column(name = "created_at")
     private Instant createdAt;

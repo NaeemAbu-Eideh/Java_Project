@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Entity
@@ -19,7 +16,6 @@ public class ServiceStep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Setter
     @Column(name = "document_type", nullable = false)

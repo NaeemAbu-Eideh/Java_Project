@@ -1,5 +1,6 @@
 package com.example.palguide.common.Models;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

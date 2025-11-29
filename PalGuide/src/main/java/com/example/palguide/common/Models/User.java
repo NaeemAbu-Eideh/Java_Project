@@ -1,6 +1,7 @@
 package com.example.palguide.common.Models;
 
 import com.example.palguide.common.enums.Role;
+import com.example.palguide.controllers.EncryptionConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -21,30 +22,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
-    @Size(max = 255)
     @NotBlank(message = UserMessage.NOTBLANK)
     @Email(message = UserMessage.EMAIL)
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
-    @Size(max = 50, message = UserMessage.FNAME)
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "firstname", nullable = false, length = 50)
+    @Column(name = "firstname", nullable = false, length = 255)
     private String firstname;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
-    @Size(max = 50, message = UserMessage.LNAME)
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "lastname", nullable = false, length = 50)
+    @Column(name = "lastname", nullable = false, length = 255)
     private String lastname;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
     @Pattern(regexp = "^.{10}$|^.{14}$", message = UserMessage.PHONE)
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone", nullable = false, length = 255)
     private String phone;
+
 
     @Setter
     @NotBlank(message = UserMessage.NOTBLANK)
@@ -55,15 +58,16 @@ public class User {
     @Transient
     private String confirmPassword;
 
+
     @Setter
     @NotNull(message = UserMessage.NOTNULL)
     @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
-    @Size(max = 45)
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "national_id", nullable = false, length = 45)
+    @Column(name = "national_id", nullable = false, length = 255)
     private String nationalId;
 
     @Setter
