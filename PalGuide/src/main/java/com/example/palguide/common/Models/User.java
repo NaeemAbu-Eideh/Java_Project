@@ -59,8 +59,6 @@ public class User {
     @Transient
     private String confirmPassword;
 
-
-
     @Convert(converter = LocalDateEncryptionConverter.class)
     @Setter
     @NotNull(message = UserMessage.NOTNULL)
