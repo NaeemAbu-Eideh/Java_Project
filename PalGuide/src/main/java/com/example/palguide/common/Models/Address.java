@@ -1,6 +1,7 @@
 package com.example.palguide.common.Models;
 
 
+import com.example.palguide.controllers.EncryptionConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -18,18 +19,21 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
     @Size(max = 255, message = AddressMessage.STATE)
     @NotBlank(message = AddressMessage.NOTBLANK)
     @Column(name = "state", nullable = false)
     private String state;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
     @Size(max = 255)
     @NotBlank(message = AddressMessage.CITY)
     @Column(name = "city", nullable = false)
     private String city;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
     @Size(max = 255)
     @NotBlank(message = AddressMessage.STREET)
