@@ -67,8 +67,10 @@ public class User {
     @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
+    @Pattern(regexp = "\\d+", message = "National ID must contain numbers only")
     @Convert(converter = EncryptionConverter.class)
     @Setter
+    @Size(max = 10, min = 10, message = "the number must be 10 numbers")
     @NotBlank(message = UserMessage.NOTBLANK)
     @Column(name = "national_id", nullable = false, length = 255)
     private String nationalId;
