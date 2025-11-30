@@ -1,6 +1,7 @@
 package com.example.palguide.controllers;
 
 import com.example.palguide.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,10 @@ public class ForgotPasswordController {
     private UserService userService;
 
     @GetMapping("/forgot")
-    public String showForgotPage() {
+    public String showForgotPage(HttpSession session) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         return "forgot.html";
     }
 

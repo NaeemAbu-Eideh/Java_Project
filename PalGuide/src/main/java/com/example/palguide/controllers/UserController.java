@@ -180,11 +180,17 @@ public class UserController {
             @PathVariable("name") String name,
             HttpSession session
     ) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         return userService.flush(session);
     }
 
     @GetMapping("/flush")
     public String flush(HttpSession session) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         session.invalidate();
         return "redirect:/";
     }
@@ -193,8 +199,12 @@ public class UserController {
     public String addAddressPageStep(
             @PathVariable("name") String name,
             @ModelAttribute("address") Address address,
-            @ModelAttribute("user") User user
+            @ModelAttribute("user") User user,
+            HttpSession session
     ) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         return "redirect:/" + name + "/profile";
     }
 
@@ -222,6 +232,9 @@ public class UserController {
             @ModelAttribute("user") User user,
             HttpSession session
     ) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         return "redirect:/" + name + "/profile";
     }
 
@@ -246,8 +259,12 @@ public class UserController {
 
     @GetMapping("/{name}/profile/upload-image")
     public String returnToProfilePage(
-            @PathVariable("name") String name
+            @PathVariable("name") String name,
+            HttpSession session
     ) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         return "redirect:/" + name + "/profile";
     }
 
