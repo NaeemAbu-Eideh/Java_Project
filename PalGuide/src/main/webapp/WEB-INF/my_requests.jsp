@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
         <link rel="stylesheet" href="/css/css.css">
     </head>
-    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white items-center justify-center">
+    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white">
         <div class="flex justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600">
             <div class="flex items-center ml-30 py-3">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
@@ -90,7 +90,7 @@
             <p class="mt-4">Track the status of all your service requests</p>
         </div>
 
-        <div class="pt-10 mb-5 mt-10 w-400 h-80 mx-auto bg-white shadow-md">
+        <div class="pt-10 pb-10 mb-5 mt-10 w-400 mx-auto bg-white shadow-md">
             <div class="mt-5 mb-4 h-15 w-15 bg-gray-300 rounded-[50%] mx-auto flex items-center justify-center">
                 <span class="clock-icon material-symbols-outlined text-white">pace</span>
             </div>
@@ -105,38 +105,81 @@
         </div>
 
         <c:if test="${user.transactions != null}">
-            <div class="w-400 mx-auto mt-10">
+            <div class="w-400 mx-auto mt-10 pb-10">
                 <p class="text-2xl mb-5 font-bold">Request List:</p>
-                <div>
+                <div class="grid grid-cols-4 gap-6 ">
                     <c:forEach items="${user.transactions}" var="request">
-                        <div class="shadow-md bg-gray-100 w-100 pt-2 rounded-2xl mb-5 mr-5">
-                            <div class="flex justify-between w-90 mx-auto">
-                                <p class="text-gray-700 text-[0.8em]"><c:out value="${request.createdAt}"/></p>
-                                <div class="flex rounded-2xl bg-blue-200 items-center">
-                                    <div class="bg-blue-700 w-2 h-2 rounded-[50%] ml-2"></div>
-                                    <p class="text-blue-700 text-[0.8em] mr-2 ml-2"><c:out value="${request.status}"/></p>
+                        <div class="w-full max-w-sm bg-white rounded-2xl shadow-md hover:shadow-xl transition-all border border-gray-100 p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <p class="text-[0.7rem] text-gray-400 uppercase tracking-wide">
+                                    <c:out value="${request.createdAt}"/>
+                                </p>
+                                <c:if test="${request.status == 'UNDER_REVIEW'}">
+                                    <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100">
+                                        <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                        <p class="text-[0.7rem] font-semibold text-indigo-700">Under Review</p>
+                                    </div>
+                                </c:if>
+                                <c:if test="${request.status == 'COMPLETED'}">
+                                    <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-green-100">
+                                        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                        <p class="text-[0.7rem] font-semibold text-indigo-700">Completed</p>
+                                    </div>
+                                </c:if>
+                                <c:if test="${request.status == 'REJECTED'}">
+                                    <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-red-100">
+                                        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                        <p class="text-[0.7rem] font-semibold text-indigo-700">Rejected</p>
+                                    </div>
+                                </c:if>
+                                <c:if test="${request.status == 'PENDING'}">
+                                    <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100">
+                                        <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                                        <p class="text-[0.7rem] font-semibold text-indigo-700">Pending</p>
+                                    </div>
+                                </c:if>
+                            </div>
+                            <p class="text-lg font-semibold text-gray-900">
+                                <c:out value="${request.user.firstname}"/> <c:out value="${request.user.lastname}"/>
+                            </p>
+                            <p class="mt-1 text-[0.7rem] tracking-[0.15em] text-gray-400 uppercase">
+                                <c:out value="${request.title}"/>
+                            </p>
+                            <div class="mt-4">
+                                <p class="text-[0.75rem] text-gray-500">Title</p>
+                                <p class="mt-1 text-[0.8rem] text-gray-800">
+                                    <c:out value="${request.title}"/>
+                                </p>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-[0.75rem] text-gray-500">Description</p>
+                                <p class="mt-1 text-[0.8rem] text-gray-800">
+                                    <c:out value="${request.description}"/>
+                                </p>
+                            </div>
+                            <div class="mt-4 flex items-start justify-between">
+                                <div>
+                                    <p class="text-[0.75rem] text-gray-500">Amount</p>
+                                    <p class="mt-1 text-[0.8rem] font-semibold text-green-500">
+                                        <c:out value="${request.amount}"/> USD
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[0.75rem] text-gray-500">Payment</p>
+                                    <p class="mt-1 text-[0.8rem] font-semibold text-gray-800">
+                                        <c:out value="${request.paymentStatus}"/>
+                                    </p>
                                 </div>
                             </div>
-                            <p class="font-bold text-[1.3em] w-90 mx-auto"><c:out value="${request.user.firstname}"/> <c:out value="${request.user.firstname}"/></p>
-                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.title}"/></p>
-                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-3">Title</p>
-                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.title}"/></p>
-                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-3">Description</p>
-                            <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.description}"/></p>
-                            <div class="flex justify-between w-90 mx-auto mt-3">
-                                <div>
-                                    <p class="text-gray-700 text-[0.8em]mt-3">Amount</p>
-                                    <p class="text-green-500 text-[0.8em]mt-2"><c:out value="${request.amount} USD"/></p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-700 text-[0.8em]mt-3">Payment</p>
-                                    <p class="text-gray-700 text-[0.8em]mt-2"><c:out value="${request.paymentStatus}"/></p>
-                                </div>
-                            </div>
-                            <hr class="mt-3">
-                            <div class="flex justify-between w-90 mx-auto">
-                                <p class="text-gray-700 text-[0.8em] mt-2">ID #<c:out value="${request.id}"/></p>
-                                <a class="text-blue-600 text-[0.8em] mt-2 flex items-center">View details <span class="material-symbols-outlined text-blue-600">arrow_forward</span></a>
+                            <hr class="mt-4 border-gray-200"/>
+                            <div class="mt-3 flex items-center justify-between">
+                                <p class="text-[0.75rem] text-gray-500">
+                                    ID #<span class="font-medium text-gray-700"><c:out value="${request.id}"/></span>
+                                </p>
+                                <a href="/requests/${request.id}" class="text-[0.8rem] font-medium text-blue-600 flex items-center gap-1 hover:underline">
+                                    View details
+                                    <span class="material-symbols-outlined text-[1rem]">arrow_forward</span>
+                                </a>
                             </div>
                         </div>
                     </c:forEach>
