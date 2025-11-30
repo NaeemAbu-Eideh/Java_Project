@@ -1,6 +1,7 @@
 package com.example.palguide.common.Models;
 
 
+import com.example.palguide.controllers.EncryptionConverter;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.Size;
@@ -17,16 +18,18 @@ public class ServiceDoc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
     @Size(max = 255, message = ServiceDocMessage.FILE)
-    @Column(name = "file")
+    @Column(name = "file", length = 255)
     private String file;
 
     @Column(name = "created_at")
     private Instant createdAt;
 
+    @Convert(converter = EncryptionConverter.class)
     @Size(max = 45)
-    @Column(name = "`updated_at(6)`", length = 45)
+    @Column(name = "`updated_at(6)`", length = 255)
     private String updatedAt;
 
     @Setter
