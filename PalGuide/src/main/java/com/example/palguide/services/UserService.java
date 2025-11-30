@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,4 +149,8 @@ public class UserService {
         userRepository.save(user);
     }
 
+
+    public int calculateAge(LocalDate dob) {
+        return Period.between(dob, LocalDate.now()).getYears();
+    }
 }

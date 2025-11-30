@@ -107,9 +107,9 @@
         <c:if test="${user.transactions != null}">
             <div class="w-400 mx-auto mt-10 pb-10">
                 <p class="text-2xl mb-5 font-bold">Request List:</p>
-                <div class="grid grid-cols-4 gap-6 ">
+                <div class="grid grid-cols-4 gap-6">
                     <c:forEach items="${user.transactions}" var="request">
-                        <div class="w-full max-w-sm bg-white rounded-2xl shadow-md hover:shadow-xl transition-all border border-gray-100 p-6">
+                        <div class="mb-5 max-w-sm bg-white rounded-2xl shadow-md hover:shadow-xl transition-all border border-gray-100 p-6">
                             <div class="flex items-start justify-between mb-4">
                                 <p class="text-[0.7rem] text-gray-400 uppercase tracking-wide">
                                     <c:out value="${request.createdAt}"/>

@@ -79,6 +79,20 @@ public class UserController {
             return "register_step1.jsp";
         }
 
+        LocalDate today = LocalDate.now();
+
+        if (user.getDob().isAfter(today)) {
+            result.rejectValue("dob", "error", "the date must not be in the future");
+            return "register_step1.jsp";
+        }
+
+        int age = userService.calculateAge(user.getDob());
+
+        if(age < 16){
+            result.rejectValue("dob", "error", "the age must be 16 or older");
+            return "register_step1.jsp";
+        }
+
         session.setAttribute("user_id", -1);
         session.setAttribute("fname", user.getFirstname());
         session.setAttribute("lname", user.getLastname());
