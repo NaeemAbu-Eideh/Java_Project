@@ -71,8 +71,11 @@ public class TransactionController {
 
 
     @GetMapping("/payment/create")
-    public String createPayment(@RequestParam Long transactionId) throws StripeException {
+    public String createPayment(@RequestParam Long transactionId, HttpSession httpSession) throws StripeException {
 
+        if (httpSession.getAttribute("user_id") == "-1") {
+            httpSession.removeAttribute("user_id");
+        }
         Transaction t = transactionService.getTransactionById(transactionId);
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -102,8 +105,11 @@ public class TransactionController {
     }
 
     @GetMapping("/payment/success")
-    public String success(@RequestParam Long tid, @RequestParam("session_id") String sessionId) throws StripeException {
+    public String success(@RequestParam Long tid, @RequestParam("session_id") String sessionId, HttpSession httpSession) throws StripeException {
 
+        if (httpSession.getAttribute("user_id") == "-1") {
+            httpSession.removeAttribute("user_id");
+        }
         Session session = Session.retrieve(sessionId);
 
         if (!"paid".equals(session.getPaymentStatus())) {
@@ -120,7 +126,10 @@ public class TransactionController {
 
 
     @GetMapping("/payment/cancel")
-    public String cancel() {
+    public String cancel(HttpSession session) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         return "payment_cancel.html";
     }
 
