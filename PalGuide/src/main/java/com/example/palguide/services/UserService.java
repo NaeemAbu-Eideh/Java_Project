@@ -2,6 +2,7 @@ package com.example.palguide.services;
 
 import com.example.palguide.common.Models.User;
 import com.example.palguide.common.Models.UserLogin;
+import com.example.palguide.controllers.EncryptionConverter;
 import com.example.palguide.repositories.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,7 +37,10 @@ public class UserService {
 
     public String login(@Valid @ModelAttribute("login") UserLogin userLogin, BindingResult bindingResult, HttpSession session, String remember,
                         HttpServletResponse response) {
-        User user2 = findByEmail(userLogin.getEmail());
+        EncryptionConverter encryptionConverter = new EncryptionConverter();
+
+        String email = encryptionConverter.convertToDatabaseColumn(userLogin.getEmail());
+        User user2 = findByEmail(email);
 
         if (bindingResult.hasErrors()) {
             return "login.html";
@@ -76,13 +80,11 @@ public class UserService {
             result.rejectValue("email", "error", "The email is already found, chose one");
             return null;
         }
-        System.out.println("password " + user.getConfirmPassword());
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             result.rejectValue("confirmPassword", "Matches", "The password and confirm password does not match");
             return null;
         }
-        System.out.println("naeem");
-        System.out.println("password " + user.getConfirmPassword());
+
         String password = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(password);
         return saveUser(user);
@@ -103,8 +105,13 @@ public class UserService {
     }
 
     public boolean generateResetToken(String email) {
-        User user = findByEmail(email);
+        EncryptionConverter encryptionConverter = new EncryptionConverter();
+
+        String email2 = encryptionConverter.convertToDatabaseColumn(email);
+
+        User user = findByEmail(email2);
         if (user == null) return false;
+
 
         String token = java.util.UUID.randomUUID().toString();
         user.setResetToken(token);
@@ -121,7 +128,7 @@ public class UserService {
 
             mailSender.send(message);
         } catch (Exception e) {
-            System.out.println("Email failed: " + e.getMessage());
+
             return false;
         }
 
