@@ -3,6 +3,7 @@ package com.example.palguide.common.Models;
 import com.example.palguide.common.enums.Payment;
 import com.example.palguide.common.enums.Status;
 import com.example.palguide.common.enums.Type;
+import com.example.palguide.controllers.EncryptionConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,14 +20,16 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
     @NotBlank(message = TransactionMessage.TITLE)
-    @Column(name = "title", nullable = false, length = 155)
+    @Column(name = "title", nullable = false, length = 255)
     private String title;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 255)
     private String description;
 
 

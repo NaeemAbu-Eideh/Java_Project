@@ -1,5 +1,6 @@
 package com.example.palguide.common.Models;
 
+import com.example.palguide.controllers.EncryptionConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -17,8 +18,9 @@ public class ServiceStep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
-    @Column(name = "document_type", nullable = false)
+    @Column(name = "document_type", nullable = false, length = 255)
     private String documentType;
 
 
@@ -36,8 +38,9 @@ public class ServiceStep {
     private List<String> steps;
 
 
+    @Convert(converter = EncryptionConverter.class)
     @Setter
-    @Column(name = "estimated_time")
+    @Column(name = "estimated_time", length = 255)
     private String estimatedTime;
 
 
