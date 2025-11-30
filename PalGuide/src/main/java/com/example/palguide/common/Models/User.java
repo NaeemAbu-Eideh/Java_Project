@@ -2,6 +2,7 @@ package com.example.palguide.common.Models;
 
 import com.example.palguide.common.enums.Role;
 import com.example.palguide.controllers.EncryptionConverter;
+import com.example.palguide.controllers.LocalDateEncryptionConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -59,6 +60,8 @@ public class User {
     private String confirmPassword;
 
 
+
+    @Convert(converter = LocalDateEncryptionConverter.class)
     @Setter
     @NotNull(message = UserMessage.NOTNULL)
     @Column(name = "dob", nullable = false)
