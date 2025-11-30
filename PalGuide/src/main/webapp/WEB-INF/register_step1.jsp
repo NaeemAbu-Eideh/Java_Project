@@ -40,7 +40,7 @@
             <div class="w-15 h-15 bg-gray-300 text-white rounded-full mr-2">
                 <p class="text-[1.1em] text-center mt-4">2</p>
             </div>
-            <p class="text-[1.2em] mr-10">Security</p>
+            <p class="text-[1.2em] mr-10">Address</p>
         </div>
 
         <form:form cssClass="pb-6 w-150 mx-auto bg-white shadow-md pt-8 rounded-2xl" action="/sign-up/step1/next" method="post" modelAttribute="register">
