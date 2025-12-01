@@ -97,6 +97,11 @@ public class UserService {
         return user.orElse(null);
     }
 
+    public User getUserByNationalId(String id) {
+        Optional<User> user = userRepository.findByNationalId(id);
+        return user.orElse(null);
+    }
+
     public String flush(HttpSession session) {
         session.invalidate();
         return "redirect:/";

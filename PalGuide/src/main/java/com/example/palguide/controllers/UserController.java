@@ -102,6 +102,13 @@ public class UserController {
             return "register_step1.jsp";
         }
 
+        String nationalId = encryptionConverter.convertToDatabaseColumn(user.getNationalId());
+        target = userService.getUserByNationalId(nationalId);
+        if(target != null){
+            result.rejectValue("nationalId", "error", "national id is unique");
+            return "register_step1.jsp";
+        }
+
         session.setAttribute("user_id", -1);
         session.setAttribute("fname", user.getFirstname());
         session.setAttribute("lname", user.getLastname());
