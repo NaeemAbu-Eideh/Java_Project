@@ -2,6 +2,7 @@ package com.example.palguide.controllers;
 
 import com.example.palguide.common.Models.User;
 import com.example.palguide.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +17,10 @@ public class ResetPasswordController {
     private UserService userService;
 
     @GetMapping("/reset")
-    public String showResetPage(@RequestParam("token") String token, Model model) {
-
+    public String showResetPage(@RequestParam("token") String token, Model model, HttpSession session) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         User user = userService.findByResetToken(token);
 
         if (user == null) {

@@ -258,6 +258,11 @@
                                 <div class="mt-5 flex items-center justify-between border-t border-gray-300 pt-3">
                                     <p class="text-xs text-gray-400" th:text="'ID #'+${trans.id}"></p>
 
+                                    <div class="flex">
+                                        <a th:href="@{/dash/accept/{id}(id=${trans.id})}" class="block text-white mr-5 w-20 rounded-2xl text-center bg-green-400">Accept</a>
+                                        <a th:href="@{/dash/reject/{id}(id=${trans.id})}" class="block text-white w-20 rounded-2xl text-center bg-red-400">Reject</a>
+                                    </div>
+
                                     <a th:href="@{'/requests/' + ${trans.id}}"
                                        class="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-800"
                                        th:text="#{request.viewDetails}"> View details <span

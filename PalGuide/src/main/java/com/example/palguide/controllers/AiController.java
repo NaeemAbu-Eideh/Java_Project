@@ -40,6 +40,9 @@ public class AiController {
 
     @GetMapping("/analysis")
     public String analysis(Model model, RedirectAttributes attributes, HttpSession session) {
+        if (session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
         if (session.getAttribute("user_id") == null) {
             attributes.addFlashAttribute("message", "You are not logged in");
             return "redirect:/login";

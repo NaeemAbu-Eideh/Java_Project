@@ -16,10 +16,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
         <link rel="stylesheet" href="/css/css.css">
     </head>
-
-    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white items-center justify-center">
-
-        <!-- NAV BAR -->
+    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white">
         <div class="flex justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600">
             <div class="flex items-center ml-30 py-3">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
@@ -112,8 +109,7 @@
             <p class="mt-4"><fmt:message key="myRequests.subtitle"/></p>
         </div>
 
-        <!-- REQUEST STATUS BOX -->
-        <div class="pt-10 mb-5 mt-10 w-400 h-80 mx-auto bg-white shadow-md">
+        <div class="pt-10 pb-10 mb-5 mt-10 w-400 mx-auto bg-white shadow-md">
             <div class="mt-5 mb-4 h-15 w-15 bg-gray-300 rounded-[50%] mx-auto flex items-center justify-center">
                 <span class="clock-icon material-symbols-outlined text-white">pace</span>
             </div>
@@ -135,65 +131,140 @@
 
         <!-- REQUEST LIST -->
         <c:if test="${user.transactions != null}">
-            <div class="w-400 mx-auto mt-10">
-                <p class="text-2xl mb-5 font-bold"><fmt:message key="myRequests.listTitle"/></p>
 
-                <c:forEach items="${user.transactions}" var="request">
-                    <div class="shadow-md bg-gray-100 w-100 pt-2 rounded-2xl mb-5 mr-5">
-                        <div class="flex justify-between w-90 mx-auto">
-                            <p class="text-gray-700 text-[0.8em]">
-                                <c:out value="${request.createdAt}"/>
-                            </p>
+    <div class="w-400 mx-auto mt-10 pb-10">
+        <p class="text-2xl mb-5 font-bold">
+            <fmt:message key="myRequests.listTitle"/>
+        </p>
 
-                            <div class="flex rounded-2xl bg-blue-200 items-center">
-                                <div class="bg-blue-700 w-2 h-2 rounded-[50%] ml-2"></div>
-                                <p class="text-blue-700 text-[0.8em] mr-2 ml-2">
-                                    <c:out value="${request.status}"/>
-                                </p>
-                            </div>
-                        </div>
+        <div class="grid grid-cols-4 gap-6">
 
-                        <p class="font-bold text-[1.3em] w-90 mx-auto">
-                            <c:out value="${request.user.firstname}"/>
-                            <c:out value="${request.user.lastname}"/>
+            <c:forEach items="${user.transactions}" var="request">
+
+                <div class="mb-5 max-w-sm bg-white rounded-2xl shadow-md hover:shadow-xl transition-all border border-gray-100 p-6">
+
+                    <!-- Top row -->
+                    <div class="flex items-start justify-between mb-4">
+
+                        <p class="text-[0.7rem] text-gray-400 uppercase tracking-wide">
+                            <c:out value="${request.createdAt}"/>
                         </p>
 
-                        <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><fmt:message key="myRequests.request.title"/></p>
-                        <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.title}"/></p>
+                        <!-- STATUS LABELS (translated) -->
+                        <c:choose>
 
-                        <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-3"><fmt:message key="myRequests.request.description"/></p>
-                        <p class="text-gray-700 text-[0.8em] w-90 mx-auto mt-2"><c:out value="${request.description}"/></p>
+                            <c:when test="${request.status == 'UNDER_REVIEW'}">
+                                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100">
+                                    <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                    <p class="text-[0.7rem] font-semibold text-indigo-700">
+                                        <fmt:message key="request.status.underReview"/>
+                                    </p>
+                                </div>
+                            </c:when>
 
-                        <div class="flex justify-between w-90 mx-auto mt-3">
-                            <div>
-                                <p class="text-gray-700 text-[0.8em]"><fmt:message key="myRequests.request.amount"/></p>
-                                <p class="text-green-500 text-[0.8em]"><c:out value="${request.amount}"/> USD</p>
-                            </div>
+                            <c:when test="${request.status == 'COMPLETED'}">
+                                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-green-100">
+                                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                    <p class="text-[0.7rem] font-semibold text-green-700">
+                                        <fmt:message key="request.status.completed"/>
+                                    </p>
+                                </div>
+                            </c:when>
 
-                            <div>
-                                <p class="text-gray-700 text-[0.8em]"><fmt:message key="myRequests.request.payment"/></p>
-                                <p class="text-gray-700 text-[0.8em]"><c:out value="${request.paymentStatus}"/></p>
-                            </div>
-                        </div>
+                            <c:when test="${request.status == 'REJECTED'}">
+                                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-red-100">
+                                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                    <p class="text-[0.7rem] font-semibold text-red-700">
+                                        <fmt:message key="request.status.rejected"/>
+                                    </p>
+                                </div>
+                            </c:when>
 
-                        <hr class="mt-3">
+                            <c:when test="${request.status == 'PENDING'}">
+                                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100">
+                                    <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                                    <p class="text-[0.7rem] font-semibold text-yellow-700">
+                                        <fmt:message key="request.status.pending"/>
+                                    </p>
+                                </div>
+                            </c:when>
 
-                        <div class="flex justify-between w-90 mx-auto">
-                            <p class="text-gray-700 text-[0.8em] mt-2">
-                                <fmt:message key="myRequests.request.id"/> <c:out value="${request.id}"/>
-                            </p>
-
-                            <a class="text-blue-600 text-[0.8em] mt-2 flex items-center">
-                                <fmt:message key="myRequests.request.viewDetails"/>
-                                <span class="material-symbols-outlined text-blue-600">arrow_forward</span>
-                            </a>
-                        </div>
+                        </c:choose>
 
                     </div>
-                </c:forEach>
 
-            </div>
-        </c:if>
+                    <!-- Username -->
+                    <p class="text-lg font-semibold text-gray-900">
+                        <c:out value="${request.user.firstname}"/> <c:out value="${request.user.lastname}"/>
+                    </p>
+
+                    <p class="mt-1 text-[0.7rem] tracking-[0.15em] text-gray-400 uppercase">
+                        <c:out value="${request.title}"/>
+                    </p>
+
+                    <!-- Title -->
+                    <div class="mt-4">
+                        <p class="text-[0.75rem] text-gray-500">
+                            <fmt:message key="myRequests.request.title"/>
+                        </p>
+                        <p class="mt-1 text-[0.8rem] text-gray-800">
+                            <c:out value="${request.title}"/>
+                        </p>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mt-3">
+                        <p class="text-[0.75rem] text-gray-500">
+                            <fmt:message key="myRequests.request.description"/>
+                        </p>
+                        <p class="mt-1 text-[0.8rem] text-gray-800">
+                            <c:out value="${request.description}"/>
+                        </p>
+                    </div>
+
+                    <!-- Amount + Payment -->
+                    <div class="mt-4 flex items-start justify-between">
+                        <div>
+                            <p class="text-[0.75rem] text-gray-500">
+                                <fmt:message key="myRequests.request.amount"/>
+                            </p>
+                            <p class="mt-1 text-[0.8rem] font-semibold text-green-500">
+                                <c:out value="${request.amount}"/> USD
+                            </p>
+                        </div>
+
+                        <div class="text-right">
+                            <p class="text-[0.75rem] text-gray-500">
+                                <fmt:message key="myRequests.request.payment"/>
+                            </p>
+                            <p class="mt-1 text-[0.8rem] font-semibold text-gray-800">
+                                <c:out value="${request.paymentStatus}"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="mt-4 border-gray-200"/>
+
+                    <!-- Footer -->
+                    <div class="mt-3 flex items-center justify-between">
+                        <p class="text-[0.75rem] text-gray-500">
+                            <fmt:message key="myRequests.request.id"/> <span class="font-medium text-gray-700"><c:out value="${request.id}"/></span>
+                        </p>
+
+                        <a href="/requests/${request.id}"
+                           class="text-[0.8rem] font-medium text-blue-600 flex items-center gap-1 hover:underline">
+                            <fmt:message key="myRequests.request.viewDetails"/>
+                            <span class="material-symbols-outlined text-[1rem]">arrow_forward</span>
+                        </a>
+                    </div>
+
+                </div>
+            </c:forEach>
+
+        </div>
+    </div>
+</c:if>
+
 
         <script>
             function changeLang(lang) {

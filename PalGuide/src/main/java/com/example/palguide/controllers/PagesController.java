@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -162,4 +163,31 @@ public class PagesController {
         model.addAttribute("user", user);
         return "my_requests.jsp";
     }
+
+    @GetMapping("/dash/accept/{id}")
+    public String dashAccept(@PathVariable("id") Long id ,HttpSession session, Model model) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
+        if (session.getAttribute("user_id") == null) {
+            return "redirect:/login";
+        }
+        Transaction  transaction = transactionService.getTransactionById(id);
+        transaction.setStatus(Status.COMPLETED);
+        return "redirect:/dash";
+    }
+    @GetMapping("/dash/reject/{id}")
+    public String dashReject(HttpSession session, Model model, @PathVariable("id") Long id) {
+        if(session.getAttribute("user_id") == "-1") {
+            session.removeAttribute("user_id");
+        }
+        if (session.getAttribute("user_id") == null) {
+            return "redirect:/login";
+        }
+        Transaction  transaction = transactionService.getTransactionById(id);
+        transaction.setStatus(Status.REJECTED);
+        return "redirect:/dash";
+    }
+
+
 }
