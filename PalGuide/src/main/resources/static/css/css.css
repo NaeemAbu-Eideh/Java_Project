@@ -9,3 +9,19 @@
 .clock-icon{
     font-size: 2.4em;
 }
+
+.rtl {
+    direction: rtl;
+}
+
+.rtl .flex {
+    flex-direction: row-reverse;
+}
+
+.ltr-only {
+    direction: ltr;
+}
+
+.rtl .ltr-only {
+    direction: rtl;
+}
