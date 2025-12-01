@@ -43,11 +43,6 @@
                 <div th:if="${session.user_id != null}" class="flex items-center">
 
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
-                       th:href="@{/my-requests}"> <span class="material-symbols-outlined text-white">docs</span>
-                        <p th:text="#{navbar.myRequests}" class="ml-1 text-[1.1em] text-white">My Requests</p>
-                    </a>
-
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/analysis}"> <span class="material-symbols-outlined text-white">upload</span>
                         <p th:text="#{navbar.documentAnalysis}" class="ml-1 text-[1.1em] text-white">Document
                             Analysis</p>
@@ -258,15 +253,27 @@
                                 <div class="mt-5 flex items-center justify-between border-t border-gray-300 pt-3">
                                     <p class="text-xs text-gray-400" th:text="'ID #'+${trans.id}"></p>
 
-                                    <div class="flex">
-                                        <a th:href="@{/dash/accept/{id}(id=${trans.id})}" class="block text-white mr-5 w-20 rounded-2xl text-center bg-green-400">Accept</a>
-                                        <a th:href="@{/dash/reject/{id}(id=${trans.id})}" class="block text-white w-20 rounded-2xl text-center bg-red-400">Reject</a>
+                                    <div th:if="${#strings.toString(trans.status) != 'REJECTED' and #strings.toString(trans.status) != 'COMPLETED'}"
+                                         class="flex gap-2">
+
+                                        <!-- Accept -->
+                                        <a th:href="@{/dash/accept/{id}(id=${trans.id})}"
+                                           class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-medium
+              flex items-center gap-1 transition-all duration-150 shadow-sm">
+                                            <span class="material-symbols-outlined text-sm">check</span>
+                                            <span th:text="#{employee.accept}">Accept</span>
+                                        </a>
+
+                                        <!-- Reject -->
+                                        <a th:href="@{/dash/reject/{id}(id=${trans.id})}"
+                                           class="px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-xs font-medium
+              flex items-center gap-1 transition-all duration-150 shadow-sm">
+                                            <span class="material-symbols-outlined text-sm">close</span>
+                                            <span th:text="#{employee.reject}">Reject</span>
+                                        </a>
+
                                     </div>
 
-                                    <a th:href="@{'/requests/' + ${trans.id}}"
-                                       class="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-800"
-                                       th:text="#{request.viewDetails}"> View details <span
-                                            class="material-symbols-outlined text-sm ml-1">arrow_forward</span> </a>
                                 </div>
 
                             </div>
