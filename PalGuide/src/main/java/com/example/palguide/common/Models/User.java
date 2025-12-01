@@ -91,6 +91,10 @@ public class User {
     private Instant updatedAt;
 
     @Setter
+    @Column(name = "verified")
+    private String verified = "PENDING";
+
+    @Setter
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Address> addresses = new LinkedHashSet<>();
 

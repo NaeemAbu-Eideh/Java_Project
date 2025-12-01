@@ -35,9 +35,15 @@
 
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
-                   th:href="@{/dash}" th:if="${session.user_id != null and #strings.toString(user.role) != 'USER'}">
+                   th:href="@{/dash}" th:if="${session.user_id != null and #strings.toString(user.role) == 'Gov'}">
                     <span class="material-symbols-outlined text-white">docs</span>
-                    <p class="ml-1 text-[1.1em] text-white">Request Dashboard</p>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.requestsDashboard}">Request Dashboard</p>
+                </a>
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/admin}" th:if="${session.user_id != null and #strings.toString(user.role) == 'Admin'}">
+                    <span class="material-symbols-outlined text-white">docs</span>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.adminDashboard}">Admin Dashboard</p>
                 </a>
 
                 <div th:if="${session.user_id != null}" class="flex items-center">

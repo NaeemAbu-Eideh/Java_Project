@@ -1,7 +1,11 @@
 package com.example.palguide.services;
 
+import com.example.palguide.common.DTO.TransactionStatusCountsDTO;
+import com.example.palguide.common.DTO.UserVerifiedCountsDTO;
 import com.example.palguide.common.Models.User;
 import com.example.palguide.common.Models.UserLogin;
+import com.example.palguide.common.enums.Role;
+import com.example.palguide.common.enums.Status;
 import com.example.palguide.controllers.EncryptionConverter;
 import com.example.palguide.repositories.UserRepository;
 import jakarta.servlet.http.Cookie;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -55,6 +60,9 @@ public class UserService {
             if (!BCrypt.checkpw(userLogin.getPassword(), user2.getPassword())) {
                 bindingResult.rejectValue("password", "Matches", "The email or password is incorrect");
                 return "login.html";
+            }
+            if(Objects.equals(user2.getVerified(), "PENDING") || Objects.equals(user2.getVerified(), "REJECTED")) {
+                return "redirect:/login";
             }
             session.setAttribute("user_id", user2.getId());
         }
@@ -154,8 +162,22 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<User>findAll() {
+        return userRepository.findByRole(Role.USER);
+    }
+
 
     public int calculateAge(LocalDate dob) {
         return Period.between(dob, LocalDate.now()).getYears();
+    }
+
+    public UserVerifiedCountsDTO getStatusCounts() {
+
+        Long all = userRepository.count();
+        Long pending = userRepository.countByVerifiedIgnoreCase("PENDING");
+        Long approved = userRepository.countByVerifiedIgnoreCase("APPROVED");
+        Long rejected = userRepository.countByVerifiedIgnoreCase("REJECTED");
+
+        return new UserVerifiedCountsDTO(all, pending, approved,rejected);
     }
 }

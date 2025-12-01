@@ -2,6 +2,7 @@ package com.example.palguide.repositories;
 
 import com.example.palguide.common.Models.User;
 
+import com.example.palguide.common.enums.Role;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,5 +22,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findAll();
 
     Optional<User> findByResetToken(String token);
+
+    List<User> findByRole(Role role);
+
+
+    long countByVerifiedIgnoreCase(String verified);
+
 
 }

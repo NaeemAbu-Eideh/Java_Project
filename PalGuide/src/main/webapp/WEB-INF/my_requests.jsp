@@ -157,7 +157,7 @@
                                 <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100">
                                     <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
                                     <p class="text-[0.7rem] font-semibold text-indigo-700">
-                                        <fmt:message key="request.status.underReview"/>
+                                        <fmt:message key="employee.inProgress"/>
                                     </p>
                                 </div>
                             </c:when>
@@ -166,7 +166,7 @@
                                 <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-green-100">
                                     <span class="w-2 h-2 rounded-full bg-green-500"></span>
                                     <p class="text-[0.7rem] font-semibold text-green-700">
-                                        <fmt:message key="request.status.completed"/>
+                                        <fmt:message key="employee.completed"/>
                                     </p>
                                 </div>
                             </c:when>
@@ -175,7 +175,7 @@
                                 <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-red-100">
                                     <span class="w-2 h-2 rounded-full bg-red-500"></span>
                                     <p class="text-[0.7rem] font-semibold text-red-700">
-                                        <fmt:message key="request.status.rejected"/>
+                                        <fmt:message key="employee.reject"/>
                                     </p>
                                 </div>
                             </c:when>
@@ -184,7 +184,7 @@
                                 <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100">
                                     <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
                                     <p class="text-[0.7rem] font-semibold text-yellow-700">
-                                        <fmt:message key="request.status.pending"/>
+                                        <fmt:message key="employee.pending"/>
                                     </p>
                                 </div>
                             </c:when>
