@@ -93,6 +93,15 @@ public class UserController {
             return "register_step1.jsp";
         }
 
+        EncryptionConverter encryptionConverter = new EncryptionConverter();
+        String email = encryptionConverter.convertToDatabaseColumn(user.getEmail());
+
+        User target = userService.findByEmail(email);
+        if(target != null){
+            result.rejectValue("email", "error", "the email already exists");
+            return "register_step1.jsp";
+        }
+
         session.setAttribute("user_id", -1);
         session.setAttribute("fname", user.getFirstname());
         session.setAttribute("lname", user.getLastname());
