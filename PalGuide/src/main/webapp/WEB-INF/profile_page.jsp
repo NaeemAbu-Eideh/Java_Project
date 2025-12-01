@@ -57,10 +57,10 @@
 
                 <!-- My Requests -->
                 <c:if test="${user_id != null}">
-                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00]" href="/my-requests">
+                    <c:if test="${user.role == 'USER'}"><a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00]" href="/my-requests">
                         <span class="material-symbols-outlined text-white">docs</span>
                         <p class="ml-1 text-[1.1em] text-white"><fmt:message key="navbar.myRequests"/></p>
-                    </a>
+                    </a> </c:if>
 
                     <!-- Document Analysis -->
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00]" href="/analysis">

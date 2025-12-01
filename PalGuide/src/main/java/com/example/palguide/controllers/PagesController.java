@@ -174,6 +174,7 @@ public class PagesController {
         }
         Transaction  transaction = transactionService.getTransactionById(id);
         transaction.setStatus(Status.COMPLETED);
+        transactionService.saveTransaction(transaction);
         return "redirect:/dash";
     }
     @GetMapping("/dash/reject/{id}")
@@ -186,6 +187,7 @@ public class PagesController {
         }
         Transaction  transaction = transactionService.getTransactionById(id);
         transaction.setStatus(Status.REJECTED);
+        transactionService.saveTransaction(transaction);
         return "redirect:/dash";
     }
 
