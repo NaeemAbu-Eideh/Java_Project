@@ -27,26 +27,26 @@ public class User {
     @Setter
     @NotBlank(message = UserMessage.NOTBLANK)
     @Email(message = UserMessage.EMAIL)
-    @Column(name = "email", nullable = false, unique = true, length = 255)
+    @Column(name = "email", nullable = false, unique = true, columnDefinition = "TEXT")
     private String email;
 
     @Convert(converter = EncryptionConverter.class)
     @Setter
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "firstname", nullable = false, length = 255)
+    @Column(name = "firstname", nullable = false, columnDefinition = "TEXT")
     private String firstname;
 
     @Convert(converter = EncryptionConverter.class)
     @Setter
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "lastname", nullable = false, length = 255)
+    @Column(name = "lastname", nullable = false, columnDefinition = "TEXT")
     private String lastname;
 
     @Convert(converter = EncryptionConverter.class)
     @Setter
     @Pattern(regexp = "^.{10}$|^.{14}$", message = UserMessage.PHONE)
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "phone", nullable = false, length = 255)
+    @Column(name = "phone", nullable = false, columnDefinition = "TEXT")
     private String phone;
 
 
@@ -70,7 +70,7 @@ public class User {
     @Setter
     @Size(max = 10, min = 10, message = "the number must be 10 numbers")
     @NotBlank(message = UserMessage.NOTBLANK)
-    @Column(name = "national_id", nullable = false, length = 255)
+    @Column(name = "national_id", nullable = false, columnDefinition = "TEXT")
     private String nationalId;
 
     @Setter
