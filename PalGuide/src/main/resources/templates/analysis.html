@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Document Analysis</title>
+        <title th:text="#{analysis.title}">Document Analysis</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -18,27 +18,27 @@
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
                     <img class="w-7 block mx-auto" alt="logo" th:src="@{/img/government.png}"/>
                 </div>
-                <p class="ml-4 text-[1.2em]">PalGuide</p>
+                <p class="ml-4 text-[1.2em]" th:text="#{navbar.appName}">PalGuide</p>
             </div>
 
             <div class="mr-30 flex items-center">
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                    th:href="@{/}"> <span class="material-symbols-outlined text-white">home</span>
-                    <p class="ml-1 text-[1.1em] text-white">Home</p>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.home}">Home</p>
                 </a>
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                    th:href="@{/request}" th:if="${session.user_id != null and #strings.toString(user.role) == 'USER'}">
                     <span class="material-symbols-outlined text-white">docs</span>
-                    <p class="ml-1 text-[1.1em] text-white">Request Service</p>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.requestService}">Request Service</p>
                 </a>
 
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                    th:href="@{/dash}" th:if="${session.user_id != null and #strings.toString(user.role) != 'USER'}">
                     <span class="material-symbols-outlined text-white">docs</span>
-                    <p class="ml-1 text-[1.1em] text-white">Request Dashboard</p>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.requestsDashboard}">Request Dashboard</p>
                 </a>
 
 
@@ -46,18 +46,18 @@
 
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/my-requests}"> <span class="material-symbols-outlined text-white">docs</span>
-                        <p class="ml-1 text-[1.1em] text-white">My Requests</p>
+                        <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.myRequests}">My Requests</p>
                     </a>
 
                     <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4" th:href="@{/analysis}"> <span
                             class="material-symbols-outlined text-[#DCA53F]">upload</span>
-                        <p class="ml-1 text-[1.1em] text-[#DCA53F]">Document Analysis</p>
+                        <p class="ml-1 text-[1.1em] text-[#DCA53F]" th:text="#{navbar.documentAnalysis}">Document Analysis</p>
                     </a>
                 </div>
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                    th:href="@{/about-us}"> <span class="material-symbols-outlined text-white">info</span>
-                    <p class="ml-1 text-[1.1em] text-white">About Us</p>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.aboutUs}">About Us</p>
                 </a>
 
                 <div th:if="${session.user_id != null}" class="flex items-center">
@@ -65,14 +65,21 @@
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/{name}/profile(name=${session.user_id})}"> <span
                             class="material-symbols-outlined text-white">person</span>
-                        <p class="ml-1 text-[1.1em] text-white">Profile</p>
+                        <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.profile}">Profile</p>
                     </a>
 
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/dashboard/logout}"> <span class="material-symbols-outlined text-white">logout</span>
-                        <p class="ml-1 text-[1.1em] text-white">Logout</p>
+                        <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.logout}">Logout</p>
                     </a>
 
+                    <select onchange="changeLang(this.value)"
+                            class="px-3 py-2 rounded-lg bg-white text-yellow-700 font-semibold cursor-pointer">
+
+                        <option value="en" th:selected="${#locale.language == 'en'}">🇬🇧 English</option>
+                        <option value="ar" th:selected="${#locale.language == 'ar'}">🇵🇸 عربي</option>
+
+                    </select>
                 </div>
 
 
@@ -82,8 +89,8 @@
         <div class="max-w-4xl mx-auto">
 
             <div class="text-center mb-12">
-                <h1 class="text-black mb-4 text-3xl font-semibold">Document Analysis</h1>
-                <p class="text-gray-600">
+                <h1 class="text-black mb-4 text-3xl font-semibold" th:text="#{analysis.header}">Document Analysis</h1>
+                <p class="text-gray-600" th:text="#{analysis.subheader}">
                     Upload your government document and get AI-powered step-by-step guidance </p>
             </div>
 
@@ -99,8 +106,8 @@
 
                         <label id="uploadLabel" for="fileUpload" class="cursor-pointer flex flex-col items-center">
                             <span class="material-symbols-outlined text-gray-400 text-7xl mb-4">upload</span>
-                            <p class="text-black mb-2">Click to upload or drag a document</p>
-                            <p class="text-gray-500 text-sm">
+                            <p class="text-black mb-2" th:text="#{analysis.upload.clickOrDrag}">Click to upload or drag a document</p>
+                            <p class="text-gray-500 text-sm" th:text="#{analysis.upload.supportedFormats}">
                                 Supported formats: PDF, DOC, DOCX, JPG, PNG </p>
                         </label>
 
@@ -112,7 +119,7 @@
                             <p id="fileSize" class="text-gray-500 text-sm mb-4"></p>
 
                             <button id="changeFileBtn" type="button"
-                                    class="text-yellow-600 underline text-sm hover:text-yellow-700 transition">
+                                    class="text-yellow-600 underline text-sm hover:text-yellow-700 transition" th:text="#{analysis.upload.changeFile}">
                                 Change File
                             </button>
                         </div>
@@ -120,15 +127,16 @@
 
                     <div id="loadingBox" class="hidden text-center mt-8">
                         <span class="loader"></span>
-                        <p class="text-black mt-4 font-medium">Analyzing document with AI...</p>
-                        <p class="text-gray-500 text-sm">This may take a few moments</p>
+                        <p class="text-black mt-4 font-medium" th:text="#{analysis.loading}">Analyzing document with AI...</p>
+                        <p class="text-gray-500 text-sm" th:text="#{analysis.loading.wait}">This may take a few moments</p>
                     </div>
 
 
                     <button id="analyzeBtn" type="submit" class="hidden w-full mt-6 bg-gradient-to-r from-yellow-600 to-yellow-500
                text-white py-3 rounded-lg hover:from-yellow-700 hover:to-yellow-600
                transition-all flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined">description</span> Analyze Document
+                        <span class="material-symbols-outlined">description</span>
+                        <span th:text="#{analysis.button}">Analyze Document</span>
                     </button>
 
                     <p id="errorMsg" class="hidden text-red-500 text-center mt-4"></p>
@@ -138,7 +146,7 @@
 
 
             <div class="bg-white rounded-lg shadow-lg p-8">
-                <h3 class="text-black mb-6 text-lg font-semibold">How It Works</h3>
+                <h3 class="text-black mb-6 text-lg font-semibold" th:text="#{analysis.howItWorks}">How It Works</h3>
 
                 <div class="space-y-6">
 
@@ -148,7 +156,7 @@
                             1
                         </div>
                         <div class="pt-1">
-                            <p class="text-gray-700">
+                            <p class="text-gray-700" th:text="#{analysis.howItWorks.step1}">
                                 Upload your government document (teaching certificate, medical license, etc.) </p>
                         </div>
                     </div>
@@ -159,7 +167,7 @@
                             2
                         </div>
                         <div class="pt-1">
-                            <p class="text-gray-700">
+                            <p class="text-gray-700" th:text="#{analysis.howItWorks.step2}">
                                 Our AI analyzes the document and identifies the service you need </p>
                         </div>
                     </div>
@@ -171,7 +179,7 @@
                             3
                         </div>
                         <div class="pt-1">
-                            <p class="text-gray-700">
+                            <p class="text-gray-700" th:text="#{analysis.howItWorks.step3}">
                                 Receive detailed step-by-step instructions and requirements </p>
                         </div>
                     </div>
@@ -193,5 +201,11 @@
 
         <script src="js/Ai.js"></script>
 
+        <script>
+            function changeLang(lang) {
+                let url = window.location.pathname;
+                window.location.href = url + "?lang=" + lang;
+            }
+        </script>
     </body>
 </html>

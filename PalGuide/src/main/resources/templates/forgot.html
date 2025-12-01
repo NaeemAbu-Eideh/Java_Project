@@ -1,50 +1,63 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:lang="${#locale.language}"
+      th:dir="${#locale.language == 'ar'} ? 'rtl' : 'ltr'"
+      th:classappend="${#locale.language == 'ar'} ? 'rtl' : ''">
     <head>
         <meta charset="UTF-8">
-        <title>Forgot Password</title>
+        <title th:text="#{forgot.title}">Forgot Password</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+        <style>
+            .rtl {
+                direction: rtl;
+                text-align: right;
+            }
+        </style>
     </head>
 
     <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white flex items-center justify-center p-6">
 
         <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-yellow-100">
 
-            <h2 class="text-2xl font-bold text-yellow-700 text-center mb-6">Forgot Your Password?</h2>
+            <h2 class="text-2xl font-bold text-yellow-700 text-center mb-6"
+                th:text="#{forgot.header}">
+                Forgot Your Password?
+            </h2>
 
-            <p class="text-gray-600 text-center mb-6">
+            <p class="text-gray-600 text-center mb-6" th:text="#{forgot.description}">
                 Enter your email and we’ll send you a link to reset your password.
             </p>
 
             <form th:action="@{/forgot}" method="post" class="space-y-5">
 
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1">Email Address</label>
+                    <label class="block text-gray-700 font-medium mb-1" th:text="#{forgot.emailLabel}">
+                        Email Address
+                    </label>
+
                     <input type="email"
                            name="email"
-                           placeholder="your@email.com"
+                           th:placeholder="#{forgot.emailPlaceholder}"
                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-500 focus:outline-none"
                            required>
                 </div>
 
                 <button type="submit"
+                        th:text="#{forgot.sendLink}"
                         class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-3 rounded-lg transition-all">
                     Send Reset Link
                 </button>
 
-                <p th:if="${message}"
-                   class="text-green-600 text-center font-medium"
-                   th:text="${message}">
-                </p>
+                <p th:if="${message}" class="text-green-600 text-center font-medium"
+                   th:text="${message}"></p>
 
-                <p th:if="${error}"
-                   class="text-red-600 text-center font-medium"
-                   th:text="${error}">
-                </p>
+                <p th:if="${error}" class="text-red-600 text-center font-medium"
+                   th:text="${error}"></p>
             </form>
 
             <div class="text-center mt-6">
-                <a href="/login" class="text-yellow-700 hover:underline">
+                <a href="/login" class="text-yellow-700 hover:underline" th:text="#{forgot.backToLogin}">
                     Back to Login
                 </a>
             </div>

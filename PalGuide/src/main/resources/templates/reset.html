@@ -1,18 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:lang="${#locale.language}"
+      th:dir="${#locale.language == 'ar'} ? 'rtl' : 'ltr'"
+      th:classappend="${#locale.language == 'ar'} ? 'rtl' : ''">
+
     <head>
         <meta charset="UTF-8">
-        <title>Reset Password</title>
+        <title th:text="#{reset.title}">Reset Password</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+        <style>
+            .rtl {
+                direction: rtl;
+                text-align: right;
+            }
+        </style>
     </head>
 
     <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white flex items-center justify-center p-6">
 
         <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-yellow-100">
 
-            <h2 class="text-2xl font-bold text-yellow-700 text-center mb-6">Reset Your Password</h2>
+            <h2 class="text-2xl font-bold text-yellow-700 text-center mb-6"
+                th:text="#{reset.header}">
+                Reset Your Password
+            </h2>
 
-            <p class="text-gray-600 text-center mb-6">
+            <p class="text-gray-600 text-center mb-6" th:text="#{reset.description}">
                 Enter a new password to secure your account.
             </p>
 
@@ -21,25 +35,30 @@
                 <input type="hidden" name="token" th:value="${token}">
 
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1">New Password</label>
+                    <label class="block text-gray-700 font-medium mb-1" th:text="#{reset.newPassword}">
+                        New Password
+                    </label>
                     <input type="password"
                            name="password"
-                           placeholder="Enter new password"
+                           th:placeholder="#{reset.newPasswordPlaceholder}"
                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-500 focus:outline-none"
                            required>
                 </div>
 
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1">Confirm Password</label>
+                    <label class="block text-gray-700 font-medium mb-1" th:text="#{reset.confirmPassword}">
+                        Confirm Password
+                    </label>
                     <input type="password"
                            name="confirmPassword"
-                           placeholder="Confirm your password"
+                           th:placeholder="#{reset.confirmPasswordPlaceholder}"
                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-yellow-500 focus:outline-none"
                            required>
                 </div>
 
                 <button
-                        class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-3 rounded-lg transition-all">
+                        class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-3 rounded-lg transition-all"
+                        th:text="#{reset.button}">
                     Reset Password
                 </button>
 
@@ -50,7 +69,7 @@
             </form>
 
             <div class="text-center mt-6">
-                <a href="/login" class="text-yellow-700 hover:underline">
+                <a href="/login" class="text-yellow-700 hover:underline" th:text="#{reset.backToLogin}">
                     Back to Login
                 </a>
             </div>

@@ -32,7 +32,7 @@ public class PagesController {
     public String dashboardAtFirst(HttpSession httpSession) {
 
 
-        if(httpSession.getAttribute("user_id") == "-1") {
+        if (httpSession.getAttribute("user_id") == "-1") {
             httpSession.removeAttribute("user_id");
         }
         if (httpSession.getAttribute("user_id") != null) {
@@ -47,7 +47,7 @@ public class PagesController {
             HttpSession session
     ) {
 
-        if(session.getAttribute("user_id") == "-1") {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
         if (session.getAttribute("user_id") == null) {
@@ -67,7 +67,7 @@ public class PagesController {
 
     @GetMapping("/start-request")
     public String startRequest(HttpSession session) {
-        if(session.getAttribute("user_id") == "-1") {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
         if (session.getAttribute("user_id") == null) {
@@ -78,15 +78,15 @@ public class PagesController {
 
 
     @GetMapping("/request")
-    public String request(HttpSession session,Model model) {
-        if(session.getAttribute("user_id") == "-1") {
+    public String request(HttpSession session, Model model) {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
-        if(session.getAttribute("user_id") == null) {
+        if (session.getAttribute("user_id") == null) {
             return "redirect:/login";
         }
 
-        User user =(userService.getUserById((Long) session.getAttribute("user_id")));
+        User user = (userService.getUserById((Long) session.getAttribute("user_id")));
         if (user.getRole() != Role.USER) {
             return "redirect:/dashboard";
         }
@@ -118,7 +118,7 @@ public class PagesController {
 
     @GetMapping("/dash")
     public String dash(HttpSession session, RedirectAttributes redirectAttributes, Model model, @RequestParam(value = "status", required = false) String status) {
-        if(session.getAttribute("user_id") == "-1") {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
         if (session.getAttribute("user_id") == null) {
@@ -140,7 +140,7 @@ public class PagesController {
 
     @GetMapping("/about-us")
     public String aboutUs(HttpSession session, Model model) {
-        if(session.getAttribute("user_id") == "-1") {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
         if (session.getAttribute("user_id") == null) {
@@ -153,7 +153,7 @@ public class PagesController {
 
     @GetMapping("/my-requests")
     public String myRequests(HttpSession session, Model model) {
-        if(session.getAttribute("user_id") == "-1") {
+        if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
         if (session.getAttribute("user_id") == null) {

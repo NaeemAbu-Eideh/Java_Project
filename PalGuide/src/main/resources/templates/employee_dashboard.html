@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}"
+      th:classappend="${#locale.language == 'ar'} ? 'rtl' : ''" th:dir="${#locale.language == 'ar'} ? 'rtl' : 'ltr'">
     <head>
         <meta charset="UTF-8">
         <title>Employee Dashboard</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+        <link rel="stylesheet" href="/css/css.css">
+
     </head>
 
     <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white">
@@ -20,38 +23,40 @@
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
                     <img class="w-7 block mx-auto" alt="logo" th:src="@{/img/government.png}"/>
                 </div>
-                <p class="ml-4 text-[1.2em]">PalGuide</p>
+                <p th:text="#{navbar.appName}" class="ml-4 text-[1.2em]">PalGuide</p>
             </div>
 
-            <div class="mr-30 flex items-center">
+            <div class="mr-30 flex items-center ltr-only">
 
-                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all" th:href="@{/}"> <span
-                        class="material-symbols-outlined text-white">home</span>
-                    <p class="ml-1 text-[1.1em] text-white">Home</p>
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/}"> <span class="material-symbols-outlined text-white">home</span>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.home}">Home</p>
                 </a>
 
-                <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4"
-                   th:href="@{/dash}" th:unless="${session.user_id == null}"> <span
+                <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4" th:href="@{/dash}"
+                   th:unless="${session.user_id == null}"> <span
                         class="material-symbols-outlined text-[#DCA53F]">docs</span>
-                    <p class="ml-1 text-[1.1em] text-[#DCA53F]">Requests Dashboard</p>
+                    <p class="ml-1 text-[1.1em] text-[#DCA53F]" th:text="#{navbar.requestsDashboard}">Requests
+                        Dashboard</p>
                 </a>
 
                 <div th:if="${session.user_id != null}" class="flex items-center">
 
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/my-requests}"> <span class="material-symbols-outlined text-white">docs</span>
-                        <p class="ml-1 text-[1.1em] text-white">My Requests</p>
+                        <p th:text="#{navbar.myRequests}" class="ml-1 text-[1.1em] text-white">My Requests</p>
                     </a>
 
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/analysis}"> <span class="material-symbols-outlined text-white">upload</span>
-                        <p class="ml-1 text-[1.1em] text-white">Document Analysis</p>
+                        <p th:text="#{navbar.documentAnalysis}" class="ml-1 text-[1.1em] text-white">Document
+                            Analysis</p>
                     </a>
                 </div>
 
                 <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                    th:href="@{/about-us}"> <span class="material-symbols-outlined text-white">info</span>
-                    <p class="ml-1 text-[1.1em] text-white">About Us</p>
+                    <p th:text="#{navbar.aboutUs}" class="ml-1 text-[1.1em] text-white">About Us</p>
                 </a>
 
                 <div th:if="${session.user_id != null}" class="flex items-center">
@@ -59,13 +64,28 @@
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/{name}/profile(name=${session.user_id})}"> <span
                             class="material-symbols-outlined text-white">person</span>
-                        <p class="ml-1 text-[1.1em] text-white">Profile</p>
+                        <p th:text="#{navbar.profile}" class="ml-1 text-[1.1em] text-white">Profile</p>
                     </a>
 
                     <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
                        th:href="@{/dashboard/logout}"> <span class="material-symbols-outlined text-white">logout</span>
-                        <p class="ml-1 text-[1.1em] text-white">Logout</p>
+                        <p th:text="#{navbar.logout}" class="ml-1 text-[1.1em] text-white">Logout</p>
                     </a>
+
+                    <div class="flex items-center gap-3 ml-4">
+
+                        <select onchange="changeLang(this.value)"
+                                class="px-3 py-2 rounded-lg bg-white text-yellow-700 font-semibold cursor-pointer">
+
+                            <option value="en" th:selected="${#locale.language == 'en'}">🇬🇧 English</option>
+                            <option value="ar" th:selected="${#locale.language == 'ar'}">🇵🇸 عربي</option>
+
+                        </select>
+
+
+                    </div>
+
+
 
                 </div>
 
@@ -78,36 +98,33 @@
               fixed lg:static top-0 left-[-300px] lg:left-0 transition-all duration-300 z-40">
 
                 <div class="text-white mb-8">
-                    <h2 class="mb-2 font-semibold">Employee Portal</h2>
-                    <p class="text-yellow-200 text-sm">Manage Service Requests</p>
+                    <h2 th:text="#{employee.portal}" class="mb-2 font-semibold">Employee Portal</h2>
+                    <p th:text="#{employee.manageRequests}" class="text-yellow-200 text-sm">Manage Service Requests</p>
                 </div>
 
                 <div class="space-y-2 mb-8">
 
                     <button onclick="loadRequests('ALL',event)" class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
-                       bg-white text-yellow-600 font-medium">
-                        All Requests ( <span id="countAll" th:text="${counts?.all ?: 0}">0</span> )
-                    </button>
+                       bg-white text-yellow-600 font-medium" th:text="#{employee.allRequests}"
+                            th:utext="#{employee.allRequests(${counts?.all ?: 0})}"></button>
+
 
                     <button onclick="loadRequests('PENDING',event)" class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
-                       text-white hover:bg-yellow-800">
-                        Pending ( <span id="countPending" th:text="${counts?.pending ?: 0}">0</span> )
-                    </button>
+               text-white hover:bg-yellow-800" th:utext="#{employee.pendingCount(${counts?.pending ?: 0})}"></button>
 
-                    <button onclick="loadRequests('IN_PROGRESS',event)" class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
-                       text-white hover:bg-yellow-800">
-                        In Progress ( <span id="countProgress" th:text="${counts?.inProgress ?: 0}">0</span> )
-                    </button>
+
+                    <button onclick="loadRequests('UNDER_VIEW',event)" class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
+               text-white hover:bg-yellow-800" th:utext="#{employee.underCount(${counts?.inProgress ?: 0})}"></button>
+
 
                     <button onclick="loadRequests('COMPLETED',event)" class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
-                       text-white hover:bg-yellow-800">
-                        Completed ( <span id="countCompleted" th:text="${counts?.completed ?: 0}">0</span> )
-                    </button>
+               text-white hover:bg-yellow-800"
+                            th:utext="#{employee.completedCount(${counts?.completed ?: 0})}"></button>
+
 
                     <button onclick="loadRequests('REJECTED',event)" class="side-btn w-full text-left px-4 py-2 rounded-lg transition-colors
-                       text-white hover:bg-yellow-800">
-                        Rejected ( <span id="countRejected" th:text="${counts?.rejected ?: 0}">0</span> )
-                    </button>
+               text-white hover:bg-yellow-800" th:utext="#{employee.rejectedCount(${counts?.rejected ?: 0})}"></button>
+
 
                 </div>
 
@@ -118,34 +135,36 @@
 
                 <div class="max-w-6xl mx-auto">
 
-                    <h1 class="text-black text-2xl font-semibold mb-1">Employee Dashboard</h1>
-                    <p class="text-gray-600 mb-8">Review and update service request statuses</p>
+                    <h1 class="text-black text-2xl font-semibold mb-1" th:text="#{employee.dashboardTitle}">Employee
+                        Dashboard</h1>
+                    <p class="text-gray-600 mb-8" th:text="#{employee.dashboardSubtitle}">Review and update service
+                        request statuses</p>
 
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
 
                         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-gray-400 h-25 flex flex-col justify-center text-base">
-                            <p class="text-gray-600 mb-1">Total Requests</p>
+                            <p class="text-gray-600 mb-1" th:text="#{employee.totalRequests}">Total Requests</p>
                             <p class="text-black" id="statAll" th:text="${counts?.all ?: 0}">0</p>
                         </div>
 
                         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-500 h-25 flex flex-col justify-center text-base">
-                            <p class="text-gray-600 mb-1">Pending</p>
+                            <p class="text-gray-600 mb-1" th:text="#{employee.pending}">Pending</p>
                             <p class="text-black" id="statPending" th:text="${counts?.pending ?: 0}">0</p>
                         </div>
 
                         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-400 h-25 flex flex-col justify-center text-base">
-                            <p class="text-gray-600 mb-1">In Progress</p>
+                            <p class="text-gray-600 mb-1" th:text="#{employee.inProgress}">In Progress</p>
                             <p class="text-black" id="statProgress" th:text="${counts?.inProgress ?: 0}">0</p>
                         </div>
 
                         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 h-25 flex flex-col justify-center text-base">
-                            <p class="text-gray-600 mb-1">Completed</p>
+                            <p class="text-gray-600 mb-1" th:text="#{employee.completed}">Completed</p>
                             <p class="text-black" id="statCompleted" th:text="${counts?.completed ?: 0}">0</p>
                         </div>
 
                         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500 h-25 flex flex-col justify-center text-base col-span-1 sm:col-span-2 lg:col-span-1">
-                            <p class="text-gray-600 mb-1">Rejected</p>
+                            <p class="text-gray-600 mb-1" th:text="#{employee.rejected}">Rejected</p>
                             <p class="text-black" id="statRejected" th:text="${counts?.rejected ?: 0}">0</p>
                         </div>
 
@@ -154,8 +173,9 @@
 
                     <div th:unless="${!transaction.isEmpty()}" class="bg-white rounded-lg shadow-md p-12 text-center">
                         <span class="material-symbols-outlined text-gray-300 text-7xl block mb-4">schedule</span>
-                        <h3 class="text-black mb-2">No Requests Found</h3>
-                        <p class="text-gray-600">No service requests have been submitted yet.</p>
+                        <h3 class="text-black mb-2" th:text="#{employee.noRequests}">No Requests Found</h3>
+                        <p class="text-gray-600" th:text="#{employee.noRequestsMessage}">No service requests have been
+                            submitted yet.</p>
                     </div>
 
                     <div id="requestContainer" class="mt-6">
@@ -175,41 +195,34 @@
 
                                     <div th:switch="${#strings.toString(trans.status)}">
 
-                                        <span th:case="'PENDING'"
+                                        <span th:case="'PENDING'" th:text="#{status.pending}"
                                               class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
-                                            <span class="w-2 h-2 rounded-full bg-yellow-500 mr-1"></span>
-                                            Pending
+                                            <span class="w-2 h-2 rounded-full bg-yellow-500 mr-1"></span> Pending
                                         </span>
 
-                                        <span th:case="'IN_PROGRESS'"
+                                        <span th:case="'IN_PROGRESS'" th:text="#{status.inProgress}"
                                               class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                                            <span class="w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
-                                            In Progress
+                                            <span class="w-2 h-2 rounded-full bg-blue-500 mr-1"></span> In Progress
                                         </span>
 
-                                        <span th:case="'UNDER_REVIEW'"
+                                        <span th:case="'UNDER_REVIEW'" th:text="#{status.underReview}"
                                               class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700">
-                                            <span class="w-2 h-2 rounded-full bg-indigo-500 mr-1"></span>
-                                            Under Review
+                                            <span class="w-2 h-2 rounded-full bg-indigo-500 mr-1"></span> Under Review
                                         </span>
 
-                                        <span th:case="'COMPLETED'"
+                                        <span th:case="'COMPLETED'" th:text="#{status.completed}"
                                               class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-                                            <span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span>
-                                            Completed
+                                            <span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span> Completed
                                         </span>
 
-                                        <span th:case="'REJECTED'"
+                                        <span th:case="'REJECTED'" th:text="#{status.rejected}"
                                               class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
-                                            <span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span>
-                                            Rejected
-                                        </span>
+                                            <span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span> Rejected </span>
 
                                         <span th:case="*"
                                               class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
-                                            <span class="w-2 h-2 rounded-full bg-gray-400 mr-1"></span>
-                                            <span th:text="${#strings.toString(trans.status)}">Unknown</span>
-                                        </span>
+                                            <span class="w-2 h-2 rounded-full bg-gray-400 mr-1"></span> <span
+                                                th:text="${#strings.toString(trans.status)}">Unknown</span> </span>
 
                                     </div>
 
@@ -218,27 +231,27 @@
                                 <dl class="grid grid-cols-2 gap-3 text-sm text-gray-700">
 
                                     <div class="col-span-2">
-                                        <dt class="font-semibold text-gray-500">Title</dt>
+                                        <dt class="font-semibold text-gray-500" th:text="#{dash.title}">Title</dt>
                                         <dd class="mt-1 text-gray-900" th:text="${trans.title}"></dd>
                                     </div>
 
                                     <div class="col-span-2">
-                                        <dt class="font-semibold text-gray-500">Description</dt>
-                                        <dd class="mt-1 text-gray-700" th:text="${trans.description}">
-                                        </dd>
+                                        <dt class="font-semibold text-gray-500" th:text="#{request.description}">
+                                            Description
+                                        </dt>
+                                        <dd class="mt-1 text-gray-700" th:text="${trans.description}"></dd>
                                     </div>
 
                                     <div>
-                                        <dt class="font-semibold text-gray-500">Amount</dt>
+                                        <dt class="font-semibold text-gray-500" th:text="#{request.amount}">Amount</dt>
                                         <dd class="mt-1 font-semibold text-emerald-600"
-                                            th:text="${trans.amount + ' USD'}">
-                                        </dd>
+                                            th:text="${trans.amount + ' USD'}"></dd>
                                     </div>
 
                                     <div>
-                                        <dt class="font-semibold text-gray-500">Payment</dt>
-                                        <dd class="mt-1 text-gray-800" th:text="${trans.paymentStatus}">
-                                        </dd>
+                                        <dt class="font-semibold text-gray-500" th:text="#{request.payment}">Payment
+                                        </dt>
+                                        <dd class="mt-1 text-gray-800" th:text="${trans.paymentStatus}"></dd>
                                     </div>
                                 </dl>
 
@@ -251,8 +264,8 @@
                                     </div>
 
                                     <a th:href="@{'/requests/' + ${trans.id}}"
-                                       class="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-800">
-                                        View details <span
+                                       class="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-800"
+                                       th:text="#{request.viewDetails}"> View details <span
                                             class="material-symbols-outlined text-sm ml-1">arrow_forward</span> </a>
                                 </div>
 
@@ -265,6 +278,13 @@
         </div>
 
         <script th:src="@{/js/dashboard.js}"></script>
+        <script>
+            function changeLang(lang) {
+                let url = window.location.pathname;
+                window.location.href = url + "?lang=" + lang;
+            }
+        </script>
+
 
     </body>
 </html>

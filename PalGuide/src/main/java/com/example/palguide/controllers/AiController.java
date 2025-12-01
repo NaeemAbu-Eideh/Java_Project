@@ -113,7 +113,6 @@ public class AiController {
 
             Response response = client.newCall(request).execute();
             String responseText = response.body().string();
-            System.out.println("RAW GEMINI RESPONSE:\n" + responseText);
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(responseText);
@@ -123,13 +122,10 @@ public class AiController {
                     .get("content").get("parts").get(0)
                     .get("text").asText();
 
-            System.out.println("heeeere +" + aiText);
             String cleaned = aiText
                     .replace("```json", "")
                     .replace("```", "")
                     .trim();
-
-            System.out.println(cleaned);
 
             String mime = file.getContentType();
             String originalName = file.getOriginalFilename();
