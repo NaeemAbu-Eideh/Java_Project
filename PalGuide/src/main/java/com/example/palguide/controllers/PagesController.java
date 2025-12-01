@@ -126,7 +126,7 @@ public class PagesController {
             return "redirect:/login";
         }
         User user = userService.getUserById((Long) session.getAttribute("user_id"));
-        if (user.getRole() != Role.Admin && user.getRole() != Role.Gov) {
+        if (user.getRole() != Role.Gov) {
             redirectAttributes.addFlashAttribute("message", "You are not allowed to access this page!");
             return "redirect:/home";
         }
@@ -160,6 +160,9 @@ public class PagesController {
             return "redirect:/login";
         }
         User user = userService.getUserById((Long) session.getAttribute("user_id"));
+        if(user.getRole() != Role.USER) {
+            return "redirect:/dashboard";
+        }
         model.addAttribute("user", user);
         return "my_requests.jsp";
     }
@@ -171,6 +174,10 @@ public class PagesController {
         }
         if (session.getAttribute("user_id") == null) {
             return "redirect:/login";
+        }
+        User user = userService.getUserById((Long) session.getAttribute("user_id"));
+        if(user.getRole() != Role.Gov) {
+            return "redirect:/dashboard";
         }
         Transaction  transaction = transactionService.getTransactionById(id);
         transaction.setStatus(Status.COMPLETED);
@@ -184,6 +191,10 @@ public class PagesController {
         }
         if (session.getAttribute("user_id") == null) {
             return "redirect:/login";
+        }
+        User user = userService.getUserById((Long) session.getAttribute("user_id"));
+        if(user.getRole() != Role.Gov) {
+            return "redirect:/dashboard";
         }
         Transaction  transaction = transactionService.getTransactionById(id);
         transaction.setStatus(Status.REJECTED);

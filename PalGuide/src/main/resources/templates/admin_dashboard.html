@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}"
+      th:classappend="${#locale.language == 'ar'} ? 'rtl' : ''" th:dir="${#locale.language == 'ar'} ? 'rtl' : 'ltr'">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>User Management</title>
+
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+        <link rel="stylesheet" href="/css/css.css"/>
+    </head>
+
+    <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white">
+
+        <!-- NAVBAR -->
+        <div class="flex flex-wrap justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 sticky top-0 z-50">
+
+            <div class="flex items-center ml-30 py-3">
+                <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
+                    <img class="w-7 block mx-auto" alt="logo" th:src="@{/img/government.png}"/>
+                </div>
+                <p th:text="#{navbar.appName}" class="ml-4 text-[1.2em]">PalGuide</p>
+            </div>
+
+            <div class="mr-30 flex items-center ltr-only">
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/}"> <span class="material-symbols-outlined text-white">home</span>
+                    <p class="ml-1 text-[1.1em] text-white" th:text="#{navbar.home}">Home</p>
+                </a>
+
+                <a class="px-2 h-16 bg-white rounded-2xl flex items-center mr-4" th:href="@{/admin}"
+                   th:unless="${session.user_id == null}"> <span
+                        class="material-symbols-outlined text-[#DCA53F]">docs</span>
+                    <p class="ml-1 text-[1.1em] text-[#DCA53F]" th:text="#{navbar.adminDashboard}">Admin
+                        Dashboard</p>
+                </a>
+
+                <div th:if="${session.user_id != null}" class="flex items-center">
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/analysis}"> <span class="material-symbols-outlined text-white">upload</span>
+                        <p th:text="#{navbar.documentAnalysis}" class="ml-1 text-[1.1em] text-white">Document
+                            Analysis</p>
+                    </a>
+                </div>
+
+                <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                   th:href="@{/about-us}"> <span class="material-symbols-outlined text-white">info</span>
+                    <p th:text="#{navbar.aboutUs}" class="ml-1 text-[1.1em] text-white">About Us</p>
+                </a>
+
+                <div th:if="${session.user_id != null}" class="flex items-center">
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/{name}/profile(name=${session.user_id})}"> <span
+                            class="material-symbols-outlined text-white">person</span>
+                        <p th:text="#{navbar.profile}" class="ml-1 text-[1.1em] text-white">Profile</p>
+                    </a>
+
+                    <a class="px-2 h-16 rounded-2xl flex items-center mr-4 hover:bg-[#A65F00] transition-all"
+                       th:href="@{/dashboard/logout}"> <span class="material-symbols-outlined text-white">logout</span>
+                        <p th:text="#{navbar.logout}" class="ml-1 text-[1.1em] text-white">Logout</p>
+                    </a>
+
+                    <div class="flex items-center gap-3 ml-4">
+
+                        <select onchange="changeLang(this.value)"
+                                class="px-3 py-2 rounded-lg bg-white text-yellow-700 font-semibold cursor-pointer">
+
+                            <option value="en" th:selected="${#locale.language == 'en'}">🇬🇧 English</option>
+                            <option value="ar" th:selected="${#locale.language == 'ar'}">🇵🇸 عربي</option>
+
+                        </select>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="flex">
+
+            <!-- SIDEBAR -->
+            <aside class="w-64 bg-gradient-to-b from-yellow-600 to-yellow-700 min-h-screen p-6 text-white">
+
+                <h2 class="font-semibold mb-2">Admin Portal</h2>
+                <p class="text-yellow-200 text-sm mb-8">User Management</p>
+
+                <nav class="space-y-3">
+                    <a th:href="@{/admin/users}"
+                       class="block bg-white text-yellow-700 font-semibold px-4 py-2 rounded-lg"> All Users (<span
+                            th:text="${counts?.all}">0</span>) </a>
+
+                    <a th:href="@{/admin/users/pending}" class="block hover:bg-yellow-800 px-4 py-2 rounded-lg"> Pending
+                        (<span th:text="${counts?.pending}">0</span>) </a>
+
+                    <a th:href="@{/admin/users/approved}" class="block hover:bg-yellow-800 px-4 py-2 rounded-lg">
+                        Approved (<span th:text="${counts?.approved}">0</span>) </a>
+
+                    <a th:href="@{/admin/users/rejected}" class="block hover:bg-yellow-800 px-4 py-2 rounded-lg">
+                        Rejected (<span th:text="${counts?.rejected}">0</span>) </a>
+                </nav>
+
+            </aside>
+
+            <!-- PAGE CONTENT -->
+            <main class="flex-1 p-10">
+
+                <div class="max-w-6xl mx-auto">
+
+                    <h1 class="text-2xl font-semibold text-black mb-1">User Management</h1>
+                    <p class="text-gray-600 mb-10">Review and manage user registrations</p>
+
+                    <!-- STAT CARDS -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+                        <div class="bg-white rounded-xl shadow p-6 border-l-4 border-gray-400">
+                            <p class="text-gray-500">Total Users</p>
+                            <p class="text-2xl font-bold" th:text="${counts?.all}">0</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow p-6 border-l-4 border-yellow-500">
+                            <p class="text-gray-500">Pending</p>
+                            <p class="text-2xl font-bold" th:text="${counts?.pending}">0</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow p-6 border-l-4 border-green-500">
+                            <p class="text-gray-500">Approved</p>
+                            <p class="text-2xl font-bold" th:text="${counts?.approved}">0</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow p-6 border-l-4 border-red-500">
+                            <p class="text-gray-500">Rejected</p>
+                            <p class="text-2xl font-bold" th:text="${counts?.rejected}">0</p>
+                        </div>
+
+                    </div>
+
+                    <div class="space-y-6">
+
+                        <div th:each="u : ${users}" class="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
+
+                            <!-- Header Section -->
+                            <div class="flex justify-between items-start mb-4">
+
+                                <div>
+                                    <p class="text-lg font-semibold text-gray-900"
+                                       th:text="${u.firstname + ' ' + u.lastname}"></p>
+                                    <p class="text-gray-500 text-sm" th:text="${u.email}"></p>
+
+                                    <p class="mt-1 text-xs text-gray-400">
+                                        Registered: <span
+                                            th:text="${#temporals.format(u.createdAt,'MM/dd/yyyy hh:mm a')}"></span>
+                                    </p>
+                                </div>
+
+                                <!-- Status Badge -->
+                                <div th:switch="${u.verified}" class="inline-flex">
+
+                                    <!-- PENDING -->
+                                    <span th:case="'PENDING'"
+                                          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
+                                        <span class="w-2 h-2 rounded-full bg-yellow-500 mr-1"></span>
+                                        Pending
+                                    </span>
+
+                                    <!-- APPROVED -->
+                                    <span th:case="'APPROVED'"
+                                          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                        <span class="w-2 h-2 rounded-full bg-green-500 mr-1"></span>
+                                        Approved
+                                    </span>
+
+                                    <!-- REJECTED -->
+                                    <span th:case="'REJECTED'"
+                                          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                        <span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span>
+                                        Rejected
+                                    </span>
+
+                                    <!-- Unknown or other -->
+                                    <span th:case="*"
+                                          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                                        <span class="w-2 h-2 rounded-full bg-gray-400 mr-1"></span>
+                                        <span th:text="${u.verified}">Unknown</span>
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3 text-sm">
+                                <p><strong>Phone:</strong> <span th:text="${u.phone}"></span></p>
+                                <p><strong>National ID:</strong> <span th:text="${u.nationalId}"></span></p>
+                                <p class="col-span-2"><strong>Address:</strong> <span
+                                        th:text="${u.addresses[0].getState()} + ', ' + ${u.addresses[0].getCity()} + ', ' + ${u.addresses[0].getStreet()}"></span>
+                                </p>
+                            </div>
+
+                            <div th:if="${#strings.toString(u.verified) != 'APPROVED' and #strings.toString(u.verified) != 'REJECTED'}"
+                                 class="mt-5 border-t pt-4 flex items-center gap-3">
+
+                                <a th:href="@{/admin/users/approve/{id}(id=${u.id})}" class="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 text-sm
+                                  flex items-center gap-1"> <span class="material-symbols-outlined text-sm">check</span>
+                                    Approve </a>
+
+                                <a th:href="@{/admin/users/reject/{id}(id=${u.id})}" class="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 text-sm
+                                  flex items-center gap-1"> <span class="material-symbols-outlined text-sm">close</span>
+                                    Reject </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </main>
+
+        </div>
+        <script>
+            function changeLang(lang) {
+                let url = window.location.pathname;
+                window.location.href = url + "?lang=" + lang;
+            }
+        </script>
+
+    </body>
+</html>

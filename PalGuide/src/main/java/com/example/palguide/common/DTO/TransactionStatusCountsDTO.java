@@ -11,7 +11,6 @@ public class TransactionStatusCountsDTO {
     private Long completed;
     private Long rejected;
 
-    // constructor
     public TransactionStatusCountsDTO(Long all, Long pending, Long inProgress, Long completed, Long rejected) {
         this.all = all;
         this.pending = pending;
