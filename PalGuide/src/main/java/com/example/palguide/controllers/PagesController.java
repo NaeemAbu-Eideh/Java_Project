@@ -143,11 +143,10 @@ public class PagesController {
         if (session.getAttribute("user_id") == "-1") {
             session.removeAttribute("user_id");
         }
-        if (session.getAttribute("user_id") == null) {
-            return "redirect:/login";
+        if(session.getAttribute("user_id") != null) {
+            User user = userService.getUserById((Long) session.getAttribute("user_id"));
+            model.addAttribute("user", user);
         }
-        User user = userService.getUserById((Long) session.getAttribute("user_id"));
-        model.addAttribute("user", user);
         return "about_us.jsp";
     }
 

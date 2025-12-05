@@ -8,12 +8,17 @@
                scope="session"/>
 <fmt:setBundle basename="messages"/>
 
-<html>
-    <head>
+<html
+        lang="${pageContext.response.locale.language}"
+        dir="${pageContext.response.locale.language == 'ar' ? 'rtl' : 'ltr'}"
+        class="${pageContext.response.locale.language == 'ar' ? 'rtl' : ''}"
+>    <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+        <title></title>
+        <link rel="stylesheet" href="css/css.css">
     </head>
 
     <body class="min-h-screen bg-gradient-to-br from-yellow-50 to-white items-center justify-center">
@@ -21,7 +26,7 @@
         <div class="flex justify-between items-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 sticky top-0 mb-10">
 
             <!-- LOGO + APP NAME -->
-            <div class="flex items-center ml-30 py-3">
+            <div class="flex items-center ml-30 py-3 ltr-only">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center">
                     <img class="w-7 block mx-auto" alt="logo" src="/img/government.png"/>
                 </div>
